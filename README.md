@@ -12,6 +12,8 @@
 
 ## Data URL
 - 모든 기능에 대한 **Content-Type**은 `application/json` 입니다.
+
+### User Data URL
 - **로그인 액션**은 다음과 같습니다.
 ```
 > 성공 시: 노트 메인으로 redirect
@@ -27,10 +29,35 @@
 |-------|------|-----------|------------|-----------|
 | 로그인 | POST | /login | email, password | result( SUCCESS, FAIL )<br />failType(null,<br />email_mismatch,<br />password_mismatch ) |  |
 | 회원가입 | POST | /join | name, email, password | result( SUCCESS, FAIL )<br />failType: ( Already_exists ) |
-| 개인 폴더 목록 | GET | /folder/private/list |  |  |  |
-| 개인 폴더 생성 | POST | /folder/private/new |  |  |  |
-| 개인 폴더 수정 | PATCH | /folder/private/update |  |  |  |
-| 개인 폴더 삭제 | DELETE | /folder/private/delete |  |  |  |
-| 공유 폴더 생성 | POST | /folder/shared/new |  |  |  |
-| 공유 폴더 수정 | PATCH | /folder/shared/update |  |  |  |
-| 공유 폴더 삭제 | DELETE | /folder/shared/delete |  |  |  |
+
+
+### Folder Data URL
+- **개인 폴더 목록**에서 `userId`는 서버에서 현재 접속중인 세션과 동일한 지 Validation을 수행합니다.
+
+| 액션명 | HTTP | 엔드포인트 | 요청 Param | 응답 Param |
+|-------|------|-----------|------------|-----------|
+| 개인 폴더 목록 | GET | /folder/private/list | userId | result( SUCCESS, FAIL )<br />list( null, list ) |  |
+| 공유 폴더 목록 | GET | /folder/shared/list | userId | result( list, SUCCESS )<br />list |  |
+| 폴더 생성 | POST | /folder/shared/new | userId, title | result( SUCCESS, FAIL ) |  |
+| 폴더 수정 | PATCH | /folder/shared/update | folderId, title | result( SUCCESS, FAIL ) |  |
+| 폴더 삭제 | DELETE | /folder/shared/delete | folderId | result( SUCCESS, FAIL ) |  |
+| 휴지통 목록 | GET | /folder/trash | folderId | result( SUCCESS, FAIL ) |  |
+| 멤버 초대 | GET | /folder/include | userId, folderId, role | result( SUCCESS, FAIL ) |  |
+| 멤버 삭제 | DELETE | /folder/exclude | userId, folderId | result( SUCCESS, FAIL ) |  |
+
+
+### Note Data URL
+- **노트 생성** 시 MongoDB에서 노트를 만들고 브라우저로부터 응답받은 `ObjectId`를 다시 Spring 서버에 요청합니다.
+- **노트 갱신** 상태는 다음과 같습니다.
+```
+> 배포(PUBLISHED) | 활성(ACTIVED) | 잠김(LOCKED) | 삭제(DELETED)
+```
+
+| 액션명 | HTTP | 엔드포인트 | 요청 Param | 응답 Param |
+|-------|------|-----------|------------|-----------|
+| 노트 생성 | POST | /note/new | userId, objectId | result( SUCCESS, FAIL )<br />noteId, failType |  |
+| 노트 수정 | PATCH | /note/update | noteId, title | result( SUCCESS, FAIL ) |  |
+| 노트 삭제 | DELETE | /note/delete | noteId | result( SUCCESS, FAIL ) |  |
+| 노트 갱신 | GET | /note/status | noteId, status | result( SUCCESS, FAIL ) |  |
+| 노트 배포 | GET | /note/publish | noteId | result( SUCCESS, FAIL ) |  |
+| 파일 업로드 | POST | /note/upload | noteId, file | result( SUCCESS, FAIL ) |  |
