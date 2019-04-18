@@ -1,7 +1,7 @@
 # WESPACE
-본 애플리케이션은 __`직원 간 업무 공유 노트 서비스`__ 개발 프로젝트입니다.
+본 애플리케이션은 **직원 간 업무 공유 노트 서비스** 개발 프로젝트입니다.
 
-## View URL
+## React Router
 | 기능 | HTTP 메서드 | 엔드포인트 | 이동 페이지 | 비고 |
 |------|------------|-----------|------------|------|
 | 소개 | GET | / | index | **로그인하지 않았을 때** 나타나는 소개 화면입니다. |
@@ -38,9 +38,9 @@
 |-------|------|-----------|------------|-----------|
 | 개인 폴더 목록 | GET | /folder/private/list | userId | result( SUCCESS, FAIL )<br />list( null, list ) |  |
 | 공유 폴더 목록 | GET | /folder/shared/list | userId | result( list, SUCCESS )<br />list |  |
-| 폴더 생성 | POST | /folder/shared/new | userId, title | result( SUCCESS, FAIL ) |  |
-| 폴더 수정 | PATCH | /folder/shared/update | folderId, title | result( SUCCESS, FAIL ) |  |
-| 폴더 삭제 | DELETE | /folder/shared/delete | folderId | result( SUCCESS, FAIL ) |  |
+| 폴더 생성 | POST | /folder/new | userId, title | result( SUCCESS, FAIL ) |  |
+| 폴더 수정 | PATCH | /folder/update | folderId, title | result( SUCCESS, FAIL ) |  |
+| 폴더 삭제 | DELETE | /folder/delete | folderId | result( SUCCESS, FAIL ) |  |
 | 휴지통 목록 | GET | /folder/trash | folderId | result( SUCCESS, FAIL ) |  |
 | 멤버 초대 | GET | /folder/include | userId, folderId, role | result( SUCCESS, FAIL ) |  |
 | 멤버 삭제 | DELETE | /folder/exclude | userId, folderId | result( SUCCESS, FAIL ) |  |
@@ -61,3 +61,41 @@
 | 노트 갱신 | GET | /note/status | noteId, status | result( SUCCESS, FAIL ) |  |
 | 노트 배포 | GET | /note/publish | noteId | result( SUCCESS, FAIL ) |  |
 | 파일 업로드 | POST | /note/upload | noteId, file | result( SUCCESS, FAIL ) |  |
+
+## Naming Convention
+프로젝트 **개발 생산성 향상** 및 **운영의 효율화**를 위해 정의한 명명 규칙입니다.
+
+### 공통
+- 개발을 시작하기 전에 워크스페이스 환경에 **UTF-8**으로 통일합니다.
+- 프로젝트명은 소문자에 두 단어가 결합할 경우 **-**로 구분합니다.  
+ex) 리액트 프로젝트 생성 명령어를 실행할 경우
+```sh
+$ create-react-app hello-world-project
+```
+
+### Java
+| 구분 | 규칙 | 예시 |
+|-----|-----|-----|
+| 변수 | Camel Case | String helloWorld;<br />final String helloWorld; |
+| 상수 | static, final 성격을 가진<br />객체에 사용<br />대문자 + _ | public static final HELLO_WORLD; |
+| 메서드 | Camel Case | public String helloWorld; |
+| 클래스 | Camel Case, 맨 앞글자는 대문자 | public HelloWorld |
+
+### JavaScript
+| 구분 | 규칙 | 예시 |
+|-----|-----|-----|
+| 변수 | ES6 표준, Camel Case | let helloWorld;<br />const helloWorld; |
+| 상수 | static, final 성격을 가진<br />객체에 사용<br />대문자 + _ | const HELLO_WORLD; |
+| 문자열 | 쌍따옴표, Nested 된 경우 안쪽에 홑따옴표 | let str = "hello";<br /> |
+| 메서드 | Camel Case<br />익명 함수일 경우 람다식 사용 | function helloWorld,<br />() => console.log("hello world!"); |
+
+### HTML
+| 구분 | 규칙 | 예시 |
+|-----|-----|-----|
+| 속성명 | 소문자, 구분자는 -<br />(id 속성도 동일하게 적용) | `<div data-url="http://..." />`<br />`<div id="position-1" />` |
+
+### CSS
+| 구분 | 규칙 | 예시 |
+|-----|-----|-----|
+| 속성명 | 소문자, 구분자는 - | .helloWorld { data-color: white; } |
+| 클래스명 | Camel Case | .helloWorld { } |
