@@ -112,20 +112,20 @@ $ create-react-app movie-app
 
 
 
-| Model  | 필드명                                       | 자료형                            | 비고                                                         |
-| ------ | -------------------------------------------- | --------------------------------- | ------------------------------------------------------------ |
-| Result | SUCCESS<br />FAIL<br />FAIL_TYPE<br />Object | ENUM<br />ENUM<br />Integer<br /> | 성공 시 결과 값<br />실패 시 결과 값<br />실패 원인 결과 코드<br />주기적으로 반환할 값 |
+| Model  | 필드명                                       | 자료형                             | 비고                                                         |
+| ------ | -------------------------------------------- | ---------------------------------- | ------------------------------------------------------------ |
+| Result | SUCCESS<br />FAIL<br />FAIL_TYPE<br />Object | ENUM<br />ENUM<br />Integer<br />- | 성공 시 결과 값<br />실패 시 결과 값<br />실패 원인 결과 코드<br />주기적으로 반환할 값 |
 
   
 
 ### VO (Value Object)
 
-| Model    | 자료형                                           | 필드명                                                 |
-| -------- | ------------------------------------------------ | ------------------------------------------------------ |
-| UserVO   | Long<br />String<br />String<br />String         | id<br />name<br />email<br />password                  |
-| FolderVO | Long<br />String<br />String<br />Long<br />Long | id<br />title<br />content<br />permission<br />userid |
-| NoteVO   | Long<br />Long<br />String<br />String           | id<br />folderId<br />title<br />content               |
-| UploadVO | Long<br />Long<br />String                       | id<br />noteId<br />url                                |
+| Model    | 자료형                                                     | 필드명                                                 |
+| -------- | ---------------------------------------------------------- | ------------------------------------------------------ |
+| UserVO   | `Long`<br />`String`<br />`String`<br />`String`           | id<br />name<br />email<br />password                  |
+| FolderVO | `Long`<br />`String`<br />`String`<br />`Long`<br />`Long` | id<br />title<br />content<br />permission<br />userid |
+| NoteVO   | `Long`<br />`Long`<br />`String`<br />`String`             | id<br />folderId<br />title<br />content               |
+| UploadVO | `Long`<br />`Long`<br />`String`                           | id<br />noteId<br />url                                |
 
   
 
@@ -133,7 +133,27 @@ $ create-react-app movie-app
 
 | 클래스명         | 반환 값                                                      | 메서드명                                                     | 파라미터                                                     | 비고                                                         |
 | ---------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| UserController   | <br /><br /><br />String<br />`List<UserVO>`                 | login<br />logout<br />join<br />index<br />getList          | UserVO<br /><br />UserVO<br /><br />-                        | <br /><br /><br />Intro Page<br />-                          |
-| FolderController | String<br />`List<FolderVO>`<br />　<br /><br /><br /><br /><br /> | index<br />getList<br />create<br />rename<br />delete<br />invite<br />exclude | FolderVO<br />type, FolderVO<br />FolderVO<br />FolderVO<br />FolderVO<br />FolderVO<br />FolderVO | Login Intro Page<br />type: {private \| shared}<br /><br /><br />**Owner**만 가능<br /><br />**Ownver**만 가능 |
+| UserController   | <br /><br /><br />`String`<br />`List<UserVO>`               | login<br />logout<br />join<br />index<br />getList          | UserVO<br /><br />UserVO<br /><br />-                        | <br /><br /><br />Intro Page<br />-                          |
+| FolderController | `String`<br />`List<FolderVO>`<br />　<br /><br /><br /><br /><br /> | index<br />getList<br />create<br />rename<br />delete<br />invite<br />exclude | FolderVO<br />type, FolderVO<br />FolderVO<br />FolderVO<br />FolderVO<br />FolderVO<br />FolderVO | Login Intro Page<br />type: {private \| shared}<br /><br /><br />**Owner**만 가능<br /><br />**Ownver**만 가능 |
 | NoteController   | `List<NoteVO>`<br /><br /><br /><br /><br />-                | getList<br />create<br />rename<br />upload<br />setState<br />delete | folderId, state<br />NoteVO<br />NoteVO<br />noteId, file<br />noteId, state<br />noteId | <br />folderId, contentId<br />noteId, title<br /><br /><br />- |
+
+  
+
+### Service
+
+| 클래스명      | 반환 값                                         | 메서드명                                                     | 파라미터                                                     | 비고                                                         |
+| ------------- | ----------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| UserService   | <br /><br />`List<UserVO>`                      | login<br />jogin<br />getList                                | UserVO<br />UserVO<br />-                                    |                                                              |
+| FolderService | `List<FolderVO>`<br /><br /><br /><br /><br />- | getList<br />create<br />rename<br />delete<br />invite<br />exclude | type, FolderVO<br />FolderVO<br />FolderVO<br />FolderVO<br />FolderVO<br />FolderVO | type: {private \| shared}<br /><br /><br />**Owner**만 가능<br /><br />**Owner**만 가능 |
+| NoteService   | `List<NoteVO>`<br /><br /><br /><br /><br />-   | getList<br />create<br />rename<br />upload<br />setState<br />delete | folderId, state<br />NoteVO<br />NoteVO<br />noteId, file<br />noteId, state<br />noteId |                                                              |
+
+  
+
+### DAO
+
+| 클래스명  | 반환 값                                                      | 메서드명                                                     | 파라미터                                                     | 비고                                                         |
+| --------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| UserDAO   | <br /><br />`List<UserVO>`                                   | login<br />join<br />getList                                 | UserVO<br />UserVO<br />                                     |                                                              |
+| FolderDAO | `List<UserVO>`<br />`List<UserVO>`<br />int(index)<br /><br /><br /><br />- | getPrivateList<br />getSharedList<br />create<br />rename<br />delete<br />invite<br />exclude | FolderVO<br />FolderVO<br />FolderVO<br />FolderVO<br />FolderVO<br />FolderVO<br />FolderVO | <br /><br /><br /><br />**Owner**만 가능<br /><br />**Owner**만 가능 |
+| NoteDAO   | `List<NoteVO>`<br />`Boolean`<br />`Boolean`<br />`Boolean`<br />`Boolean`<br />`Boolean` | getList<br />create<br />rename<br />upload<br />setState<br />delete | folderId, state<br />NoteVO<br />NoteVO<br />UploadVO<br />noteId, state<br />noteId |                                                              |
 
