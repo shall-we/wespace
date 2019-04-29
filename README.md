@@ -116,47 +116,24 @@ $ create-react-app movie-app
 | ------ | -------------------------------------------- | --------------------------------- | ------------------------------------------------------------ |
 | Result | SUCCESS<br />FAIL<br />FAIL_TYPE<br />Object | ENUM<br />ENUM<br />Integer<br /> | 성공 시 결과 값<br />실패 시 결과 값<br />실패 원인 결과 코드<br />주기적으로 반환할 값 |
 
+  
 
-
-### UserVO
-
-| Model  | 자료형                                   | 필드명                                |
-| ------ | ---------------------------------------- | ------------------------------------- |
-| UserVO | Long<br />String<br />String<br />String | id<br />name<br />email<br />password |
-
-
-
-### FolderVO
+### VO (Value Object)
 
 | Model    | 자료형                                           | 필드명                                                 |
 | -------- | ------------------------------------------------ | ------------------------------------------------------ |
+| UserVO   | Long<br />String<br />String<br />String         | id<br />name<br />email<br />password                  |
 | FolderVO | Long<br />String<br />String<br />Long<br />Long | id<br />title<br />content<br />permission<br />userid |
+| NoteVO   | Long<br />Long<br />String<br />String           | id<br />folderId<br />title<br />content               |
+| UploadVO | Long<br />Long<br />String                       | id<br />noteId<br />url                                |
 
+  
 
+### Controller
 
-### NoteVO
-
-| Model  | 자료형                                 | 필드명                                   |
-| ------ | -------------------------------------- | ---------------------------------------- |
-| NoteVO | Long<br />Long<br />String<br />String | id<br />folderId<br />title<br />content |
-
-
-
-### UploadVO
-
-| Model    | 자료형                     | 필드명                  |
-| -------- | -------------------------- | ----------------------- |
-| UploadVO | Long<br />Long<br />String | id<br />noteId<br />url |
-
-
-
-### UserController
-
-| 클래스명       | 반환 값      | 메서드명 | 파라미터 | 비고       |
-| -------------- | ------------ | -------- | -------- | ---------- |
-| UserController |              | login    | UserVO   |            |
-| UserController |              | logout   |          |            |
-| UserController |              | join     | UserVO   |            |
-| UserController | String       | index    |          | Intro Page |
-| UserController | List<UserVO> | getList  |          |            |
+| 클래스명         | 반환 값                                                      | 메서드명                                                     | 파라미터                                                     | 비고                                                         |
+| ---------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| UserController   | <br /><br /><br />String<br />`List<UserVO>`                 | login<br />logout<br />join<br />index<br />getList          | UserVO<br /><br />UserVO<br /><br />-                        | <br /><br /><br />Intro Page<br />-                          |
+| FolderController | String<br />`List<FolderVO>`<br />　<br /><br /><br /><br /><br /> | index<br />getList<br />create<br />rename<br />delete<br />invite<br />exclude | FolderVO<br />type, FolderVO<br />FolderVO<br />FolderVO<br />FolderVO<br />FolderVO<br />FolderVO | Login Intro Page<br />type: {private \| shared}<br /><br /><br />**Owner**만 가능<br /><br />**Ownver**만 가능 |
+| NoteController   | `List<NoteVO>`<br /><br /><br /><br /><br />-                | getList<br />create<br />rename<br />upload<br />setState<br />delete | folderId, state<br />NoteVO<br />NoteVO<br />noteId, file<br />noteId, state<br />noteId | <br />folderId, contentId<br />noteId, title<br /><br /><br />- |
 
