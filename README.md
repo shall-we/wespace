@@ -70,7 +70,7 @@
 - 프로젝트명은 소문자에 두 단어가 결합할 경우 **-**로 구분합니다.  
 ex) 리액트 프로젝트 생성 명령어를 실행할 경우
 ```sh
-$ create-react-app hello-world-project
+$ create-react-app movie-app
 ```
 
 ### Java
@@ -99,3 +99,64 @@ $ create-react-app hello-world-project
 |-----|-----|-----|
 | 속성명 | 소문자, 구분자는 - | .helloWorld { data-color: white; } |
 | 클래스명 | Camel Case | .helloWorld { } |
+
+
+
+## Method
+
+기본 반환 값은 다음과 같습니다.
+
+| 파라미터 | 값                               | 비고                                                         |
+| -------- | -------------------------------- | ------------------------------------------------------------ |
+| Result   | SUCCESS<br />FAIL<br />FAIL_TYPE | 성공 시 결과 값 (Enum)<br />실패 시 결과 값 (Enum)<br />실패 원인 결과 코드 |
+
+
+
+| Model  | 필드명                                       | 자료형                            | 비고                                                         |
+| ------ | -------------------------------------------- | --------------------------------- | ------------------------------------------------------------ |
+| Result | SUCCESS<br />FAIL<br />FAIL_TYPE<br />Object | ENUM<br />ENUM<br />Integer<br /> | 성공 시 결과 값<br />실패 시 결과 값<br />실패 원인 결과 코드<br />주기적으로 반환할 값 |
+
+
+
+### UserVO
+
+| Model  | 자료형                                   | 필드명                                |
+| ------ | ---------------------------------------- | ------------------------------------- |
+| UserVO | Long<br />String<br />String<br />String | id<br />name<br />email<br />password |
+
+
+
+### FolderVO
+
+| Model    | 자료형                                           | 필드명                                                 |
+| -------- | ------------------------------------------------ | ------------------------------------------------------ |
+| FolderVO | Long<br />String<br />String<br />Long<br />Long | id<br />title<br />content<br />permission<br />userid |
+
+
+
+### NoteVO
+
+| Model  | 자료형                                 | 필드명                                   |
+| ------ | -------------------------------------- | ---------------------------------------- |
+| NoteVO | Long<br />Long<br />String<br />String | id<br />folderId<br />title<br />content |
+
+
+
+### UploadVO
+
+| Model    | 자료형                     | 필드명                  |
+| -------- | -------------------------- | ----------------------- |
+| UploadVO | Long<br />Long<br />String | id<br />noteId<br />url |
+
+
+
+### UserController
+
+| 클래스명       | 반환 값      | 메서드명 | 파라미터 | 비고       |
+| -------------- | ------------ | -------- | -------- | ---------- |
+| UserController |              | login    | UserVO   |            |
+| UserController |              | logout   |          |            |
+| UserController |              | join     | UserVO   |            |
+| UserController | String       | index    |          | Intro Page |
+| UserController | List<UserVO> | getList  |          |            |
+
