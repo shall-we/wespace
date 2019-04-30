@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import {  EditorPage, NotFoundPage,DirectoryPage,LoginPage,JoinPage,MainPage } from 'pages';
+import { EditorPage, NotFoundPage, DirectoryPage, LoginPage, JoinPage, MainPage, ModalTestPage } from '../pages';
 const App = () => {
   return (
     <div>
@@ -10,6 +10,7 @@ const App = () => {
       <Route path='/join' component={JoinPage}/>
       <Route path='/directory' component={DirectoryPage}/>
       <Route path='/editor' component={EditorPage}/>
+      <Route exact path='modal' component={ModalTestPage} />
       <Route component={NotFoundPage}/>
     </Switch>
   </div>
