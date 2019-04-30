@@ -13,7 +13,7 @@ const Header = () => (
   <header className={cx('header')}>
     <div className={cx('header-content')}>
       <div className={cx('brand')}>
-        <Link to='/main'>
+        <Link to='/'>
         <img className={cx('logo')} src={logo} alt='logo'/>
         <img className={cx('mini-logo')} src={miniLogo} alt='mini-logo'/>
         </Link>
