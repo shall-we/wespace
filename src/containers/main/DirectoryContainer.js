@@ -7,25 +7,20 @@ import Context from 'components/main/Context';
 
 class DirectoryContainer extends Component {
    
-    initialize = async (id) => {
-
-      const List = await Promise.all([
-        directoryActions.getPublicList(id),
-        directoryActions.getPrivateList(id)
-      ]);
-      
-      console.log(List);
+    getPublicList=(id)=>{
+      const {DirectoryActions}=this.props;
+      DirectoryActions.getPublicList(id);
     }
-
-    componentDidMount() {
-      this.initialize();
-    }
+    getPrivateList=(id)=>{
+      const {DirectoryActions}=this.props;
+      DirectoryActions.getPrivateList(id);
+    }        
 
     render() {
-      const {DirectoryContainer} = this.props;
+      const {getPrivateList, getPublicList} = this.props;
       return (
         <div style={{display:'flex'}}>
-          <Directory action={DirectoryContainer}/>
+          <Directory action={{getPrivateList, getPublicList}}/>
           <Context/>
         </div>
       );
@@ -34,8 +29,6 @@ class DirectoryContainer extends Component {
    
   export default connect(
     (state) => ({
-      //publicList: state.list.get('publicList'),
-      //privateList: state.list.get('privateList'),
     }),
     (dispatch) => ({
       DirectoryActions: bindActionCreators(directoryActions, dispatch)
