@@ -8,10 +8,12 @@ import * as api from 'lib/api';
 // action types
 const LOGIN = 'user/LOGIN';
 const JOIN  = 'user/JOIN';
+const LOGOUT  = 'user/LOGOUT';
 
 // action creators
 export const login = createAction(LOGIN,api.login);
 export const join = createAction(JOIN,api.join);
+export const logout = createAction(LOGOUT);
 
 // initial state
 const initialState = Map({
@@ -21,10 +23,12 @@ const initialState = Map({
 
 // reducer
 export default handleActions({
+  [LOGOUT]: (state, action) => initialState,
   ...pender({
-    type: LOGIN,
+    type: [LOGIN],
     onSuccess: (state, action) => {
-      const { name,profile } = action.payload.data;
+      const { name,profile } = action.payload.data[0];
+      console.log('테스트', action.payload);
       return state.set('name', name).set('profile',profile);
     }
   })

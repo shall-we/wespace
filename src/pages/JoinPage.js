@@ -1,12 +1,12 @@
 
 import React from 'react';
-import PageTemplate from '../components/common/PageTemplate';
-import Join from '../components/user/join/Join';
+import PageTemplate from 'components/common/PageTemplate';
 
+import JoinContainer from '../containers/user/JoinContainer'
 const JoinPage = () => {
   return (
     <PageTemplate>
-        <Join/>
+        <JoinContainer/>
     </PageTemplate>
   );
 };

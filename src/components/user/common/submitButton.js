@@ -19,7 +19,7 @@ const styles = theme =>({
 function submitButton (props){
     const {classes} =props;
     return (
-        <Button variant="contained" color="primary" className={classes.dom}>
+        <Button variant="contained" color="primary" className={classes.dom} {...props}>
           {props.text}
          </Button>
     );

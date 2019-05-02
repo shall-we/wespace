@@ -15,10 +15,6 @@ class PasswordText extends React.Component {
     showPassword: false
   };
 
-  handleChange = prop => event => {
-    this.setState({ [prop]: event.target.value });
-  };
-
   handleClickShowPassword = () => {
     this.setState(state => ({ showPassword: !state.showPassword }));
   };
@@ -58,7 +54,6 @@ class PasswordText extends React.Component {
       <TextField
       className={this.className}
       type={this.state.showPassword ? "text" : "password"}
-      value={this.state.password}
       InputProps={this.InputProps}
       InputLabelProps={this.InputLabelProps}
       label={this.props.text} 

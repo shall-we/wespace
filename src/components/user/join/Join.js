@@ -5,6 +5,7 @@ import Text from '../common/text';
 import PasswordText from '../common/passwordText';
 import Profile from './profile';
 import './joinPage.css';
+import {withRouter} from 'react-router-dom';
 
 class Join extends Component {
 
@@ -61,6 +62,13 @@ class Join extends Component {
     })
   }
 
+
+ ClickHandler = () => {
+   const {username,email,password} =this.state;
+  this.props.action(username,email,password,'https://item.kakaocdn.net/do/b5b846d0e002e2deb3de9b19153c1ee2617ea012db208c18f6e83b1a90a7baa7');
+  this.props.history.push('/');
+console.log('sjdksjdks',username,email,password);
+}
  
   render() {
     const {errors} =this.state;
@@ -75,12 +83,12 @@ class Join extends Component {
         {errors.email.length > 0 && <span className='error'>{errors.email}</span>}
         <PasswordText text="Password" name="password" value={this.password} onChange={this.handleChange.bind(this)}/>
         {errors.password.length > 0 && <span className='error'>{errors.password}</span>}
-         <SubmitButton text = "Sign Up" />
+         <SubmitButton text = "Sign Up" onClick={this.ClickHandler} />
       </div>
  
     );
   }
 }
 
-export default Join;
+export default withRouter(Join);
 

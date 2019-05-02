@@ -1,11 +1,11 @@
 import React from 'react';
 import PageTemplate from '../components/common/PageTemplate';
-import Login from '../components/user/login/Login';
+import LoginContainer from '../containers/user/LoginContainer'
 
 const LoginPage = () => {
   return (
     <PageTemplate>
-        <Login/>
+        <LoginContainer/>
     </PageTemplate>
   );
 };

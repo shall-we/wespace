@@ -3,13 +3,12 @@ import styles from './Header.scss';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import Button from '../Button';
-
-import logo from '../../../image/logo.png';
-import miniLogo from '../../../image/mini-logo.png';
+import logo from 'image/logo.png';
+import miniLogo from 'image/mini-logo.png';
 
 const cx = classNames.bind(styles);
  
-const Header = () => (
+const Header = ({name,profile,logout}) => (
   <header className={cx('header')}>
     <div className={cx('header-content')}>
       <div className={cx('brand')}>
@@ -19,9 +18,15 @@ const Header = () => (
         </Link>
       </div>
       <div className={cx('right')}>
-        { /* 조건에 따라 버튼 렌더링 */ }
-        <Button theme='outline' to='/login'>로 그 인</Button>
-        <Button theme='outline' to='/join'>회원가입</Button>
+      {
+          // flex를 유지하려고 배열 형태로 렌더링합니다.
+          (name)?( [
+            <div className={cx('login')}><img src={profile} alt='이미지'/>
+            <labal >{name}</labal></div>,<Button theme='outline' to='/' onClick={logout}>로그아웃</Button>
+          ]):[ <Button theme='outline' to='/login'>로 그 인</Button>,
+          <Button theme='outline' to='/join'>회원가입</Button>]
+        }
+       
       </div>
     </div>
   </header>
