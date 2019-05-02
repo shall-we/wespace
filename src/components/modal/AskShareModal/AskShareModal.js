@@ -1,10 +1,10 @@
 import React from "react";
 import styles from "./AskShareModal.scss";
 import classNames from "classnames/bind";
-import ModalWrapper from "components/modal/ModalWrapper";
-import Button from "components/common/Button";
-import OutlinedTextField from "components/material/OutlinedTextField";
-import Selects from 'components/common/Selects';
+import ModalWrapper from "../ModalWrapper";
+import Button from "../../common/Button";
+import OutlinedTextField from "../../material/OutlinedTextField";
+import Selects from '../../common/Selects';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faUserFriends } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -17,8 +17,8 @@ const AskShareModal = ({ visible, onConfirm, onCancel }) => (
     <ModalWrapper visible={visible}>
         <div className={cx("question")}>
             <div className={cx("title")}>
-                <FontAwesomeIcon icon="user-friends" size="2x" />
-                &nbsp;&nbsp;`인사팀` 공유 폴더
+                <FontAwesomeIcon icon="user-friends" size="2x" color="#1C90FB" />
+                &nbsp;&nbsp;&nbsp;&nbsp;<strong>OOO&nbsp; 공유 폴더</strong>
             </div>
             <br />
             <div className={cx("description")}>
@@ -35,10 +35,10 @@ const AskShareModal = ({ visible, onConfirm, onCancel }) => (
         </div>
 
         <div className={cx("options")}>
-            <Button theme="gray" onClick={onCancel}>
+            <Button theme='outline' onClick={onCancel}>
                 취소
             </Button>
-            <Button onClick={onConfirm}>초대</Button>
+            <Button theme='outline' onClick={onConfirm}>초대</Button>
         </div>
     </ModalWrapper>
 );
