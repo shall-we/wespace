@@ -1,14 +1,15 @@
-
 import React from 'react';
 import PageTemplate from '../components/common/PageTemplate';
+import Intro from '../components/user/intro/Intro';
 
-import JoinContainer from '../containers/user/JoinContainer'
-const JoinPage = () => {
+
+const MainPage = () => {
+  
   return (
     <PageTemplate>
-        <JoinContainer/>
+      <Intro/>
     </PageTemplate>
   );
 };
 
-export default JoinPage;
+export default MainPage;

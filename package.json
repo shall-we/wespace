@@ -4,22 +4,15 @@
   "private": true,
   "dependencies": {
     "@babel/core": "7.4.3",
-<<<<<<< HEAD
-=======
     "@fortawesome/fontawesome-svg-core": "^1.2.17",
     "@fortawesome/free-solid-svg-icons": "^5.8.1",
     "@fortawesome/react-fontawesome": "^0.1.4",
->>>>>>> 3c122f1a40adeb86b027143cbe10ced712b2ee86
     "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^3.0.2",
     "@svgr/webpack": "4.1.0",
     "@typescript-eslint/eslint-plugin": "1.6.0",
     "@typescript-eslint/parser": "1.6.0",
-<<<<<<< HEAD
     "axios": "^0.18.0",
-    "axios-mock-adapter": "^1.16.0",
-=======
->>>>>>> 3c122f1a40adeb86b027143cbe10ced712b2ee86
     "babel-eslint": "10.0.1",
     "babel-jest": "24.7.1",
     "babel-loader": "8.0.5",
@@ -52,10 +45,6 @@
     "jest-watch-typeahead": "0.3.0",
     "marked": "^0.6.2",
     "mini-css-extract-plugin": "0.5.0",
-<<<<<<< HEAD
-    "moment": "^2.24.0",
-=======
->>>>>>> 3c122f1a40adeb86b027143cbe10ced712b2ee86
     "node-sass": "^4.11.0",
     "open-color": "^1.6.3",
     "optimize-css-assets-webpack-plugin": "5.0.1",
@@ -75,10 +64,7 @@
     "react-player": "^1.11.0",
     "react-redux": "^7.0.2",
     "react-router-dom": "^5.0.0",
-<<<<<<< HEAD
-=======
     "react-select": "^2.4.3",
->>>>>>> 3c122f1a40adeb86b027143cbe10ced712b2ee86
     "redux": "^4.0.1",
     "redux-actions": "^2.6.5",
     "redux-pender": "^2.0.12",

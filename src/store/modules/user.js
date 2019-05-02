@@ -2,7 +2,7 @@ import { createAction, handleActions } from 'redux-actions';
  
 import { Map } from 'immutable';
 import { pender } from 'redux-pender';
-import * as api from 'lib/api';
+import * as api from '../../lib/api';
 
 
 // action types
@@ -28,7 +28,6 @@ export default handleActions({
     type: [LOGIN],
     onSuccess: (state, action) => {
       const { name,profile } = action.payload.data[0];
-      console.log('테스트', action.payload);
       return state.set('name', name).set('profile',profile);
     }
   })

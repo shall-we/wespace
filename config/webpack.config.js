@@ -437,11 +437,6 @@ module.exports = function(webpackEnv) {
                 {
                   importLoaders: 2,
                   sourceMap: isEnvProduction && shouldUseSourceMap,
-<<<<<<< HEAD
-                },
-                'sass-loader'
-              ),
-=======
                 }).concat({
                   loader: require.resolve('sass-loader'),
                   options: {
@@ -450,7 +445,6 @@ module.exports = function(webpackEnv) {
                     data: `@import 'utils';`
                   }
                 }),
->>>>>>> 3c122f1a40adeb86b027143cbe10ced712b2ee86
               // Don't consider CSS imports dead code even if the
               // containing package claims to have no side effects.
               // Remove this when webpack adds a warning or an error for this.

@@ -3,8 +3,8 @@ import styles from './Header.scss';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import Button from '../Button';
-import logo from 'image/logo.png';
-import miniLogo from 'image/mini-logo.png';
+import logo from '../../../image/logo.png';
+import miniLogo from '../../../image/mini-logo.png';
 
 const cx = classNames.bind(styles);
  
