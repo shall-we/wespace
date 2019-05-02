@@ -22,7 +22,7 @@ const Header = ({name,profile,logout}) => (
           // flex를 유지하려고 배열 형태로 렌더링합니다.
           (name)?( [
             <div className={cx('login')}><img src={profile} alt='이미지'/>
-            <labal >{name}</labal></div>,<Button theme='outline' to='/' onClick={logout}>로그아웃</Button>
+            {name}</div>,<Button theme='outline' to='/' onClick={logout}>로그아웃</Button>
           ]):[ <Button theme='outline' to='/login'>로 그 인</Button>,
           <Button theme='outline' to='/join'>회원가입</Button>]
         }

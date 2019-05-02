@@ -29,7 +29,9 @@ class Login extends Component {
 
  ClickHandler = () => {
   this.props.action(this.state.email,this.state.password);
-  this.props.history.push('/');
+ // this.props.history.push('/');
+ localStorage.test = this.state.email;
+ console.log('eeee',localStorage.test);
 }
 
   render() {

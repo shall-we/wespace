@@ -28,7 +28,7 @@ class Join extends Component {
     console.log(event.target.value);
     const { name, value } = event.target;
     let errors = this.state.errors;
-
+    console.log('ㅅㅔ션',localStorage.test);
     const validEmailRegex= RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
     
     // 영문, 숫자 혼합해서 6~10자리

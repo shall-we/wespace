@@ -7,8 +7,8 @@ class LoginContainer extends Component {
    
     login=(email,password)=>{
         const {UserActions}=this.props;
-        console.log('test:::',{email,password});
         UserActions.login(email,password);
+        console.log('fffff',email,password);
     }
 
     render() {

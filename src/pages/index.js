@@ -5,4 +5,4 @@ export { default as LoginPage } from './LoginPage';
 export { default as DirectoryPage } from './DirectoryPage';
 export { default as NotFoundPage } from './NotFoundPage';
 export { default as ModalTestPage } from './ModalTestPage';
-export { default as NoteMainPage } from './NoteMainPage';
+
