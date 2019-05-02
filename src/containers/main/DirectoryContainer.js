@@ -24,9 +24,9 @@ class DirectoryContainer extends Component {
     render() {
       const {DirectoryContainer} = this.props;
       return (
-        <div style={{display:'flex'}}>
+        <div style={{display:'flex' }}>
           <Directory action={DirectoryContainer}/>
-          <Context/>
+          <Context />
         </div>
       );
     }
