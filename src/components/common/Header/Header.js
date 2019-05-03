@@ -14,7 +14,7 @@ const Header = ({name,profile,logout}) => (
       <div className={cx('brand')}>
         <Link to='/'>
         <img className={cx('logo')} src={logo} alt='logo'/>
-        <img className={cx('mini-logo')} src={miniLogo} alt='mini-logo'/>
+        {/*<img className={cx('mini-logo')} src={miniLogo} alt='mini-logo'/>*/}
         </Link>
       </div>
       <div className={cx('right')}>
