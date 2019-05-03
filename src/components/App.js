@@ -12,7 +12,7 @@ const App = () => {
       <Route path='/editor' component={EditorPage}/>
       <Route exact path='/modal' component={ModalTestPage} />
       {/* /:{name} 의 name을 wehago로 임시 지정 */}
-      <Route exact path='/wehago' component={MainPage} />
+      <Route exact path='/note' component={MainPage} />
       <Route component={NotFoundPage}/>
     </Switch>
   </div>

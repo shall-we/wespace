@@ -1,7 +1,4 @@
-@import '../../../styles/utils.scss';
-
-
-
+@import "../../../styles/utils.scss";
 
 // .preview-pane {
 //   flex: 1;
@@ -17,48 +14,44 @@
 // }
 
 .sidebar {
-	background: #34393d;
+    background: #34393d;
     flex: 1;
     display: flex;
-    
-    
-    .forder{
+
+    .forder {
         flex: 0.5;
         background: #34393d;
-        overflow-y: auto; 
+        overflow-y: auto;
 
-        .forder-btn{
-
+        .forder-btn {
             height: 40px;
-            background:$oc-gray-4;
+            background: $oc-gray-4;
             text-align: center;
-    
+
             color: $oc-gray-7;
             font-size: 1.5rem;
             font-weight: 900;
-        
+
             &:hover {
-                color:$oc-blue-7;
-                
+                color: $oc-blue-7;
             }
         }
 
-        .public-forder{
-            background:$oc-gray-2;
+        .public-forder {
+            background: $oc-gray-2;
             text-align: center;
             font-size: 1rem;
             font-weight: 800;
             color: $oc-blue-7;
         }
-        .private-forder{
-            background:$oc-gray-2;
+        .private-forder {
+            background: $oc-gray-2;
             text-align: center;
             font-size: 1rem;
             font-weight: 800;
             color: $oc-blue-7;
         }
         .sidebar__inboxes {
-          
             .item-count {
                 background: #34393d;
                 border-radius: 5px;
@@ -66,7 +59,7 @@
                 padding: 2px 8px;
                 margin: -2px -8px;
             }
-            
+
             li a {
                 color: #fff;
                 cursor: pointer;
@@ -74,29 +67,22 @@
                 margin-bottom: 10px;
                 padding: 15px;
                 text-decoration: none;
-                transition: $oc-gray-4 .1s linear;
+                transition: $oc-gray-4 0.1s linear;
                 width: 100%;
-                
+
                 &:hover {
                     background: #404549;
                 }
             }
-            
+
             .fa {
                 margin-right: 10px;
             }
         }
     }
-    .note{
+    .note {
         flex: 0.5;
         background: $oc-gray-2;
-        overflow-y: auto; 
-
-        
+        overflow-y: auto;
     }
-
-   
-
-	
-	
 }

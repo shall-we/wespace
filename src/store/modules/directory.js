@@ -23,23 +23,5 @@ const initialState = Map({
 
 // reducer
 export default handleActions({
-  ...pender({
-      type: PUBLICLIST,
-      onSuccess: (state, action) => {
-          const {data:publicList} = action.payload
-          return state.set('publicList',fromJS(publicList));
-      }
-  },{
-    type: PRIVATELIST,
-    onSuccess: (state, action) => {
-        const {data:privateList} = action.payload;
-        return state.set('privateList',fromJS(privateList));
-    }
-  },{
-    type: FILELIST,
-    onSuccess: (state, action) => {
-        const {data:fileList} = action.payload;
-        return state.set('fileList',fromJS(fileList));
-    }
-  })
+  
 }, initialState)

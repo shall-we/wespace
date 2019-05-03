@@ -27,7 +27,8 @@ export default handleActions({
   ...pender({
     type: [LOGIN],
     onSuccess: (state, action) => {
-      const { name,profile } = action.payload.data[0];
+      console.log(action.payload);
+      const { name,profile } = action.payload.data.data;
       return state.set('name', name).set('profile',profile);
     }
   })
