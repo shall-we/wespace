@@ -22,12 +22,13 @@ import Fab from "@material-ui/core/Fab";
 import MenuIcon from "@material-ui/icons/Menu";
 import MakeFolderModal from "../modal/MakeFolderModal/MakeFolderModal";
 import BaseActions from "store/modules/base";
+import * as directoryActions from 'store/modules/directory';
 
 const drawerWidth = 250;
 
 const styles = theme => ({
     root: {
-        display: "flex"
+        display:'flex',
     },
     nested: {
         paddingLeft: theme.spacing.unit * 7
@@ -38,13 +39,16 @@ const styles = theme => ({
     hide: {
         display: "none"
     },
-    drawer: {
+    drawer: { 
         width: drawerWidth,
         flexShrink: 0,
-        whiteSpace: "nowrap"
+        whiteSpace: "nowrap",
+        [theme.breakpoints.up('sm')]: {
+            
+          }
     },
     drawerOpen: {
-        height: "calc(100% - 96px - 6rem)",
+        height: 'calc(100%)',
         top: 96,
         width: drawerWidth,
         transition: theme.transitions.create("width", {
@@ -52,8 +56,8 @@ const styles = theme => ({
             duration: theme.transitions.duration.enteringScreen
         })
     },
-    drawerClose: {
-        height: "calc(100% - 96px - 6rem)",
+    drawerClose: {      
+        height: 'calc(100%)',
         top: 96,
         transition: theme.transitions.create("width", {
             easing: theme.transitions.easing.sharp,
@@ -66,7 +70,7 @@ const styles = theme => ({
         }
     },
     SubDrawerOpen: {
-        height: "calc(100% - 96px - 6rem)",
+        height: 'calc(100%)',
         top: 96,
         marginLeft: drawerWidth,
         width: drawerWidth,
@@ -76,30 +80,31 @@ const styles = theme => ({
         })
     },
     SubDrawerClose: {
-        height: "calc(100% - 96px - 6rem)",
-        top: 96,
-        transition: theme.transitions.create("width", {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen
-        }),
-        overflowX: "hidden",
-        width: theme.spacing.unit * 5 + 1,
-        [theme.breakpoints.up("sm")]: {
-            width: theme.spacing.unit * 7 + 1
-        }
+        display: 'none'
     },
     toolbar: {
         display: "flex",
         justifyContent: "flex-end"
     },
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing.unit * 3
-    }
 });
 
 class Directory extends React.Component {
+    //   getList = async (id) => {
+    //     const List = await Promise.all([
+    //       directoryActions.getPublicList(id),
+    //       directoryActions.getPrivateList(id),
+    //     ]);
+
+    //     this.setState(prevState => ({
+    //         id: id,
+    //         publicList: List[0].data,
+    //         privateList: List[1].data
+    //     }));
+    //   }    
+
     state = {
+        publicList : ['1팀','2팀','3팀'],
+        privateList : ['react','redux','middleware','redux-logger'],
         open: false,
         SubOpen: false,
         public_navigationOpen: false,
@@ -121,6 +126,7 @@ class Directory extends React.Component {
 
     handleDrawerOpen = () => {
         this.setState({ open: true });
+        //this.getList(1);
     };
 
     handleDrawerClose = () => {
@@ -161,7 +167,6 @@ class Directory extends React.Component {
                         [classes.SubDrawerClose]: !this.state.SubOpen
                     })}
                     classes={{
-                        docked: classes.paper,
                         paper: classNames({
                             [classes.SubDrawerOpen]: this.state.SubOpen,
                             [classes.SubDrawerClose]: !this.state.SubOpen
@@ -188,7 +193,7 @@ class Directory extends React.Component {
                     </div>
                     <Divider />
                     <List>
-                        {["임", "채", "형", "테", "스", "트"].map(text => (
+                        {["임", "채", "형", "테", "스", "트","임", "채", "형", "테", "스", "트","임", "채", "형", "테", "스", "트"].map(text => (
                             <ListItem button text={text}>
                                 <ListItemText primary={text} />
                             </ListItem>
@@ -196,14 +201,13 @@ class Directory extends React.Component {
                     </List>
                 </Drawer>
                 <CssBaseline />
-                <Drawer
+                <Drawer 
                     variant="permanent"
                     className={classNames(classes.drawer, {
                         [classes.drawerOpen]: this.state.open,
                         [classes.drawerClose]: !this.state.open
                     })}
                     classes={{
-                        docked: classes.paper,
                         paper: classNames({
                             [classes.drawerOpen]: this.state.open,
                             [classes.drawerClose]: !this.state.open
@@ -305,7 +309,7 @@ class Directory extends React.Component {
                                 <ExpandMore />
                             )}
                         </ListItem>
-                        {["임채형", "정처기"].map((text, index) => (
+                        {this.state.privateList.map((text, index) => (
                             <Collapse
                                 in={this.state.private_navigationOpen}
                                 timeout="auto"

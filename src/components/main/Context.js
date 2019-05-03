@@ -12,19 +12,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const styles = theme => ({
   layout: {
+    flex: 1,
    display : 'flex',
    flexDirection : 'column',
     overflow: 'inherit',
     overflowX: 'inherit',
     overflowY: 'inherit',
     width: "auto",
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
     [theme.breakpoints.up(1100 + theme.spacing.unit * 3 * 2)]: {
       minWidth: 1100,
       marginLeft: "auto",
       marginRight: "auto"
-    }
+    },
   },
   toolbarMain: {
     borderBottom: `1px solid ${theme.palette.grey[300]}`
@@ -38,10 +37,10 @@ const styles = theme => ({
   mainFeaturedPost: {
     backgroundColor: "#1C90FB",
     color: theme.palette.common.white,
-    marginBottom: theme.spacing.unit * 4
+    marginBottom: theme.spacing.unit * 2
   },
   mainFeaturedPostContent: {
-    padding: `${theme.spacing.unit}%`,
+    padding: `${theme.spacing.unit - 2}%`,
     [theme.breakpoints.up("md")]: {
       paddingRight: 0
     }
@@ -54,29 +53,14 @@ const styles = theme => ({
   },
   cardDetails: {
     flex: 1
-  },
-  cardMedia: {
-    width: 160
-  },
-  markdown: {
-    padding: `${theme.spacing.unit * 3}px 0`
-  },
-  sidebarAboutBox: {
-    padding: theme.spacing.unit * 2,
-    backgroundColor: theme.palette.grey[200]
-  },
+  },  
   sidebarSection: {
     marginTop: theme.spacing.unit * 3
-  },
-  footer: {
-    backgroundColor: theme.palette.background.paper,
-    marginTop: theme.spacing.unit * 8,
-    padding: `${theme.spacing.unit * 6}px 0`
   }
 });
 
 const wespaceColor = {
-  backgroundColor: "#1C90FB"
+  backgroundColor: "gray"
 };
 
 /**
@@ -88,8 +72,7 @@ const featuredPosts = [
     date: "Nov 12",
     description: [
       "1. 개발부서 체크리스트 확인요청",
-      "2. 체육대회 일정 공지",
-      "3. 회계부 연말정산 확인 목록 요청123123123123123213213213213123123213"
+      "2. 체육대회 일정 공지"
     ]
   },
   {

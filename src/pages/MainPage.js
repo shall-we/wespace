@@ -1,13 +1,13 @@
 import React from 'react';
-import PageTemplate from '../components/common/PageTemplate';
+import NoteTemplate from '../components/common/NoteTemplate';
 import DirectoryContainer from '../containers/main/DirectoryContainer';
 
 const MainPage = () => {
   
   return (
-    <PageTemplate>
+    <NoteTemplate>
       <DirectoryContainer/>
-    </PageTemplate>
+    </NoteTemplate>
   );
 };
 
