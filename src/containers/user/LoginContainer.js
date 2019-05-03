@@ -9,6 +9,7 @@ class LoginContainer extends Component {
         const {UserActions}=this.props;
         UserActions.login(email,password);
         console.log('fffff',email,password);
+       
     }
 
     render() {
@@ -23,6 +24,7 @@ class LoginContainer extends Component {
    
   export default connect(
     (state) => ({
+        id:state.user.get('userId'),
         name: state.user.get('name'),
         profile: state.user.get('profile')
       }),

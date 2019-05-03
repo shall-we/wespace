@@ -21,6 +21,7 @@ import AddIcon from "@material-ui/icons/Add";
 import Fab from "@material-ui/core/Fab";
 import MenuIcon from "@material-ui/icons/Menu";
 import MakeFolderModal from "../modal/MakeFolderModal/MakeFolderModal";
+import BaseActions from "store/modules/base";
 
 const drawerWidth = 250;
 
@@ -138,16 +139,19 @@ class Directory extends React.Component {
     };
 
     handleOpenMakeFolderModal = () => {
-      this.setState({ visible: true });
-      console.log(this.state.visible);
+        this.setState({ visible: true });
+        console.log(this.state.visible);
+
     };
 
     handleCloseMakeFolderModal = () => {
         this.setState({ visible: false });
+        // BaseActions.hideModal('visible');
+        console.log('this.state', this.state);
     };
 
     render() {
-        const { classes, theme } = this.props;
+        const { classes, theme, list } = this.props;
 
         return (
             <div className={classes.root}>
@@ -167,11 +171,7 @@ class Directory extends React.Component {
                 >
                     <div className={classes.toolbar}>
                         <div>
-                            <Fab
-                                size="small"
-                                color="primary"
-                                aria-label="Add"
-                            >
+                            <Fab size="small" color="primary" aria-label="Add">
                                 <AddIcon />
                             </Fab>
                             <IconButton
@@ -219,13 +219,13 @@ class Directory extends React.Component {
                                     color="primary"
                                     aria-label="Add"
                                     onClick={this.handleOpenMakeFolderModal}
-                                    onCancel={this.handleCloseMakeFolderModal}
-                                >
+                                    >
+                                
                                     <AddIcon />
                                 </Fab>
                                 {/* 테스트를 위해 임의로 false 값으로 줌 */}
-                                <MakeFolderModal visible='false' />
-                                {/* <MakeFolderModal visible={this.state.visible} /> */}
+                                {/* <MakeFolderModal visible="false" /> */}
+                                <MakeFolderModal visible={this.state.visible} onCancel={this.handleCloseMakeFolderModal} />
 
                                 <IconButton
                                     onClick={this.handleDrawerClose}
@@ -244,6 +244,7 @@ class Directory extends React.Component {
                         )}
                     </div>
                     <Divider />
+                    {/* Shared 폴더 목록 부분 */}
                     <List>
                         <ListItem
                             button
@@ -262,7 +263,8 @@ class Directory extends React.Component {
                                 <ExpandMore />
                             )}
                         </ListItem>
-                        {["더존", "테스트"].map((text, index) => (
+                        {console.log('this.props.list', this.props.list)}
+                        {this.props.list.map((text, index) => (
                             <Collapse
                                 in={this.state.public_navigationOpen}
                                 timeout="auto"
@@ -277,7 +279,8 @@ class Directory extends React.Component {
                                         <ListItemIcon>
                                             <StarBorder />
                                         </ListItemIcon>
-                                        <ListItemText inset primary={text} />
+                                        {console.log(text.folder.name)}
+                                        <ListItemText inset primary={text.folder.name} />
                                     </ListItem>
                                 </List>
                             </Collapse>

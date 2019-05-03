@@ -12,7 +12,7 @@ library.add(faUserFriends);
 
 const cx = classNames.bind(styles);
 
-const MakeFolderModal = ({ visible, onConfirm, onCancel }) => (
+const MakeFolderModal = ({ visible, onConfirm, onCancel }) => (    
     <ModalWrapper visible={visible}>
         <div className={cx("question")}>
             <div className={cx("title")}>

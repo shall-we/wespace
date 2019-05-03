@@ -1,45 +1,54 @@
-import { createAction, handleActions } from 'redux-actions';
- 
-import { Map, List, fromJS } from 'immutable';
-import { pender } from 'redux-pender';
-import * as api from 'lib/api';
+import { createAction, handleActions } from "redux-actions";
+
+import { Map, List, fromJS } from "immutable";
+import { pender } from "redux-pender";
+import * as api from "lib/api";
 
 // action types
-const PUBLICLIST = 'user/PUBLICLIST';
-const PRIVATELIST  = 'user/PRIVATELIST';
-const FILELIST  = 'user/FILELIST';
+const SHARED_LIST = "user/SHARED_LIST";
+const PRIVATE_LIST = "user/PRIVATE_LIST";
+const FILE_LIST = "user/FILE_LIST";
 
 // action creators
-export const getPublicList = createAction(PUBLICLIST, api.getPublicList);
-export const getPrivateList = createAction(PRIVATELIST, api.getPrivateList);
-export const getFileList = createAction(FILELIST, api.getFileList);
+export const getSharedList = createAction(SHARED_LIST, api.getSharedList);
+export const getPrivateList = createAction(PRIVATE_LIST, api.getPrivateList);
+export const getFileList = createAction(FILE_LIST, api.getFileList);
 
 // initial state
 const initialState = Map({
-    publicList: List(),
-    privateList: List(),
-    fileList: List(),
-  });
+    sharedList: [],
+    privateList: [],
+    fileList: []
+});
 
 // reducer
-export default handleActions({
-  ...pender({
-      type: PUBLICLIST,
-      onSuccess: (state, action) => {
-          const {data:publicList} = action.payload
-          return state.set('publicList',fromJS(publicList));
-      }
-  },{
-    type: PRIVATELIST,
-    onSuccess: (state, action) => {
-        const {data:privateList} = action.payload;
-        return state.set('privateList',fromJS(privateList));
-    }
-  },{
-    type: FILELIST,
-    onSuccess: (state, action) => {
-        const {data:fileList} = action.payload;
-        return state.set('fileList',fromJS(fileList));
-    }
-  })
-}, initialState)
+export default handleActions(
+    {
+        ...pender(
+            {
+                type: [SHARED_LIST],
+                onSuccess: (state, action) => {
+                    const { data: sharedList } = action.payload.data;
+                    console.log("action 확인", action.payload.data);
+                    console.log("sharedList", sharedList);
+                    return state.set("sharedList", sharedList);
+                }
+            },
+            {
+                type: [PRIVATE_LIST],
+                onSuccess: (state, action) => {
+                    const { data: privateList } = action.payload.data;
+                    return state.set("privateList", fromJS(privateList));
+                }
+            },
+            {
+                type: FILE_LIST,
+                onSuccess: (state, action) => {
+                    const { data: fileList } = action.payload;
+                    return state.set("fileList", fromJS(fileList));
+                }
+            }
+        )
+    },
+    initialState
+);

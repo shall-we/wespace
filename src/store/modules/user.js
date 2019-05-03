@@ -17,6 +17,7 @@ export const logout = createAction(LOGOUT);
 
 // initial state
 const initialState = Map({
+    id: '',
     name: '',
     profile: ''
   });
@@ -28,8 +29,9 @@ export default handleActions({
     type: [LOGIN],
     onSuccess: (state, action) => {
       console.log(action.payload);
-      const { name,profile } = action.payload.data.data;
-      return state.set('name', name).set('profile',profile);
+      const { name,profile,id } = action.payload.data.data;
+      sessionStorage.id=id;
+      return state.set('name', name).set('profile',profile).set('id', id);
     }
   })
 }, initialState)
