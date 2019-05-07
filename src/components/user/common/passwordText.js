@@ -1,6 +1,7 @@
 import React from 'react';
 import Text from './text';
 import PropTypes from 'prop-types';
+
 class passwordText extends React.Component{
     
     state = {
