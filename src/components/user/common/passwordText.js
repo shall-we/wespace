@@ -1,72 +1,35 @@
 import React from 'react';
-import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles';
-import styles from './text.style'
-import TextField from '@material-ui/core/TextField';
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import IconButton from "@material-ui/core/IconButton";
-import InputAdornment from "@material-ui/core/InputAdornment";
-
-class PasswordText extends React.Component {
-
-  state = {
-    password: "",
-    showPassword: false
-  };
+import Text from './text';
+import PropTypes from 'prop-types';
+class passwordText extends React.Component{
+    
+    state = {
+        showPassword: false,
+      };
 
   handleClickShowPassword = () => {
-    this.setState(state => ({ showPassword: !state.showPassword }));
+    this.setState(state => ({ showPassword: !state.showPassword}));
   };
-
-  componentWillMount(){
-        const {classes} = this.props;
-        this.className=classes.dom;
-        
-      this.InputLabelProps = {
-        classes : {  
-          root: classes.cssLabel,
-          focused: classes.cssFocused,
-      }
-      };
-        
-      this.InputProps={
-        classes: {
-          root: classes.cssOutlinedInput,
-          focused: classes.cssFocused,
-          notchedOutline: classes.notchedOutline,
-          },
-        endAdornment : (
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="Toggle password visibility"
-                onClick={this.handleClickShowPassword}
-              >
-                {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </InputAdornment>
-          ),
-      };
-  }
+  
+  content =  (
+    <img alt="showPassword"
+    src="https://img.icons8.com/ios/50/000000/visible.png"
+    onClick={this.handleClickShowPassword} className="right-end"/>
+    );
+  
 
   render (){
     return  (
-      <TextField
-      className={this.className}
-      type={this.state.showPassword ? "text" : "password"}
-      InputProps={this.InputProps}
-      InputLabelProps={this.InputLabelProps}
-      label={this.props.text} 
-      variant="outlined" margin="dense" {...this.props}
-    />
+      <Text
+      type={this.state.showPassword ? "text" : "password"} 
+       addchildren={this.content} {...this.props}/>
       );
   }
 }
 
-PasswordText.propTypes={
-  classes : PropTypes.object.isRequired,
-  showPassword :PropTypes.bool.isRequired,
-  password : PropTypes.string.isRequired,
+passwordText.propTypes={
+  showPassword :PropTypes.bool,
+  password : PropTypes.string,
 }
 
-export default withStyles(styles) (PasswordText);
+export default passwordText;
