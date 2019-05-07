@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme =>({
     dom : {
-      margin : theme.spacing.unit,
+      margin : theme.spacing.unit*1.5,
       borderRadius :'20px',
       width : "25%",
       minWidth:"330px",
