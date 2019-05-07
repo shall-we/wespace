@@ -1,51 +1,43 @@
 import React from 'react';
-import PropTypes from 'prop-types'
-import TextField from '@material-ui/core/TextField';
-import { withStyles } from '@material-ui/core/styles';
-import styles from './text.style'
+import styles from './text.css';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+const cx = classNames.bind(styles);
 
-
-class Text extends React.Component {
-
-  componentWillMount(){
-
-    const {classes} = this.props;
-
-      this.className=classes.dom;
-      this.label=this.props.text;
-
-      this.InputProps = {
-        classes: {
-          root: classes.cssOutlinedInput,
-          focused: classes.cssFocused,
-          notchedOutline: classes.notchedOutline,
-        }
-      };
-
-      this.InputLabelProps = {
-        classes : {  
-          root: classes.cssLabel,
-          focused: classes.cssFocused,
-      }
-      };
-     
-  }
-
-  render (){
-    return  (
-      <TextField
-      className={this.className}
-      InputLabelProps={this.InputLabelProps}
-      InputProps={this.InputProps}
-      label={this.label} 
-      variant="outlined" margin="dense" {...this.props}
-    />
-    );
-  }
+class text extends React.Component{
+    constructor(props){
+        super(props);
+    this.state = {
+        active :false,
+    }
 }
 
-Text.propTypes = {
-  classes: PropTypes.object.isRequired
-};
+    focusLabelHandler=(e)=>{
+        if(!e.target.value){
+            this.setState((state)=>({
+                active : !state.active
+            }));
+        }
+    }
 
-export default withStyles(styles)(Text);
+    render(){
+        return (
+        <div className={cx("form-div")}>
+            <input className={cx("form-input")} name="text" type="text" 
+            onFocus={this.focusLabelHandler}
+            onBlur={this.focusLabelHandler} {...this.props}/>
+            <label htmlFor="text" className={cx(
+            "form-label", 
+            this.state.active ? "focus-label" : "" 
+          )}>{this.props.text}</label>
+          {this.props.addchildren}
+        </div>);
+    }
+}
+
+text.propTypes={
+    active : PropTypes.bool,
+  }
+  
+
+export default text;
