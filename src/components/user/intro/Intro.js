@@ -39,15 +39,16 @@ class intro extends Component {
         return (
             <div className="intro">
                 <div className="left-page">
-                    <p class="maintext">
-                        효과적인 팀워크 <br />
-                        가벼워진 업무, <br />
-                        <strong>협업툴 잔디</strong>
+                    <p class="maintext"><br/>
+                    효율적인 업무 공유 <br />
+                    스마트한 노트 공간,<br />
+                        <strong>WESPACE</strong>
                     </p>
+                    <br/>
                     <p class="subtext">
-                        이메일이 필요없는 간편한 소통과 파일 공유, <br />
-                        빠른 피드백 확인까지. <br />
-                        바라던 기능들을 모두 담았습니다. <br />
+                    타 플랫폼의 도움이 필요 없이, <br />
+                    WESPACE 에서 모두 확인할 수 있도록 <br />
+                    편리한 유저 경험을 담았습니다. <br />
                     </p>
                     <br />
                 </div>

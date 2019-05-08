@@ -28,9 +28,7 @@ export default handleActions({
   ...pender({
     type: [LOGIN],
     onSuccess: (state, action) => {
-      console.log(action.payload);
       const { name,profile,id } = action.payload.data.data;
-      sessionStorage.id=id;
       return state.set('name', name).set('profile',profile).set('id', id);
     }
   })

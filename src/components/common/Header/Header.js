@@ -19,6 +19,7 @@ const Header = ({name,profile,logout}) => (
       </div>
       <div className={cx('right')}>
       {
+        
           // flex를 유지하려고 배열 형태로 렌더링합니다.
           (name)?( [
             <div className={cx('login')}><img src={profile} alt='이미지'/>

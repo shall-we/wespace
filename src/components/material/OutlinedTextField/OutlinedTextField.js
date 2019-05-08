@@ -33,18 +33,10 @@ const styles = theme => ({
 });
 
 class OutlinedTextFields extends Component {
-    state = {
-        name: "홍길동"
-    };
-
-    handleChange = name => event => {
-        this.setState({
-            [name]: event.target.value
-        });
-    };
+  
 
     render() {
-        const { classes } = this.props;
+        const { classes,handleText } = this.props;
 
         return (
             <form className={classes.container} noValidate autoComplete="off">
@@ -59,6 +51,9 @@ class OutlinedTextFields extends Component {
                         classes: {
                             notchedOutline: classes.notchedOutline
                         }
+                    }}
+                    onChange={(event)=>{
+                        handleText(event);
                     }}
                 />
             </form>

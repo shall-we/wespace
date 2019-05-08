@@ -21,8 +21,6 @@ import AddIcon from "@material-ui/icons/Add";
 import Fab from "@material-ui/core/Fab";
 import MenuIcon from "@material-ui/icons/Menu";
 import MakeFolderModal from "../modal/MakeFolderModal/MakeFolderModal";
-import BaseActions from "store/modules/base";
-import * as directoryActions from 'store/modules/directory';
 
 const drawerWidth = 250;
 
@@ -89,22 +87,8 @@ const styles = theme => ({
 });
 
 class Directory extends React.Component {
-    //   getList = async (id) => {
-    //     const List = await Promise.all([
-    //       directoryActions.getPublicList(id),
-    //       directoryActions.getPrivateList(id),
-    //     ]);
-
-    //     this.setState(prevState => ({
-    //         id: id,
-    //         publicList: List[0].data,
-    //         privateList: List[1].data
-    //     }));
-    //   }    
-
+    
     state = {
-        publicList : ['1팀','2팀','3팀'],
-        privateList : ['react','redux','middleware','redux-logger'],
         open: false,
         SubOpen: false,
         public_navigationOpen: false,
@@ -138,6 +122,7 @@ class Directory extends React.Component {
 
     handleSubDrawerOpen = () => {
         this.setState({ SubOpen: true });
+
     };
 
     handleSubDrawerClose = () => {
@@ -152,12 +137,11 @@ class Directory extends React.Component {
 
     handleCloseMakeFolderModal = () => {
         this.setState({ visible: false });
-        // BaseActions.hideModal('visible');
         console.log('this.state', this.state);
     };
 
     render() {
-        const { classes, theme, list } = this.props;
+        const { classes, theme ,sharedList=[],privateList=[],createFolder,user_id=0} = this.props;
 
         return (
             <div className={classes.root}>
@@ -229,7 +213,7 @@ class Directory extends React.Component {
                                 </Fab>
                                 {/* 테스트를 위해 임의로 false 값으로 줌 */}
                                 {/* <MakeFolderModal visible="false" /> */}
-                                <MakeFolderModal visible={this.state.visible} onCancel={this.handleCloseMakeFolderModal} />
+                                <MakeFolderModal visible={this.state.visible} onCancel={this.handleCloseMakeFolderModal} onConfirm={createFolder} user_id={user_id}/>
 
                                 <IconButton
                                     onClick={this.handleDrawerClose}
@@ -267,8 +251,7 @@ class Directory extends React.Component {
                                 <ExpandMore />
                             )}
                         </ListItem>
-                        {console.log('this.props.list', this.props.list)}
-                        {this.props.list.map((text, index) => (
+                        {sharedList.map((text, index) => (
                             <Collapse
                                 in={this.state.public_navigationOpen}
                                 timeout="auto"
@@ -283,8 +266,7 @@ class Directory extends React.Component {
                                         <ListItemIcon>
                                             <StarBorder />
                                         </ListItemIcon>
-                                        {console.log(text.folder.name)}
-                                        <ListItemText inset primary={text.folder.name} />
+                                        <ListItemText inset primary={text.name} />
                                     </ListItem>
                                 </List>
                             </Collapse>
@@ -309,7 +291,7 @@ class Directory extends React.Component {
                                 <ExpandMore />
                             )}
                         </ListItem>
-                        {this.state.privateList.map((text, index) => (
+                        {privateList.map((text, index) => (
                             <Collapse
                                 in={this.state.private_navigationOpen}
                                 timeout="auto"
@@ -324,7 +306,7 @@ class Directory extends React.Component {
                                         <ListItemIcon>
                                             <StarBorder />
                                         </ListItemIcon>
-                                        <ListItemText inset primary={text} />
+                                        <ListItemText inset primary={text.name} />
                                     </ListItem>
                                 </List>
                             </Collapse>

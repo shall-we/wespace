@@ -6,27 +6,18 @@ import Login from "../../components/user/login/Login";
 
 class LoginContainer extends Component {
     login = (email, password) => {
-        const { UserActions } = this.props;
-        UserActions.login(email, password);
-        console.log("loginContainer", email, password);
+        const { UserActions} = this.props;
+         UserActions.login(email, password);
     };
 
     render() {
         const { login } = this;
-        return (
-            <div>
-                <Login action={login} />
-            </div>
-        );
+        return <Login action={login} />
     }
 }
 
 export default connect(
-    state => ({
-        id: state.user.get("userId"),
-        name: state.user.get("name"),
-        profile: state.user.get("profile")
-    }),
+    null,
     dispatch => ({
         UserActions: bindActionCreators(userActions, dispatch)
     })
