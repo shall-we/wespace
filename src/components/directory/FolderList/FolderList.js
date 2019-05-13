@@ -34,7 +34,7 @@ console.log('test');
   <div className={cx('folder-list')}>
        <div className={cx('folder-menu')}>
           <span className={cx('folder-category')}>{category}</span>
-          <span className={cx('folder-option')} onclick={onClickHandle} >+</span>          
+          <span className={cx('folder-option')} onClick={onClickHandle} >+</span>          
        </div>
        <div className={cx('folder-items')}>
           {folderItems}
