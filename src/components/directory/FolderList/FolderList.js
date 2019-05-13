@@ -26,7 +26,7 @@ const folderItems=folderName.map(
 
 const onClickHandle=(e)=>{
 
-
+console.log('test');
 
 }
 
@@ -34,7 +34,7 @@ const onClickHandle=(e)=>{
   <div className={cx('folder-list')}>
        <div className={cx('folder-menu')}>
           <span className={cx('folder-category')}>{category}</span>
-          <span className={cx('folder-option')} onclick={this.onClickHandle} >+</span>          
+          <span className={cx('folder-option')} onclick={onClickHandle} >+</span>          
        </div>
        <div className={cx('folder-items')}>
           {folderItems}
