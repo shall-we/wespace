@@ -11,10 +11,11 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
 import { Menu, ExpandMore, ExpandLess, CreateNewFolder, FolderShared, Delete, Folder, Share, Lock, Settings, Create, 
-    GroupAdd, ChevronLeft, ChevronRight} from "@material-ui/icons";
+    GroupAdd, ChevronLeft, ChevronRight, NoteAdd} from "@material-ui/icons";
 import MakeFolderModal from "../modal/MakeFolderModal/MakeFolderModal";
 import AskShareModal from '../modal/AskShareModal';
 import DeleteFolderModal from '../modal/DeleteFolderModal';
+import EditFolderModal from "../modal/EditFolderModal";
 const drawerWidth = 250;
 
 const styles = theme => ({
@@ -88,7 +89,10 @@ class Directory extends React.Component {
             private_navigationOpen: false,
             visible: false,
             share:false,
-            deleteFolderVisible: false
+            deleteFolderVisible: false,
+            folder_id : 0,
+            folder_name : '',
+            modifyFolderVisible: false,
         };
     }
 
@@ -132,12 +136,20 @@ class Directory extends React.Component {
         this.setState({ visible: false });
     };
 
-    handleOpenDeleteFolderModal = () => {
-      this.setState({ deleteFolderVisible: true });
+    handleOpenDeleteFolderModal = (folder_id) => {
+      this.setState({ deleteFolderVisible: true, folder_id: folder_id});
     };
 
     handleCloseDeleteFolderModal = () => {
         this.setState({ deleteFolderVisible: false });
+    };
+
+    handleOpenModifyFolderModal = () => {
+       this.setState({ modifyFolderVisible: true});
+    };
+  
+     handleCloseModifyFolderModal = () => {
+         this.setState({ modifyFolderVisible: false });
     };
 
     handleOpenAskShareModal = () => {
@@ -150,12 +162,13 @@ class Directory extends React.Component {
 
 
 
-    handleNoteList = (folder_id) => {
+    handleNoteList = (folder_id, name) => {
+        this.setState({ folder_name: name, folder_id: folder_id });
         this.props.getNoteList(folder_id);
     };
   
     render() {
-        const { classes, theme, sharedList=[],privateList=[],noteList=[],user_id=0,createFolder,sharedFolder , deleteFolder} = this.props;
+        const { classes, theme, sharedList=[],privateList=[],noteList=[],user_id=0,createFolder,sharedFolder , deleteFolder, updateFolder} = this.props;
         return (
             <div className={classes.root}>
                 <Drawer 
@@ -177,8 +190,8 @@ class Directory extends React.Component {
                             <div>
                                 <MakeFolderModal visible={this.state.visible} onCancel={this.handleCloseMakeFolderModal} onConfirm={createFolder} user_id={user_id}/>
                                 <AskShareModal visible={this.state.share} onConfirm={sharedFolder} onCancel={this.handleCloseAskShareModal} folder_id={'d'}/>
-                                
-                                <DeleteFolderModal visible={this.state.deleteFolderVisible} onCancel={this.handleCloseDeleteFolderModal} onConfirm={deleteFolder} user_id={user_id}/>
+                                <EditFolderModal  visible={this.state.modifyFolderVisible} onCancel={this.handleCloseModifyFolderModal} onConfirm={updateFolder} folder_id={this.state.folder_id} folder_name={this.state.folder_name}/>
+                                <DeleteFolderModal visible={this.state.deleteFolderVisible} onCancel={this.handleCloseDeleteFolderModal} onConfirm={deleteFolder} folder_id={this.state.folder_id}/>
 
                                 <IconButton>
                                     <CreateNewFolder color="primary" onClick={this.handleOpenMakeFolderModal}/>
@@ -191,12 +204,6 @@ class Directory extends React.Component {
                                 <IconButton>   
                                     <Settings color="primary"/>
                                 </IconButton>
-                                
-                                {/* 폴더 삭제 버튼 */}
-                                <IconButton>
-                                    <Delete color="primary" onClick={this.handleOpenDeleteFolderModal} />
-                                </IconButton>
-
 
                                 <IconButton
                                     onClick={this.handleDrawerClose}
@@ -245,11 +252,19 @@ class Directory extends React.Component {
                                         button
                                         onClick={event => {
                                             this.handleSubDrawerOpen();
-                                            this.handleNoteList(item.folder_id);
+                                            this.handleNoteList(item.folder_id, item.name);
                                         }}
+                                        onDoubleClick={this.handleOpenModifyFolderModal}
                                     >
+                                    {item.permission === 'OWNER' ?
+                                        <ListItemIcon>
+                                            <Delete onClick={(e) => this.handleOpenDeleteFolderModal(item.folder_id)}/>
+                                        </ListItemIcon> 
+                                        : null
+                                    }
+                                    
                                         <ListItemText inset primary={item.name} />
-                                        <input type="hidden" value={item.id}/>
+                                        
                                     </ListItem> 
                                 </List>
                             </Collapse>
@@ -288,9 +303,16 @@ class Directory extends React.Component {
                                         button
                                         onClick={event => {
                                             this.handleSubDrawerOpen();
-                                            this.handleNoteList(item.folder_id);
+                                            this.handleNoteList(item.folder_id, item.name);
                                         }}
+                                        onDoubleClick={this.handleOpenModifyFolderModal}
                                     >
+                                     {item.permission === 'OWNER' ?
+                                        <ListItemIcon>
+                                            <Delete onClick={(e) => this.handleOpenDeleteFolderModal(item.folder_id)}/>
+                                        </ListItemIcon> 
+                                        : null
+                                    }
                                         <ListItemText inset primary={item.name} />
                                     </ListItem>
                                 </List>
@@ -312,22 +334,23 @@ class Directory extends React.Component {
                     open={this.state.SubOpen}
                 >
                     <div className={classes.toolbar}>
-                        <div>
-                            <IconButton>
+                        <div>                                
+                            <IconButton>   
+                                <NoteAdd color="primary"/>
+                            </IconButton>
+
+                            <IconButton>   
                                 <Create color="primary"/>
                             </IconButton>
-                                
-                            <IconButton>   
+                            
+                            <IconButton>
                                 <Share color="primary"/>
                             </IconButton>
 
                             <IconButton>   
-                                    <Lock color="primary"/>
+                                <Lock color="primary"/>
                             </IconButton>
 
-                            <IconButton>   
-                                <Delete color="primary"/>
-                            </IconButton>
                             <IconButton
                                 onClick={this.handleSubDrawerClose}
                                 className={classNames(classes.menuButton)}

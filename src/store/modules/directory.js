@@ -11,7 +11,8 @@ const PRIVATE_LIST = "directory/PRIVATE_LIST";
 const NOTE_LIST = "directory/NOTE_LIST";
 const CREATE_FOLDER="directory/CREATE_FOLDER";
 const DELETE_FOLDER="directory/DELETE_FOLDER";
-const SHARED_FOLDER="directory/SHARED_FOLDER"
+const SHARED_FOLDER="directory/SHARED_FOLDER";
+const UPDATE_FOLDER="directory/UPDATE_FOLDER";
 
 // action creators
 export const getSharedList = createAction(SHARED_LIST, api.getSharedList);
@@ -19,8 +20,8 @@ export const getPrivateList = createAction(PRIVATE_LIST, api.getPrivateList);
 
 export const createFolder = createAction(CREATE_FOLDER, api.createFolder);
 export const deleteFolder =  createAction(DELETE_FOLDER, api.deleteFolder);
-export const sharedFolder = createAction(SHARED_FOLDER,api.sharedFolder)
-
+export const sharedFolder = createAction(SHARED_FOLDER,api.sharedFolder);
+export const updateFolder = createAction(UPDATE_FOLDER, api.updateFolder);
 
 export const getNoteList = createAction(NOTE_LIST, api.getNoteList);
 // initial state
