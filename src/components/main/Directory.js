@@ -13,7 +13,8 @@ import Collapse from "@material-ui/core/Collapse";
 import { Menu, ExpandMore, ExpandLess, CreateNewFolder, FolderShared, Delete, Folder, Share, Lock, Settings, Create, 
     GroupAdd, ChevronLeft, ChevronRight} from "@material-ui/icons";
 import MakeFolderModal from "../modal/MakeFolderModal/MakeFolderModal";
-import AskShareModal from '../modal/AskShareModal'
+import AskShareModal from '../modal/AskShareModal';
+import DeleteFolderModal from '../modal/DeleteFolderModal';
 const drawerWidth = 250;
 
 const styles = theme => ({
@@ -87,6 +88,7 @@ class Directory extends React.Component {
             private_navigationOpen: false,
             visible: false,
             share:false,
+            deleteFolderVisible: false
         };
     }
 
@@ -130,6 +132,14 @@ class Directory extends React.Component {
         this.setState({ visible: false });
     };
 
+    handleOpenDeleteFolderModal = () => {
+      this.setState({ deleteFolderVisible: true });
+    };
+
+    handleCloseDeleteFolderModal = () => {
+        this.setState({ deleteFolderVisible: false });
+    };
+
     handleOpenAskShareModal = () => {
         this.setState({ share: true });
       };
@@ -145,7 +155,7 @@ class Directory extends React.Component {
     };
   
     render() {
-        const { classes, theme, sharedList=[],privateList=[],noteList=[],user_id=0,createFolder,sharedFolder } = this.props;
+        const { classes, theme, sharedList=[],privateList=[],noteList=[],user_id=0,createFolder,sharedFolder , deleteFolder} = this.props;
         return (
             <div className={classes.root}>
                 <Drawer 
@@ -167,7 +177,10 @@ class Directory extends React.Component {
                             <div>
                                 <MakeFolderModal visible={this.state.visible} onCancel={this.handleCloseMakeFolderModal} onConfirm={createFolder} user_id={user_id}/>
                                 <AskShareModal visible={this.state.share} onConfirm={sharedFolder} onCancel={this.handleCloseAskShareModal} folder_id={'d'}/>
-                                <IconButton>   
+                                
+                                <DeleteFolderModal visible={this.state.deleteFolderVisible} onCancel={this.handleCloseDeleteFolderModal} onConfirm={deleteFolder} user_id={user_id}/>
+
+                                <IconButton>
                                     <CreateNewFolder color="primary" onClick={this.handleOpenMakeFolderModal}/>
                                 </IconButton>
 
@@ -179,16 +192,18 @@ class Directory extends React.Component {
                                     <Settings color="primary"/>
                                 </IconButton>
                                 
-                                <IconButton>   
-                                    <Delete color="primary"/>
+                                {/* 폴더 삭제 버튼 */}
+                                <IconButton>
+                                    <Delete color="primary" onClick={this.handleOpenDeleteFolderModal} />
                                 </IconButton>
+
 
                                 <IconButton
                                     onClick={this.handleDrawerClose}
                                     className={classNames(classes.menuButton)}
                                 >
                                 
-                                    <ChevronLeft />
+                                <ChevronLeft />
                                 </IconButton>
                             </div>
                         ) : (
