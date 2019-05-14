@@ -12,7 +12,7 @@
     top: 25%;
     color: dimgray;
     font-weight: lighter;
-    background-color: rgb(241, 243, 245);
+  
     font-size : calc(10px + 1vmin);
     z-index: 10;
     transition: transform 150ms ease-out, font-size 150ms ease-out;

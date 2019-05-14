@@ -42,6 +42,9 @@ class AskShareModal extends React.Component {
                     <h3>이름</h3>
                     <OutlinedTextField handleText={(e)=>this.setState({user:e.target.value})}/>
                     
+                    {/* 여기들어가야함 */}
+                    
+
                     <h3>권한</h3>
                     <Selects handleChange={this.handleChange}/>
                     <br />
