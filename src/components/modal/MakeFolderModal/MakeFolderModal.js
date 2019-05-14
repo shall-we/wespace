@@ -47,6 +47,7 @@ class MakeFolderModal extends React.Component{
             </Button>
             <Button theme='outline' onClick={()=>{
                 onConfirm(this.state.folder_name,user_id);
+                onCancel();
             }}>생성</Button>
         </div>
     </ModalWrapper>)

@@ -6,27 +6,19 @@ import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import StarBorder from "@material-ui/icons/StarBorder";
 import Collapse from "@material-ui/core/Collapse";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
-import MenuIcon from "@material-ui/icons/Menu";
+import { Menu, ExpandMore, ExpandLess, CreateNewFolder, FolderShared, Delete, Folder, Share, Lock, Settings, Create, 
+    GroupAdd, ChevronLeft, ChevronRight} from "@material-ui/icons";
 import MakeFolderModal from "../modal/MakeFolderModal/MakeFolderModal";
-
+import AskShareModal from '../modal/AskShareModal'
 const drawerWidth = 250;
 
 const styles = theme => ({
     root: {
         display:'flex',
-    },
-    nested: {
-        paddingLeft: theme.spacing.unit * 4
     },
     menuButton: {
         marginRight: 3.5
@@ -86,19 +78,6 @@ const styles = theme => ({
 });
 
 class Directory extends React.Component {
-    //   getList = async (id) => {
-    //     const List = await Promise.all([
-    //       directoryActions.getPublicList(id),
-    //       directoryActions.getPrivateList(id),
-    //     ]);
-
-    //     this.setState(prevState => ({
-    //         id: id,
-    //         publicList: List[0].data,
-    //         privateList: List[1].data
-    //     }));
-    //   }    
-
     constructor(props) {
         super(props);
         this.state = {
@@ -106,7 +85,8 @@ class Directory extends React.Component {
             SubOpen: false,
             public_navigationOpen: false,
             private_navigationOpen: false,
-            visible: false
+            visible: false,
+            share:false,
         };
     }
 
@@ -125,7 +105,6 @@ class Directory extends React.Component {
 
     handleDrawerOpen = () => {
         this.setState({ open: true });
-        //this.getList(1);
     };
 
     handleDrawerClose = () => {
@@ -151,9 +130,22 @@ class Directory extends React.Component {
         this.setState({ visible: false });
     };
 
-    render() {
-        const { classes, theme, sharedList=[],privateList=[],fileList=[], createFolder,user_id=0 } = this.props;
+    handleOpenAskShareModal = () => {
+        this.setState({ share: true });
+      };
+  
+    handleCloseAskShareModal = () => {
+         this.setState({ share: false });
+    };
 
+
+
+    handleNoteList = (folder_id) => {
+        this.props.getNoteList(folder_id);
+    };
+  
+    render() {
+        const { classes, theme, sharedList=[],privateList=[],noteList=[],user_id=0,createFolder,sharedFolder } = this.props;
         return (
             <div className={classes.root}>
                 <Drawer 
@@ -173,15 +165,30 @@ class Directory extends React.Component {
                     <div className={classes.toolbar}>
                         {this.state.open ? (
                             <div>
-                                {/* 테스트를 위해 임의로 false 값으로 줌 */}
-                                <MakeFolderModal visible='false' />
-                                {/* <MakeFolderModal visible={this.state.visible} /> */}
+                                <MakeFolderModal visible={this.state.visible} onCancel={this.handleCloseMakeFolderModal} onConfirm={createFolder} user_id={user_id}/>
+                                <AskShareModal visible={this.state.share} onConfirm={sharedFolder} onCancel={this.handleCloseAskShareModal} folder_id={'d'}/>
+                                <IconButton>   
+                                    <CreateNewFolder color="primary" onClick={this.handleOpenMakeFolderModal}/>
+                                </IconButton>
+
+                                <IconButton>   
+                                    <GroupAdd color="primary"  onClick={this.handleOpenAskShareModal}/>
+                                </IconButton>
+
+                                <IconButton>   
+                                    <Settings color="primary"/>
+                                </IconButton>
+                                
+                                <IconButton>   
+                                    <Delete color="primary"/>
+                                </IconButton>
 
                                 <IconButton
                                     onClick={this.handleDrawerClose}
                                     className={classNames(classes.menuButton)}
                                 >
-                                    <ChevronLeftIcon />
+                                
+                                    <ChevronLeft />
                                 </IconButton>
                             </div>
                         ) : (
@@ -189,7 +196,7 @@ class Directory extends React.Component {
                                 onClick={this.handleDrawerOpen}
                                 className={classNames(classes.menuButton)}
                             >
-                                <MenuIcon />
+                                <Menu />
                             </IconButton>
                         )}
                     </div>
@@ -203,7 +210,7 @@ class Directory extends React.Component {
                             }}
                         >
                             <ListItemIcon>
-                                <InboxIcon />
+                                <FolderShared />
                             </ListItemIcon>
                             <ListItemText primary="public" />
                             {this.state.public_navigationOpen ? (
@@ -218,18 +225,15 @@ class Directory extends React.Component {
                                 timeout="auto"
                                 unmountOnExit
                             >
-                                <List component="div" disablePadding 
-
-                                >
+                                <List component="div" disablePadding>
                                     <ListItem
                                         button
-                                        className={classes.nested}
-                                        onClick={this.handleSubDrawerOpen}
+                                        onClick={event => {
+                                            this.handleSubDrawerOpen();
+                                            this.handleNoteList(item.folder_id);
+                                        }}
                                     >
-                                        <ListItemIcon>
-                                            <StarBorder />
-                                        </ListItemIcon>
-                                        <ListItemText inset primary={item.title} />
+                                        <ListItemText inset primary={item.name} />
                                         <input type="hidden" value={item.id}/>
                                     </ListItem> 
                                 </List>
@@ -237,6 +241,9 @@ class Directory extends React.Component {
                         ))}
                     </List>
                     <Divider />
+
+
+
                     <List className={classes.list}>
                         <ListItem
                             button
@@ -246,7 +253,7 @@ class Directory extends React.Component {
                             }}
                         >
                             <ListItemIcon>
-                                <InboxIcon />
+                                <Folder />
                             </ListItemIcon>
                             <ListItemText primary="private" />
                             {this.state.private_navigationOpen ? (
@@ -264,13 +271,12 @@ class Directory extends React.Component {
                                 <List component="div" disablePadding>
                                     <ListItem
                                         button
-                                        className={classes.nested}
-                                        onClick={this.handleSubDrawerOpen}
+                                        onClick={event => {
+                                            this.handleSubDrawerOpen();
+                                            this.handleNoteList(item.folder_id);
+                                        }}
                                     >
-                                        <ListItemIcon>
-                                            <StarBorder />
-                                        </ListItemIcon>
-                                        <ListItemText inset primary={item.title} />
+                                        <ListItemText inset primary={item.name} />
                                     </ListItem>
                                 </List>
                             </Collapse>
@@ -292,14 +298,29 @@ class Directory extends React.Component {
                 >
                     <div className={classes.toolbar}>
                         <div>
+                            <IconButton>
+                                <Create color="primary"/>
+                            </IconButton>
+                                
+                            <IconButton>   
+                                <Share color="primary"/>
+                            </IconButton>
+
+                            <IconButton>   
+                                    <Lock color="primary"/>
+                            </IconButton>
+
+                            <IconButton>   
+                                <Delete color="primary"/>
+                            </IconButton>
                             <IconButton
                                 onClick={this.handleSubDrawerClose}
                                 className={classNames(classes.menuButton)}
                             >
                                 {theme.direction === "rtl" ? (
-                                    <ChevronRightIcon />
+                                    <ChevronRight />
                                 ) : (
-                                    <ChevronLeftIcon />
+                                    <ChevronLeft />
                                 )}
                             </IconButton>
                         </div>
@@ -307,9 +328,9 @@ class Directory extends React.Component {
                     <Divider />
                     <div className={classes.drawerOverflow}>
                     <List>
-                        {fileList.map(item => (
-                            <ListItem button text={item.title}>
-                                <ListItemText primary={item.title} />
+                        {noteList.map(item => (
+                            <ListItem button text={item.name}>
+                                <ListItemText primary={item.name} />
                             </ListItem>
                         ))}
                     </List>

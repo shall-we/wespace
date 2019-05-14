@@ -13,6 +13,7 @@ class SimpleSelect extends React.Component {
     handleChange = selectedOption => {
         this.setState({ selectedOption });
         console.log(`Option selected:`, selectedOption);
+        this.props.handleChange(selectedOption);
     };
     render() {
         const { selectedOption } = this.state;
