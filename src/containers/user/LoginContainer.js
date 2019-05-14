@@ -1,31 +1,24 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as userActions from '../../store/modules/user';
-import Login from '../../components/user/login/Login';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as userActions from "../../store/modules/user";
+import Login from "../../components/user/login/Login";
+
 class LoginContainer extends Component {
-   
-    login=(email,password)=>{
-        const {UserActions}=this.props;
-        UserActions.login(email,password);
-    }
+    login = (email, password) => {
+        const { UserActions} = this.props;
+         UserActions.login(email, password);
+    };
 
     render() {
-      const {login} = this;
-      return (
-        <div>
-         <Login action={login}/>
-        </div>
-      );
+        const { login } = this;
+        return <Login action={login} />
     }
-  }
-   
-  export default connect(
-    (state) => ({
-        name: state.user.get('name'),
-        profile: state.user.get('profile')
-      }),
-    (dispatch) => ({
-      UserActions: bindActionCreators(userActions, dispatch)
+}
+
+export default connect(
+    null,
+    dispatch => ({
+        UserActions: bindActionCreators(userActions, dispatch)
     })
-  )(LoginContainer);
+)(LoginContainer);

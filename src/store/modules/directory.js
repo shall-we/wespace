@@ -35,7 +35,10 @@ export default handleActions(
                 onSuccess: (state, action) => {
                     const { data: privateList } = action.payload.data;
                     console.log("PRIVATE_LIST",privateList);
+<<<<<<< HEAD
                     console.log("PRIVATE_LIST_Payload",action.payload);
+=======
+>>>>>>> c0c23d1937a138e5be56596416c6e04b85621130
                     return state.set("privateList", privateList);
                 }
             }),
@@ -58,4 +61,8 @@ export default handleActions(
             })
     },
     initialState
+<<<<<<< HEAD
 );
+=======
+);
+>>>>>>> c0c23d1937a138e5be56596416c6e04b85621130

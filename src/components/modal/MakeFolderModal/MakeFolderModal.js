@@ -12,8 +12,19 @@ library.add(faUserFriends);
 
 const cx = classNames.bind(styles);
 
-const MakeFolderModal = ({ visible, onConfirm, onCancel }) => (
-    <ModalWrapper visible={visible}>
+class MakeFolderModal extends React.Component{
+    state = {
+        folder_name: '',
+    };
+    handleTextChange = (event) => {
+        this.setState({ folder_name: event.target.value });
+    };
+
+    render(){
+        const {visible, onConfirm, onCancel,user_id}=this.props;
+        const {handleTextChange}=this;
+        return (
+        <ModalWrapper visible={visible}>
         <div className={cx("question")}>
             <div className={cx("title")}>
                 <FontAwesomeIcon icon="user-friends" size="2x" color="#1C90FB" />
@@ -25,7 +36,7 @@ const MakeFolderModal = ({ visible, onConfirm, onCancel }) => (
             </div>
             <br />
             <h3>폴더명</h3>
-            <OutlinedTextField />
+            <OutlinedTextField  handleText={handleTextChange}/>
             <br />
             <br />
         </div>
@@ -34,9 +45,12 @@ const MakeFolderModal = ({ visible, onConfirm, onCancel }) => (
             <Button theme='outline' onClick={onCancel}>
                 취소
             </Button>
-            <Button theme='outline' onClick={onConfirm}>생성</Button>
+            <Button theme='outline' onClick={()=>{
+                onConfirm(this.state.folder_name,user_id);
+            }}>생성</Button>
         </div>
-    </ModalWrapper>
-);
+    </ModalWrapper>)
+    }
+        }
 
 export default MakeFolderModal;

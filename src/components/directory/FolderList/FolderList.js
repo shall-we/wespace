@@ -24,12 +24,17 @@ const folderItems=folderName.map(
   ({name,count}) => ( <FolderItem name={name} count={count} key={name.id}/>)
 );
 
+const onClickHandle=(e)=>{
+
+console.log('test');
+
+}
 
   return (
   <div className={cx('folder-list')}>
        <div className={cx('folder-menu')}>
           <span className={cx('folder-category')}>{category}</span>
-          <span className={cx('folder-option')} >+</span>          
+          <span className={cx('folder-option')} onClick={onClickHandle} >+</span>          
        </div>
        <div className={cx('folder-items')}>
           {folderItems}

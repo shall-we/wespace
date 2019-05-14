@@ -1,0 +1,14 @@
+@import '../../../styles/utils.scss';
+
+.editor-main{
+  flex: 1;
+ 
+  margin:1rem;
+
+
+}
+.ql-container{
+  height: 550px;
+  overflow-y:auto; 
+  overflow-x:inherit; 
+}
