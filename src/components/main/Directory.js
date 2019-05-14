@@ -4,7 +4,6 @@ import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
@@ -17,11 +16,8 @@ import StarBorder from "@material-ui/icons/StarBorder";
 import Collapse from "@material-ui/core/Collapse";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import AddIcon from "@material-ui/icons/Add";
-import Fab from "@material-ui/core/Fab";
 import MenuIcon from "@material-ui/icons/Menu";
 import MakeFolderModal from "../modal/MakeFolderModal/MakeFolderModal";
-import * as directoryActions from 'store/modules/directory';
 
 const drawerWidth = 250;
 
@@ -30,34 +26,26 @@ const styles = theme => ({
         display:'flex',
     },
     nested: {
-        paddingLeft: theme.spacing.unit * 7
+        paddingLeft: theme.spacing.unit * 4
     },
     menuButton: {
         marginRight: 3.5
     },
-    hide: {
-        display: "none"
-    },
-    drawer: { 
+    drawer: {
         width: drawerWidth,
         flexShrink: 0,
-        whiteSpace: "nowrap",
-        [theme.breakpoints.up('sm')]: {
-            
-          }
     },
     drawerOpen: {
-        height: 'calc(100%)',
-        top: 96,
+        height: 'calc(100vh - 6rem)', 
+        position:'unset',
         width: drawerWidth,
         transition: theme.transitions.create("width", {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen
-        })
+        }),
     },
-    drawerClose: {      
-        height: 'calc(100%)',
-        top: 96,
+    drawerClose: {
+        height: 'calc(100vh - 6rem)', 
         transition: theme.transitions.create("width", {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen
@@ -69,22 +57,32 @@ const styles = theme => ({
         }
     },
     SubDrawerOpen: {
-        height: 'calc(100%)',
-        top: 96,
-        marginLeft: drawerWidth,
+        height: 'calc(100vh - 6rem)', 
+        position:'unset',
         width: drawerWidth,
         transition: theme.transitions.create("width", {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen
-        })
+        }),
     },
     SubDrawerClose: {
         display: 'none'
     },
     toolbar: {
         display: "flex",
-        justifyContent: "flex-end"
+        justifyContent: "flex-end",
     },
+    paper: {
+        position : "unset",
+    },
+    drawerOverflow: {
+        overflowX: "hidden",
+    },
+    list : {
+        overflowX: "hidden",
+        overflowY: "auto",
+    },
+    
 });
 
 class Directory extends React.Component {
@@ -101,16 +99,18 @@ class Directory extends React.Component {
     //     }));
     //   }    
 
-    state = {
-        publicList : ['1팀','2팀','3팀'],
-        privateList : ['react','redux','middleware','redux-logger'],
-        open: false,
-        SubOpen: false,
-        public_navigationOpen: false,
-        private_navigationOpen: false,
-        visible: false
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            open: false,
+            SubOpen: false,
+            public_navigationOpen: false,
+            private_navigationOpen: false,
+            visible: false
+        };
+    }
 
+    
     handlePublicClick = () => {
         this.setState(state => ({
             public_navigationOpen: !state.public_navigationOpen
@@ -152,54 +152,10 @@ class Directory extends React.Component {
     };
 
     render() {
-        const { classes, theme } = this.props;
+        const { classes, theme, sharedList=[],privateList=[],fileList=[], createFolder,user_id=0 } = this.props;
 
         return (
             <div className={classes.root}>
-                <Drawer
-                    variant="permanent"
-                    className={classNames(classes.drawer, {
-                        [classes.SubDrawerClose]: !this.state.SubOpen
-                    })}
-                    classes={{
-                        paper: classNames({
-                            [classes.SubDrawerOpen]: this.state.SubOpen,
-                            [classes.SubDrawerClose]: !this.state.SubOpen
-                        })
-                    }}
-                    open={this.state.SubOpen}
-                >
-                    <div className={classes.toolbar}>
-                        <div>
-                            <Fab
-                                size="small"
-                                color="primary"
-                                aria-label="Add"
-                            >
-                                <AddIcon />
-                            </Fab>
-                            <IconButton
-                                onClick={this.handleSubDrawerClose}
-                                className={classNames(classes.menuButton)}
-                            >
-                                {theme.direction === "rtl" ? (
-                                    <ChevronRightIcon />
-                                ) : (
-                                    <ChevronLeftIcon />
-                                )}
-                            </IconButton>
-                        </div>
-                    </div>
-                    <Divider />
-                    <List>
-                        {["임", "채", "형", "테", "스", "트","임", "채", "형", "테", "스", "트","임", "채", "형", "테", "스", "트"].map(text => (
-                            <ListItem button text={text}>
-                                <ListItemText primary={text} />
-                            </ListItem>
-                        ))}
-                    </List>
-                </Drawer>
-                <CssBaseline />
                 <Drawer 
                     variant="permanent"
                     className={classNames(classes.drawer, {
@@ -207,9 +163,9 @@ class Directory extends React.Component {
                         [classes.drawerClose]: !this.state.open
                     })}
                     classes={{
-                        paper: classNames({
+                        paper: classNames(classes.paper, {
                             [classes.drawerOpen]: this.state.open,
-                            [classes.drawerClose]: !this.state.open
+                            [classes.drawerClose]: !this.state.open,
                         })
                     }}
                     open={this.state.open}
@@ -217,15 +173,6 @@ class Directory extends React.Component {
                     <div className={classes.toolbar}>
                         {this.state.open ? (
                             <div>
-                                <Fab
-                                    size="small"
-                                    color="primary"
-                                    aria-label="Add"
-                                    onClick={this.handleOpenMakeFolderModal}
-                                    onCancel={this.handleCloseMakeFolderModal}
-                                >
-                                    <AddIcon />
-                                </Fab>
                                 {/* 테스트를 위해 임의로 false 값으로 줌 */}
                                 <MakeFolderModal visible='false' />
                                 {/* <MakeFolderModal visible={this.state.visible} /> */}
@@ -247,8 +194,8 @@ class Directory extends React.Component {
                         )}
                     </div>
                     <Divider />
-                    <List>
-                        <ListItem
+                    <List className={classes.list}>
+                        <ListItem 
                             button
                             onClick={event => {
                                 this.handleDrawerOpen();
@@ -265,13 +212,15 @@ class Directory extends React.Component {
                                 <ExpandMore />
                             )}
                         </ListItem>
-                        {this.state.publicList.map((text, index) => (
+                        {sharedList.map((item,id) => (
                             <Collapse
                                 in={this.state.public_navigationOpen}
                                 timeout="auto"
                                 unmountOnExit
                             >
-                                <List component="div" disablePadding>
+                                <List component="div" disablePadding 
+
+                                >
                                     <ListItem
                                         button
                                         className={classes.nested}
@@ -280,14 +229,15 @@ class Directory extends React.Component {
                                         <ListItemIcon>
                                             <StarBorder />
                                         </ListItemIcon>
-                                        <ListItemText inset primary={text} />
-                                    </ListItem>
+                                        <ListItemText inset primary={item.title} />
+                                        <input type="hidden" value={item.id}/>
+                                    </ListItem> 
                                 </List>
                             </Collapse>
                         ))}
                     </List>
                     <Divider />
-                    <List>
+                    <List className={classes.list}>
                         <ListItem
                             button
                             onClick={event => {
@@ -305,7 +255,7 @@ class Directory extends React.Component {
                                 <ExpandMore />
                             )}
                         </ListItem>
-                        {this.state.privateList.map((text, index) => (
+                        {privateList.map((item, index) => (
                             <Collapse
                                 in={this.state.private_navigationOpen}
                                 timeout="auto"
@@ -320,12 +270,50 @@ class Directory extends React.Component {
                                         <ListItemIcon>
                                             <StarBorder />
                                         </ListItemIcon>
-                                        <ListItemText inset primary={text} />
+                                        <ListItemText inset primary={item.title} />
                                     </ListItem>
                                 </List>
                             </Collapse>
                         ))}
                     </List>
+                </Drawer>
+                <Drawer
+                    variant="permanent"
+                    className={classNames(classes.drawer, {
+                        [classes.SubDrawerClose]: !this.state.SubOpen
+                    })}
+                    classes={{
+                        paper: classNames( {
+                            [classes.SubDrawerOpen]: this.state.SubOpen,
+                            [classes.SubDrawerClose]: !this.state.SubOpen
+                        }),
+                    }}
+                    open={this.state.SubOpen}
+                >
+                    <div className={classes.toolbar}>
+                        <div>
+                            <IconButton
+                                onClick={this.handleSubDrawerClose}
+                                className={classNames(classes.menuButton)}
+                            >
+                                {theme.direction === "rtl" ? (
+                                    <ChevronRightIcon />
+                                ) : (
+                                    <ChevronLeftIcon />
+                                )}
+                            </IconButton>
+                        </div>
+                    </div>
+                    <Divider />
+                    <div className={classes.drawerOverflow}>
+                    <List>
+                        {fileList.map(item => (
+                            <ListItem button text={item.title}>
+                                <ListItemText primary={item.title} />
+                            </ListItem>
+                        ))}
+                    </List>
+                    </div>
                 </Drawer>
             </div>
         );

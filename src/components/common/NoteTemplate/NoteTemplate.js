@@ -7,7 +7,7 @@ import HeaderContainer from '../../../containers/common/HeaderContainer'
 const cx = classNames.bind(styles);
  
 const NoteTemplate = ({children}) => (
-  <div className={cx('page-template')}>
+  <div className={cx('note-template')}>
     <HeaderContainer/>
     <main>
       {children}

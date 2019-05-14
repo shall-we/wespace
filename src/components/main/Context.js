@@ -15,7 +15,6 @@ const styles = theme => ({
     flex: 1,
    display : 'flex',
    flexDirection : 'column',
-    overflow: 'inherit',
     overflowX: 'inherit',
     overflowY: 'inherit',
     width: "auto",
@@ -80,7 +79,7 @@ const featuredPosts = [
     date: "Nov 11",
     description: [
       "1. 19년 1차 보고서 확인 요청",
-      "2. 진급 대상자 명단 확인 요청21312312312321321"
+      "2. 진급 대상자 명단 확인 요청"
     ]
   }
 ];
