@@ -53,8 +53,4 @@ export default connect(
     (dispatch) => ({
         DirectoryActions: bindActionCreators(directoryActions, dispatch)
     })
-<<<<<<< HEAD
 )(withRouter(DirectoryContainer));
-=======
-)(withRouter(DirectoryContainer));
->>>>>>> c0c23d1937a138e5be56596416c6e04b85621130
