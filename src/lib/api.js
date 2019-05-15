@@ -13,3 +13,4 @@ export const sharedFolder = (user_id,folder_id,permission) => axios.post('/folde
 export const getNoteList = (folder_id) => axios.get(`/note/list?${queryString.stringify({folder_id})}`);
 
 export const updateFolder = (folder_id, folder_name) => axios.patch(`/folder/${folder_id}/${folder_name}`);
+export const updateFile = (note_id, note_name) => axios.patch(`note/${note_id}/${note_name}`);

@@ -16,6 +16,8 @@ import MakeFolderModal from "../modal/MakeFolderModal/MakeFolderModal";
 import AskShareModal from '../modal/AskShareModal';
 import DeleteFolderModal from '../modal/DeleteFolderModal';
 import EditFolderModal from "../modal/EditFolderModal";
+import UpdateNoteModal from "../modal/UpdateNoteModal";
+
 const drawerWidth = 250;
 
 const styles = theme => ({
@@ -89,10 +91,13 @@ class Directory extends React.Component {
             private_navigationOpen: false,
             visible: false,
             share:false,
+            modifyFolderVisible: false,
             deleteFolderVisible: false,
+            updateNoteVisible: false,
             folder_id : 0,
             folder_name : '',
-            modifyFolderVisible: false,
+            note_id : 0,
+            note_name: '',
         };
     }
 
@@ -148,9 +153,17 @@ class Directory extends React.Component {
        this.setState({ modifyFolderVisible: true});
     };
   
-     handleCloseModifyFolderModal = () => {
+    handleCloseModifyFolderModal = () => {
          this.setState({ modifyFolderVisible: false });
     };
+
+    handleOpenUpdateNoteModal = (note_id, note_name) => {
+        this.setState({ updateNoteVisible: true, note_id:note_id, note_name: note_name});
+     };
+   
+     handleCloseUpdateNoteModal = () => {
+          this.setState({ updateNoteVisible: false });
+     };
 
     handleOpenAskShareModal = () => {
         this.setState({ share: true });
@@ -160,15 +173,14 @@ class Directory extends React.Component {
          this.setState({ share: false });
     };
 
-
-
     handleNoteList = (folder_id, name) => {
         this.setState({ folder_name: name, folder_id: folder_id });
         this.props.getNoteList(folder_id);
     };
   
     render() {
-        const { classes, theme, sharedList=[],privateList=[],noteList=[],user_id=0,createFolder,sharedFolder , deleteFolder, updateFolder} = this.props;
+        const { classes, theme, sharedList=[],privateList=[],noteList=[],user_id=0 } = this.props;
+        const { createFolder, sharedFolder , deleteFolder, updateFolder, updateNote } = this.props;
         return (
             <div className={classes.root}>
                 <Drawer 
@@ -192,6 +204,8 @@ class Directory extends React.Component {
                                 <AskShareModal visible={this.state.share} onConfirm={sharedFolder} onCancel={this.handleCloseAskShareModal} folder_id={'d'}/>
                                 <EditFolderModal  visible={this.state.modifyFolderVisible} onCancel={this.handleCloseModifyFolderModal} onConfirm={updateFolder} folder_id={this.state.folder_id} folder_name={this.state.folder_name}/>
                                 <DeleteFolderModal visible={this.state.deleteFolderVisible} onCancel={this.handleCloseDeleteFolderModal} onConfirm={deleteFolder} folder_id={this.state.folder_id}/>
+                                <UpdateNoteModal  visible={this.state.updateNoteVisible} onCancel={this.handleCloseUpdateNoteModal} onConfirm={updateNote} note_id={this.state.note_id} note_name={this.state.note_name}/>
+
 
                                 <IconButton>
                                     <CreateNewFolder color="primary" onClick={this.handleOpenMakeFolderModal}/>
@@ -199,10 +213,6 @@ class Directory extends React.Component {
 
                                 <IconButton>   
                                     <GroupAdd color="primary"  onClick={this.handleOpenAskShareModal}/>
-                                </IconButton>
-
-                                <IconButton>   
-                                    <Settings color="primary"/>
                                 </IconButton>
 
                                 <IconButton
@@ -334,7 +344,7 @@ class Directory extends React.Component {
                     open={this.state.SubOpen}
                 >
                     <div className={classes.toolbar}>
-                        <div>                                
+                        <div>                                                            
                             <IconButton>   
                                 <NoteAdd color="primary"/>
                             </IconButton>
@@ -367,8 +377,9 @@ class Directory extends React.Component {
                     <div className={classes.drawerOverflow}>
                     <List>
                         {noteList.map(item => (
-                            <ListItem button text={item.name}>
-                                <ListItemText primary={item.name} />
+                            <ListItem button>
+                                <ListItemText primary={item.name} 
+                                onDoubleClick={(e) => this.handleOpenUpdateNoteModal(item.id, item.name)}/>
                             </ListItem>
                         ))}
                     </List>

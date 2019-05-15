@@ -57,12 +57,19 @@ class DirectoryContainer extends Component {
         DirectoryActions.getSharedList(id);
     }
 
+    updateFolder=async(file_id, file_name) => {
+        const {DirectoryActions, id} = this.props;
+        await DirectoryActions.updateFile(file_id, file_name);
+        DirectoryActions.getPrivateList(id);
+        DirectoryActions.getSharedList(id);
+    }
+
     render() {
         const { sharedList,privateList,id, noteList} = this.props;
-        const { createFolder, getNoteList,sharedFolder,deleteFolder, updateFolder} = this;
+        const { createFolder, getNoteList,sharedFolder,deleteFolder, updateFolder, updateFile} = this;
         return (
             <div style={{ display: "flex" }}>
-                <Directory sharedList={sharedList} privateList={privateList} getNoteList={getNoteList} noteList={noteList} createFolder={createFolder} sharedFolder={sharedFolder} deleteFolder={deleteFolder} updateFolder={updateFolder} user_id={id}/>
+                <Directory sharedList={sharedList} privateList={privateList} getNoteList={getNoteList} noteList={noteList} createFolder={createFolder} sharedFolder={sharedFolder} deleteFolder={deleteFolder} updateFolder={updateFolder} updateFile={updateFile} user_id={id}/>
             </div>
         );
     }
