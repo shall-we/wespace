@@ -12,9 +12,9 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
 import { Menu, ExpandMore, ExpandLess, CreateNewFolder, FolderShared, Delete, Folder, Share, Lock, Settings, Create, 
     GroupAdd, ChevronLeft, ChevronRight, NoteAdd} from "@material-ui/icons";
-import MakeFolderModal from "../modal/MakeFolderModal/MakeFolderModal";
+import OneInputModal from "../modal/OneInputModal";
 import AskShareModal from '../modal/AskShareModal';
-import DeleteFolderModal from '../modal/DeleteFolderModal';
+import NoticeModal from '../modal/NoticeModal';
 import EditFolderModal from "../modal/EditFolderModal";
 import UpdateNoteModal from "../modal/UpdateNoteModal";
 
@@ -91,16 +91,19 @@ class Directory extends React.Component {
             private_navigationOpen: false,
             visible: false,
             share:false,
-            modifyFolderVisible: false,
-            deleteFolderVisible: false,
-            updateNoteVisible: false,
+            noticeModalVisible: false,
             folder_id : 0,
             folder_name : '',
+            modifyFolderVisible: false,
+            modal_icon: '',
+            modal_title: '',
+            modal_content: '',
+            deleteFolderVisible: false,
+            updateNoteVisible: false,
             note_id : 0,
             note_name: '',
         };
     }
-
     
     handlePublicClick = () => {
         this.setState(state => ({
@@ -133,20 +136,34 @@ class Directory extends React.Component {
         this.setState({ SubOpen: false });
     };
 
+    /** [main navigation] handling folder modal */
     handleOpenMakeFolderModal = () => {
-      this.setState({ visible: true });
+      this.setState({
+          visible: true,
+          modal_icon: 'user-friends',
+          modal_title: '공유 폴더 생성',
+          modal_content: '공유할 폴더명을 입력해주세요.',
+          btn_name: '생성'
+      });
     };
 
     handleCloseMakeFolderModal = () => {
         this.setState({ visible: false });
     };
 
-    handleOpenDeleteFolderModal = (folder_id) => {
-      this.setState({ deleteFolderVisible: true, folder_id: folder_id});
+    handleOpenNoticeModal = (folder_id) => {
+      this.setState({
+          noticeModalVisible: true,
+          modal_icon: 'trash-alt',
+          modal_title: '공유 폴더 삭제',
+          modal_content: '공유 폴더를 정말 삭제하시겠습니까?',
+          btn_name: '삭제',
+          folder_id: folder_id
+      });
     };
 
-    handleCloseDeleteFolderModal = () => {
-        this.setState({ deleteFolderVisible: false });
+    handleCloseNoticeModal = () => {
+        this.setState({ noticeModalVisible: false });
     };
 
     handleOpenModifyFolderModal = () => {
@@ -173,14 +190,57 @@ class Directory extends React.Component {
          this.setState({ share: false });
     };
 
+    /** [sub navigation] handling note modal */
+    handleCreateFile = () => {
+        this.setState({
+          visible: true,
+          modal_icon: 'file-alt',
+          modal_title: '공유 노트 생성',
+          modal_content: '공유할 노트명을 입력해주세요.',
+          btn_name: '생성'
+        });
+    }
+
+    handleModifyFileName = () => {
+        this.setState({
+          visible: true,
+          modal_icon: 'file-signature',
+          modal_title: '노트 이름 수정',
+          modal_content: '수정할 노트명을 새로 입력해주세요.',
+          btn_name: '수정'
+        })
+    }
+
+    handleNoteExportPdf = () => {
+        this.setState({
+          noticeModalVisible: true,
+          modal_icon: 'file-pdf',
+          modal_title: '노트 내보내기',
+          modal_content: '해당 내용을 PDF 파일로 내보내겠습니까?',
+          btn_name: '확인'
+      });
+    }
+
+    handleAccessToFile = () => {
+        this.setState({
+          noticeModalVisible: true,
+          modal_icon: 'key',
+          modal_title: '접근권한 설정',
+          modal_content: '해당 노트에 대한 접근권한을 변경합니다.',
+          btn_name: '확인'
+      });
+    }
+
     handleNoteList = (folder_id, name) => {
         this.setState({ folder_name: name, folder_id: folder_id });
         this.props.getNoteList(folder_id);
     };
   
     render() {
-        const { classes, theme, sharedList=[],privateList=[],noteList=[],user_id=0 } = this.props;
-        const { createFolder, sharedFolder , deleteFolder, updateFolder, updateNote } = this.props;
+        const { classes, theme, sharedList = [], privateList = [], noteList = [],
+                user_id = 0, createFolder, sharedFolder, deleteFolder, updateFolder, updateNote, folder_id = 0,
+                modal_icon, modal_title, modal_content, btn_name } = this.props;
+        
         return (
             <div className={classes.root}>
                 <Drawer 
@@ -200,19 +260,35 @@ class Directory extends React.Component {
                     <div className={classes.toolbar}>
                         {this.state.open ? (
                             <div>
-                                <MakeFolderModal visible={this.state.visible} onCancel={this.handleCloseMakeFolderModal} onConfirm={createFolder} user_id={user_id}/>
-                                <AskShareModal visible={this.state.share} onConfirm={sharedFolder} onCancel={this.handleCloseAskShareModal} folder_id={'d'}/>
-                                <EditFolderModal  visible={this.state.modifyFolderVisible} onCancel={this.handleCloseModifyFolderModal} onConfirm={updateFolder} folder_id={this.state.folder_id} folder_name={this.state.folder_name}/>
-                                <DeleteFolderModal visible={this.state.deleteFolderVisible} onCancel={this.handleCloseDeleteFolderModal} onConfirm={deleteFolder} folder_id={this.state.folder_id}/>
-                                <UpdateNoteModal  visible={this.state.updateNoteVisible} onCancel={this.handleCloseUpdateNoteModal} onConfirm={updateNote} note_id={this.state.note_id} note_name={this.state.note_name}/>
+                              <OneInputModal visible={this.state.visible}
+                                             onCancel={this.handleCloseMakeFolderModal}
+                                             onConfirm={createFolder}
+                                             modal_icon={this.state.modal_icon}
+                                             modal_title={this.state.modal_title}
+                                             modal_content={this.state.modal_content}
+                                             btn_name={this.state.btn_name} />
 
+                              <AskShareModal visible={this.state.share} onConfirm={sharedFolder} onCancel={this.handleCloseAskShareModal} folder_id={'d'} />
 
-                                <IconButton>
-                                    <CreateNewFolder color="primary" onClick={this.handleOpenMakeFolderModal}/>
-                                </IconButton>
+                              <NoticeModal visible={this.state.noticeModalVisible}
+                                           onCancel={this.handleCloseNoticeModal}
+                                           onConfirm={deleteFolder}
+                                           folder_id={this.state.folder_id}
+                                           modal_icon={this.state.modal_icon}
+                                           modal_title={this.state.modal_title}
+                                           modal_content={this.state.modal_content}
+                                           btn_name={this.state.btn_name} />
+
+                              <EditFolderModal  visible={this.state.modifyFolderVisible} onCancel={this.handleCloseModifyFolderModal} onConfirm={updateFolder} folder_id={this.state.folder_id} folder_name={this.state.folder_name} />
+                              
+                              {/* <NoticeModal visible={this.stanoticete.noticeModalVisible} onCancel={this.handleCloseNoticeModal} onConfirm={deleteFolder} folder_id={this.state.folder_id} /> */}
+
+                            <IconButton>
+                                <CreateNewFolder color="primary" onClick={this.handleOpenMakeFolderModal}/>
+                            </IconButton>
 
                                 <IconButton>   
-                                    <GroupAdd color="primary"  onClick={this.handleOpenAskShareModal}/>
+                                    <GroupAdd color="primary" onClick={this.handleOpenAskShareModal} />
                                 </IconButton>
 
                                 <IconButton
@@ -268,7 +344,7 @@ class Directory extends React.Component {
                                     >
                                     {item.permission === 'OWNER' ?
                                         <ListItemIcon>
-                                            <Delete onClick={(e) => this.handleOpenDeleteFolderModal(item.folder_id)}/>
+                                            <Delete onClick={(e) => this.handleOpenNoticeModal(item.folder_id)}/>
                                         </ListItemIcon> 
                                         : null
                                     }
@@ -319,7 +395,7 @@ class Directory extends React.Component {
                                     >
                                      {item.permission === 'OWNER' ?
                                         <ListItemIcon>
-                                            <Delete onClick={(e) => this.handleOpenDeleteFolderModal(item.folder_id)}/>
+                                            <Delete onClick={(e) => this.handleOpenNoticeModal(item.folder_id)} />
                                         </ListItemIcon> 
                                         : null
                                     }
@@ -346,19 +422,19 @@ class Directory extends React.Component {
                     <div className={classes.toolbar}>
                         <div>                                                            
                             <IconButton>   
-                                <NoteAdd color="primary"/>
+                                <NoteAdd color="primary" onClick={this.handleCreateFile} />
                             </IconButton>
 
                             <IconButton>   
-                                <Create color="primary"/>
+                                <Create color="primary" onClick={this.handleModifyFileName} />
                             </IconButton>
                             
                             <IconButton>
-                                <Share color="primary"/>
+                                <Share color="primary" onClick={this.handleNoteExportPdf} />
                             </IconButton>
 
                             <IconButton>   
-                                <Lock color="primary"/>
+                                <Lock color="primary" onClick={this.handleAccessToFile} />
                             </IconButton>
 
                             <IconButton
