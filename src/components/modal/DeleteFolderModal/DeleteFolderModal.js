@@ -4,16 +4,17 @@ import classNames from "classnames/bind";
 import ModalWrapper from "../ModalWrapper";
 import Button from "../../common/Button";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { faShareSquare, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+library.add(faShareSquare);
 library.add(faTrashAlt);
 
 const cx = classNames.bind(styles);
 
 class DeleteFolderModal extends React.Component {
     render() {
-        const { visible, onConfirm, onCancel, folder_id } = this.props;
+        const { visible, onConfirm, onCancel, folder_id, describe } = this.props;
 
         return (
             <ModalWrapper visible={visible}>
@@ -29,7 +30,7 @@ class DeleteFolderModal extends React.Component {
                     <br />
                     <br />
                     <div className={cx("description")}>
-                        해당 폴더를 정말 삭제하시겠습니까?
+                        {describe}
                     </div>
                     <br />
                 </div>

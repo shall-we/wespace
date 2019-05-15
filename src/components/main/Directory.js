@@ -88,7 +88,8 @@ class Directory extends React.Component {
             private_navigationOpen: false,
             visible: false,
             share:false,
-            deleteFolderVisible: false
+            deleteFolderVisible: false,
+            describe: '1'
         };
     }
 
@@ -133,7 +134,10 @@ class Directory extends React.Component {
     };
 
     handleOpenDeleteFolderModal = () => {
-      this.setState({ deleteFolderVisible: true });
+      this.setState({
+          deleteFolderVisible: true,
+          describe: '해당 폴더를 정말 삭제하시겠습니까2?'
+      });
     };
 
     handleCloseDeleteFolderModal = () => {
@@ -155,7 +159,7 @@ class Directory extends React.Component {
     };
   
     render() {
-        const { classes, theme, sharedList=[],privateList=[],noteList=[],user_id=0,createFolder,sharedFolder , deleteFolder} = this.props;
+        const { classes, theme, sharedList=[],privateList=[],noteList=[],user_id=0,createFolder,sharedFolder , deleteFolder, folder_id = 0, describe} = this.props;
         return (
             <div className={classes.root}>
                 <Drawer 
@@ -178,7 +182,7 @@ class Directory extends React.Component {
                                 <MakeFolderModal visible={this.state.visible} onCancel={this.handleCloseMakeFolderModal} onConfirm={createFolder} user_id={user_id}/>
                                 <AskShareModal visible={this.state.share} onConfirm={sharedFolder} onCancel={this.handleCloseAskShareModal} folder_id={'d'}/>
                                 
-                                <DeleteFolderModal visible={this.state.deleteFolderVisible} onCancel={this.handleCloseDeleteFolderModal} onConfirm={deleteFolder} user_id={user_id}/>
+                                <DeleteFolderModal visible={this.state.deleteFolderVisible} onCancel={this.handleCloseDeleteFolderModal} onConfirm={deleteFolder} folder_id={folder_id} describe={this.state.describe} />
 
                                 <IconButton>
                                     <CreateNewFolder color="primary" onClick={this.handleOpenMakeFolderModal}/>
