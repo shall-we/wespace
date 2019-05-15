@@ -46,7 +46,7 @@ class OutlinedTextFields extends Component {
                     id="outlined-bare"
                     className={classes.textField}
                     placeholderStyle={classes.placeholderText}
-                    placeholder="사원명 입력"
+                    placeholder="Untitled"
                     margin="normal"
                     variant="outlined"
 
