@@ -29,7 +29,7 @@ class NoticeModal extends React.Component {
     }
 
     render() {
-        const { visible, onConfirm, onCancel, folder_id,
+        const { visible, onConfirm, onCancel, id,
                 modal_icon, modal_title, modal_content, btn_name } = this.props;
 
         return (
@@ -51,7 +51,7 @@ class NoticeModal extends React.Component {
 
                 <div className={cx("options")}>
                     <Button theme="outline" onClick={onCancel}>취소</Button>
-                    <Button theme="outline" onClick={() => { onConfirm(folder_id); onCancel(); }}>
+                    <Button theme="outline" onClick={() => { onConfirm(id); onCancel(); }}>
                         {btn_name}
                     </Button>
                 </div>

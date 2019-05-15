@@ -28,11 +28,11 @@ class DirectoryContainer extends Component {
       await DirectoryActions.getNoteList(folder_id);
     }
 
-    createFolder=async(name,id)=>{
+    createFolder=async(user_id,folder_name)=>{
         const {DirectoryActions}=this.props;
-        await DirectoryActions.createFolder(name,id);
-        DirectoryActions.getPrivateList(id);
-        DirectoryActions.getSharedList(id);
+        await DirectoryActions.createFolder(user_id, folder_name);
+        DirectoryActions.getPrivateList(user_id);
+        DirectoryActions.getSharedList(user_id);
     }
     sharedFolder=async(user_id,folder_id,permission)=>{
         const {DirectoryActions}=this.props;
@@ -57,19 +57,33 @@ class DirectoryContainer extends Component {
         DirectoryActions.getSharedList(id);
     }
 
-    updateFolder=async(file_id, file_name) => {
-        const {DirectoryActions, id} = this.props;
-        await DirectoryActions.updateFile(file_id, file_name);
-        DirectoryActions.getPrivateList(id);
-        DirectoryActions.getSharedList(id);
+    createNote=async(folder_id,note_name)=>{
+        const {DirectoryActions}=this.props;
+        await DirectoryActions.createNote(folder_id,note_name);
+        await DirectoryActions.getNoteList(folder_id);
     }
 
+    updateNote=async(ids, note_name) => {
+        const {DirectoryActions} = this.props;
+        await DirectoryActions.updateNote(ids.note_id, note_name);
+        await DirectoryActions.getNoteList(ids.folder_id);
+    }
+
+    deleteNote=async(ids) => {
+        const {DirectoryActions} = this.props;
+        await DirectoryActions.deleteNote(ids.note_id);
+        await DirectoryActions.getNoteList(ids.folder_id);
+    }
+
+
     render() {
-        const { sharedList,privateList,id, noteList} = this.props;
-        const { createFolder, getNoteList,sharedFolder,deleteFolder, updateFolder, updateFile} = this;
+        const { sharedList,privateList, id, noteList} = this.props;
+        const { createFolder, getNoteList,sharedFolder,deleteFolder, updateFolder, updateNote, createNote, deleteNote} = this;
         return (
             <div style={{ display: "flex" }}>
-                <Directory sharedList={sharedList} privateList={privateList} getNoteList={getNoteList} noteList={noteList} createFolder={createFolder} sharedFolder={sharedFolder} deleteFolder={deleteFolder} updateFolder={updateFolder} updateFile={updateFile} user_id={id}/>
+                <Directory sharedList={sharedList} privateList={privateList} getNoteList={getNoteList} deleteNote={deleteNote}
+                noteList={noteList} createFolder={createFolder} sharedFolder={sharedFolder} createNote={createNote}
+                deleteFolder={deleteFolder} updateFolder={updateFolder} updateNote={updateNote} user_id={id}/>
             </div>
         );
     }

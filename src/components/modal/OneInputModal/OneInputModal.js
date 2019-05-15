@@ -19,18 +19,18 @@ class OneInputModal extends React.Component{
         super(props);
 
         this.state = {
-            folder_name: '',
+            name: '',
             // modal_title: '222'
         };
     };
 
 
     handleTextChange = (event) => {
-        this.setState({ folder_name: event.target.value });
+        this.setState({ name: event.target.value });
     };
 
     render(){
-        const { visible, onConfirm, onCancel, user_id,
+        const { visible, onConfirm, onCancel, id,
                 modal_icon, modal_title, modal_content, btn_name } = this.props;
 
         const { handleTextChange } = this;
@@ -47,12 +47,12 @@ class OneInputModal extends React.Component{
                     </div>
                     <br />
                     {/* <h3>폴더명</h3> */}
-                    <OutlinedTextField handleText={handleTextChange}/>
+                    <OutlinedTextField handleText={handleTextChange} value={this.props.text}/>
                 </div>
 
                 <div className={cx("options")}>
                     <Button theme='outline' onClick={onCancel}>취소</Button>
-                    <Button theme='outline' onClick={()=>{onConfirm(this.state.folder_name,user_id); onCancel();}}>
+                    <Button theme='outline' onClick={(e)=>{onConfirm(id, this.state.name ); onCancel();}}>
                         {btn_name}
                     </Button>
                 </div>
