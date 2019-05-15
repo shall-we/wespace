@@ -13,7 +13,7 @@
     text-align: center;
     display: flex;
     .folder-category{
-      flex: 0.5;
+      flex: 1;
       background:$oc-gray-2;
       text-align: center;
       margin-right: auto;
@@ -22,18 +22,7 @@
         font-weight:900;
       }
     }
-    .folder-option{
-      flex: 0.5;
-      background:$oc-gray-2;
-      margin-left: auto;
-      width: 3rem;
-      &:hover {
-        background: $oc-gray-1;
-        color: $oc-blue-5;
-        font-weight: 900;
-      }
-     
-    }
+  
   }
 }
 

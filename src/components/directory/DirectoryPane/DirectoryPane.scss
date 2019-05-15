@@ -1,28 +1,14 @@
 @import "../../../styles/utils.scss";
 
-// .preview-pane {
-//   flex: 1;
-//   padding: 2rem;
-//   overflow-y: auto; // 크기가 초과할 때 스크롤바 나타나게 설정
-//   font-size: 1.125rem;
-//   .title {
-//     font-size: 2.5rem;
-//     font-weight: 300;
-//     padding-bottom: 2rem;
-//     border-bottom: 1px solid $oc-gray-4;
-//   }
-// }
 
 .sidebar {
     background: #34393d;
-    flex: 1;
     display: flex;
-
+    transition:0.2s ease-in-out;
     .forder {
-        flex: 0.5;
+       
         background: #34393d;
         overflow-y: auto;
-
         .forder-btn {
             height: 40px;
             background: $oc-gray-4;
@@ -30,59 +16,35 @@
 
             color: $oc-gray-7;
             font-size: 1.5rem;
-            font-weight: 900;
+            font-weight: 700;
 
             &:hover {
                 color: $oc-blue-7;
             }
         }
 
-        .public-forder {
-            background: $oc-gray-2;
-            text-align: center;
-            font-size: 1rem;
-            font-weight: 800;
-            color: $oc-blue-7;
-        }
-        .private-forder {
-            background: $oc-gray-2;
-            text-align: center;
-            font-size: 1rem;
-            font-weight: 800;
-            color: $oc-blue-7;
-        }
-        .sidebar__inboxes {
-            .item-count {
-                background: #34393d;
-                border-radius: 5px;
-                float: right;
-                padding: 2px 8px;
-                margin: -2px -8px;
-            }
-
-            li a {
-                color: #fff;
-                cursor: pointer;
-                display: block;
-                margin-bottom: 10px;
-                padding: 15px;
-                text-decoration: none;
-                transition: $oc-gray-4 0.1s linear;
-                width: 100%;
-
-                &:hover {
-                    background: #404549;
-                }
-            }
-
-            .fa {
-                margin-right: 10px;
-            }
-        }
+       
     }
     .note {
-        flex: 0.5;
         background: $oc-gray-2;
         overflow-y: auto;
     }
+
+    .separator {
+        cursor: default; 
+        .separator-btn{
+          margin-top: calc((100vh - 6rem)/2);
+          height: 20px;
+          width: 20px;
+          cursor:pointer;
+        } 
+        transition:0.2s ease-in-out;
+
+      }
 }
+    @include media('<medium') {
+        .note {
+         width: 0;
+        }
+      }
+      
