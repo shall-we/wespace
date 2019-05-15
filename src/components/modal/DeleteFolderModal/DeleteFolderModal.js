@@ -40,6 +40,7 @@ class DeleteFolderModal extends React.Component {
                     </Button>
                     <Button theme="outline" onClick={() => {
                         onConfirm(folder_id);
+                        onCancel();
                     }}>삭제</Button>
                 </div>
             </ModalWrapper>

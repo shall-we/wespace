@@ -11,3 +11,5 @@ export const deleteFolder = (folder_id) => axios.delete(`/folder/${folder_id}`);
 export const sharedFolder = (user_id,folder_id,permission) => axios.post('/folder/shared',{user_id,folder_id,permission});
 
 export const getNoteList = (folder_id) => axios.get(`/note/list?${queryString.stringify({folder_id})}`);
+
+export const updateFolder = (folder_id, folder_name) => axios.patch(`/folder/${folder_id}/${folder_name}`);

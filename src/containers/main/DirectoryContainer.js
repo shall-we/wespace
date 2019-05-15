@@ -28,7 +28,7 @@ class DirectoryContainer extends Component {
       await DirectoryActions.getNoteList(folder_id);
     }
 
-     createFolder=async(name,id)=>{
+    createFolder=async(name,id)=>{
         const {DirectoryActions}=this.props;
         await DirectoryActions.createFolder(name,id);
         DirectoryActions.getPrivateList(id);
@@ -41,15 +41,28 @@ class DirectoryContainer extends Component {
         DirectoryActions.getSharedList(user_id);
     }
 
+    deleteFolder=async(folder_id) => {
+        const {DirectoryActions, id} = this.props;
+        await DirectoryActions.deleteFolder(folder_id);
+        await DirectoryActions.getNoteList(0);
+        DirectoryActions.getPrivateList(id);
+        DirectoryActions.getSharedList(id);
 
+    }
 
+    updateFolder=async(folder_id, folder_name) => {
+        const {DirectoryActions, id} = this.props;
+        await DirectoryActions.updateFolder(folder_id, folder_name);
+        DirectoryActions.getPrivateList(id);
+        DirectoryActions.getSharedList(id);
+    }
 
     render() {
         const { sharedList,privateList,id, noteList} = this.props;
-        const { createFolder, getNoteList,sharedFolder} = this;
+        const { createFolder, getNoteList,sharedFolder,deleteFolder, updateFolder} = this;
         return (
             <div style={{ display: "flex" }}>
-                <Directory sharedList={sharedList} privateList={privateList} getNoteList={getNoteList} noteList={noteList} createFolder={createFolder} sharedFolder={sharedFolder} user_id={id}/>
+                <Directory sharedList={sharedList} privateList={privateList} getNoteList={getNoteList} noteList={noteList} createFolder={createFolder} sharedFolder={sharedFolder} deleteFolder={deleteFolder} updateFolder={updateFolder} user_id={id}/>
             </div>
         );
     }
