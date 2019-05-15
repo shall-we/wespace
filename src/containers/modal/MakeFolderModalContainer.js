@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as baseActions from "store/modules/base";
-import MakeFolderModal from "components/modal/MakeFolderModal";
+import OneInputModal from "components/modal/OneInputModal";
 import { withRouter } from "react-router-dom";
 
-class MakeFolderModalContainer extends Component {
+class OneInputModalContainer extends Component {
     handleCancel = () => {
         const { BaseActions } = this.props;
         BaseActions.hideModal("remove");
@@ -30,7 +30,7 @@ class MakeFolderModalContainer extends Component {
         const { handleCancel, handleConfirm } = this;
 
         return (
-            <MakeFolderModal
+            <OneInputModal
                 visible={visible}
                 onCancel={handleCancel}
                 onConfirm={handleConfirm}
@@ -46,4 +46,4 @@ export default connect(
     dispatch => ({
         BaseActions: bindActionCreators(baseActions, dispatch),
     })
-)(withRouter(MakeFolderModalContainer));
+)(withRouter(OneInputModalContainer));

@@ -4,23 +4,17 @@ import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import StarBorder from "@material-ui/icons/StarBorder";
 import Collapse from "@material-ui/core/Collapse";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
-import AddIcon from "@material-ui/icons/Add";
-import Fab from "@material-ui/core/Fab";
-import MenuIcon from "@material-ui/icons/Menu";
-import MakeFolderModal from "../modal/MakeFolderModal/MakeFolderModal";
+import { Menu, ExpandMore, ExpandLess, CreateNewFolder, FolderShared, Delete, Folder, Share, Lock, Settings, Create, 
+    GroupAdd, ChevronLeft, ChevronRight, NoteAdd} from "@material-ui/icons";
+import OneInputModal from "../modal/OneInputModal";
+import AskShareModal from '../modal/AskShareModal';
+import NoticeModal from '../modal/NoticeModal';
 
 const drawerWidth = 250;
 
@@ -28,35 +22,24 @@ const styles = theme => ({
     root: {
         display:'flex',
     },
-    nested: {
-        paddingLeft: theme.spacing.unit * 7
-    },
     menuButton: {
         marginRight: 3.5
     },
-    hide: {
-        display: "none"
-    },
-    drawer: { 
+    drawer: {
         width: drawerWidth,
         flexShrink: 0,
-        whiteSpace: "nowrap",
-        [theme.breakpoints.up('sm')]: {
-            
-          }
     },
     drawerOpen: {
-        height: 'calc(100%)',
-        top: 96,
+        height: 'calc(100vh - 6rem)', 
+        position:'unset',
         width: drawerWidth,
         transition: theme.transitions.create("width", {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen
-        })
+        }),
     },
-    drawerClose: {      
-        height: 'calc(100%)',
-        top: 96,
+    drawerClose: {
+        height: 'calc(100vh - 6rem)', 
         transition: theme.transitions.create("width", {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen
@@ -68,123 +51,149 @@ const styles = theme => ({
         }
     },
     SubDrawerOpen: {
-        height: 'calc(100%)',
-        top: 96,
-        marginLeft: drawerWidth,
+        height: 'calc(100vh - 6rem)', 
+        position:'unset',
         width: drawerWidth,
         transition: theme.transitions.create("width", {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen
-        })
+        }),
     },
     SubDrawerClose: {
         display: 'none'
     },
     toolbar: {
         display: "flex",
-        justifyContent: "flex-end"
+        justifyContent: "flex-end",
     },
+    paper: {
+        position : "unset",
+    },
+    drawerOverflow: {
+        overflowX: "hidden",
+    },
+    list : {
+        overflowX: "hidden",
+        overflowY: "auto",
+    },
+    
 });
 
-class Directory extends React.Component {
-    
-    state = {
-        open: false,
-        SubOpen: false,
-        public_navigationOpen: false,
-        private_navigationOpen: false,
-        visible: false
-    };
+const createFolderModalData = ["oneInputModal", 'file-alt', '공유 폴더 생성', '생성할 폴더명을 입력해주세요.', '생성'];
+const deleteFolderModalData = ["noticeModal", 'trash-alt', '공유 폴더 삭제', '공유 폴더를 정말 삭제하시겠습니까?', '삭제'];
+const updateFolderModalData = ["oneInputModal", 'file-signature', '폴더 이름 수정', '수정할 폴더명을 새로 입력해주세요.', '수정'];
 
+const createNoteModalData = ["oneInputModal", 'file-alt', '노트 생성', '생성할 노트명을 입력해주세요.', '생성'];
+const deleteNoteModalData = ["noticeModal", 'trash-alt', '노트 삭제', '노트를 정말 삭제하시겠습니까?', '삭제'];
+const updateNoteModalData = ["oneInputModal", 'file-signature', '노트 이름 수정', '수정할 노트명을 새로 입력해주세요.', '수정'];
+
+const exportNoteModalData = ["oneInputModal", 'file-pdf', '노트 내보내기', '해당 내용을 PDF 파일로 내보내겠습니까?', '확인'];
+const lockedNoteModalData = ["noticeModal", 'file-alt', '노트 생성', '생성할 노트명을 입력해주세요.', '생성'];
+
+
+const modalList=[
+    createFolderModalData,
+    deleteFolderModalData,
+    updateFolderModalData,
+
+    createNoteModalData,
+    deleteNoteModalData,
+    updateNoteModalData,
+
+    exportNoteModalData,
+    lockedNoteModalData
+]
+
+
+class Directory extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            open: false,
+            SubOpen: false,
+            public_navigationOpen: false,
+            private_navigationOpen: false,
+
+            folder_id : 0,
+            folder_name : '',
+            note_id : 0,
+            note_name: '',
+
+            oneInputModal: false,
+            noticeModal: false,
+            selectModal: false,
+
+            modalAction:null,
+
+            modal_text:'',
+            modal_data:0,
+            modal_icon: '',
+            modal_title: '',
+            modal_content: '',
+            btn_name:'',
+        };
+    }
+    
     handlePublicClick = () => {
         this.setState(state => ({
             public_navigationOpen: !state.public_navigationOpen
         }));
     };
-
     handlePrivateClick = () => {
         this.setState(state => ({
             private_navigationOpen: !state.private_navigationOpen
         }));
     };
-
     handleDrawerOpen = () => {
         this.setState({ open: true });
-        //this.getList(1);
     };
-
     handleDrawerClose = () => {
         this.setState({ open: false });
         this.setState({ SubOpen: false });
         this.setState({ private_navigationOpen: false });
         this.setState({ public_navigationOpen: false });
     };
-
     handleSubDrawerOpen = () => {
         this.setState({ SubOpen: true });
-
     };
-
     handleSubDrawerClose = () => {
         this.setState({ SubOpen: false });
     };
+ /** [main navigation] handling folder modal */
 
-    handleOpenMakeFolderModal = () => {
-        this.setState({ visible: true });
-        console.log(this.state.visible);
 
+    handleSetModal=(array,action,data,text)=>{
+        this.setState({
+            [array[0]]: true,
+            modal_icon: array[1],
+            modal_title: array[2],
+            modal_content: array[3],
+            btn_name: array[4],
+            modalAction:action,
+            modal_data:data,
+            modal_text:text
+        });
+    }
+    handleUnSetModal=(type)=>{
+        this.setState({
+            [type]: false
+        });
+    }
+
+    handleFolderData = (folder_id, folder_name) => {
+        this.setState({folder_id: folder_id , folder_name: folder_name });
     };
-
-    handleCloseMakeFolderModal = () => {
-        this.setState({ visible: false });
-        console.log('this.state', this.state);
+    handleNoteData = (note_id, note_name) => {
+        this.setState({note_id: note_id , note_name: note_name });
     };
 
     render() {
-        const { classes, theme ,sharedList=[],privateList=[],createFolder,user_id=0} = this.props;
-
+        const { classes, theme,
+             sharedList = [], privateList = [], noteList = [], user_id = 0,
+           createFolder, sharedFolder, deleteFolder, updateFolder, createNote, updateNote, deleteNote } = this.props;
+        
         return (
             <div className={classes.root}>
-                <Drawer
-                    variant="permanent"
-                    className={classNames(classes.drawer, {
-                        [classes.SubDrawerClose]: !this.state.SubOpen
-                    })}
-                    classes={{
-                        paper: classNames({
-                            [classes.SubDrawerOpen]: this.state.SubOpen,
-                            [classes.SubDrawerClose]: !this.state.SubOpen
-                        })
-                    }}
-                    open={this.state.SubOpen}
-                >
-                    <div className={classes.toolbar}>
-                        <div>
-                            <Fab size="small" color="primary" aria-label="Add">
-                                <AddIcon />
-                            </Fab>
-                            <IconButton
-                                onClick={this.handleSubDrawerClose}
-                                className={classNames(classes.menuButton)}
-                            >
-                                {theme.direction === "rtl" ? (
-                                    <ChevronRightIcon />
-                                ) : (
-                                    <ChevronLeftIcon />
-                                )}
-                            </IconButton>
-                        </div>
-                    </div>
-                    <Divider />
-                    <List>
-                        {["임", "채", "형", "테", "스", "트","임", "채", "형", "테", "스", "트","임", "채", "형", "테", "스", "트"].map(text => (
-                            <ListItem button text={text}>
-                                <ListItemText primary={text} />
-                            </ListItem>
-                        ))}
-                    </List>
-                </Drawer>
-                <CssBaseline />
                 <Drawer 
                     variant="permanent"
                     className={classNames(classes.drawer, {
@@ -192,9 +201,9 @@ class Directory extends React.Component {
                         [classes.drawerClose]: !this.state.open
                     })}
                     classes={{
-                        paper: classNames({
+                        paper: classNames(classes.paper, {
                             [classes.drawerOpen]: this.state.open,
-                            [classes.drawerClose]: !this.state.open
+                            [classes.drawerClose]: !this.state.open,
                         })
                     }}
                     open={this.state.open}
@@ -202,24 +211,43 @@ class Directory extends React.Component {
                     <div className={classes.toolbar}>
                         {this.state.open ? (
                             <div>
-                                <Fab
-                                    size="small"
-                                    color="primary"
-                                    aria-label="Add"
-                                    onClick={this.handleOpenMakeFolderModal}
-                                    >
-                                
-                                    <AddIcon />
-                                </Fab>
-                                {/* 테스트를 위해 임의로 false 값으로 줌 */}
-                                {/* <MakeFolderModal visible="false" /> */}
-                                <MakeFolderModal visible={this.state.visible} onCancel={this.handleCloseMakeFolderModal} onConfirm={createFolder} user_id={user_id}/>
+                                <OneInputModal 
+                                             visible={this.state.oneInputModal}
+                                             onCancel={(e)=>this.handleUnSetModal('oneInputModal')}
+                                             onConfirm={this.state.modalAction}
+                                             modal_icon={this.state.modal_icon}
+                                             modal_title={this.state.modal_title}
+                                             modal_content={this.state.modal_content}
+                                             btn_name={this.state.btn_name}
+                                             id={this.state.modal_data}
+                                             text={this.state.modal_text}
+                                             />
+
+                                <NoticeModal 
+                                            visible={this.state.noticeModal}
+                                            onCancel={(e)=>this.handleUnSetModal('noticeModal')}
+                                            onConfirm={this.state.modalAction}
+                                            modal_icon={this.state.modal_icon}
+                                            modal_title={this.state.modal_title}
+                                            modal_content={this.state.modal_content}
+                                            btn_name={this.state.btn_name} 
+                                            id={this.state.modal_data}
+                                            />
+                              {/* <AskShareModal visible={this.state.share} onConfirm={sharedFolder} onCancel={this.handleCloseAskShareModal} folder_id={'d'} />                          */}
+                            
+                                <IconButton>
+                                    <CreateNewFolder color="primary" onClick={(e)=>this.handleSetModal(modalList[0],createFolder,user_id, '')}/>
+                                </IconButton>
+
+                                <IconButton>   
+                                    <GroupAdd color="primary" onClick={this.handleOpenAskShareModal} />
+                                </IconButton>
 
                                 <IconButton
                                     onClick={this.handleDrawerClose}
                                     className={classNames(classes.menuButton)}
                                 >
-                                    <ChevronLeftIcon />
+                                <ChevronLeft />
                                 </IconButton>
                             </div>
                         ) : (
@@ -227,14 +255,13 @@ class Directory extends React.Component {
                                 onClick={this.handleDrawerOpen}
                                 className={classNames(classes.menuButton)}
                             >
-                                <MenuIcon />
+                                <Menu />
                             </IconButton>
                         )}
                     </div>
                     <Divider />
-                    {/* Shared 폴더 목록 부분 */}
-                    <List>
-                        <ListItem
+                    <List className={classes.list}>
+                        <ListItem 
                             button
                             onClick={event => {
                                 this.handleDrawerOpen();
@@ -242,7 +269,7 @@ class Directory extends React.Component {
                             }}
                         >
                             <ListItemIcon>
-                                <InboxIcon />
+                                <FolderShared />
                             </ListItemIcon>
                             <ListItemText primary="public" />
                             {this.state.public_navigationOpen ? (
@@ -251,7 +278,7 @@ class Directory extends React.Component {
                                 <ExpandMore />
                             )}
                         </ListItem>
-                        {sharedList.map((text, index) => (
+                        {sharedList.map((item,id) => (
                             <Collapse
                                 in={this.state.public_navigationOpen}
                                 timeout="auto"
@@ -260,20 +287,31 @@ class Directory extends React.Component {
                                 <List component="div" disablePadding>
                                     <ListItem
                                         button
-                                        className={classes.nested}
-                                        onClick={this.handleSubDrawerOpen}
+                                        onClick={event => {
+                                            this.handleSubDrawerOpen();
+                                            this.handleFolderData(item.folder_id,item.name);
+                                            this.props.getNoteList(item.folder_id);
+                                        }}
+                                        onDoubleClick={(e)=>this.handleSetModal(modalList[2],updateFolder,item.folder_id,item.name)}
                                     >
+                                    {item.permission === 'OWNER' ?
                                         <ListItemIcon>
-                                            <StarBorder />
-                                        </ListItemIcon>
-                                        <ListItemText inset primary={text.name} />
-                                    </ListItem>
+                                            <Delete onClick={(e)=>this.handleSetModal(modalList[1],deleteFolder,item.folder_id)}/>
+                                        </ListItemIcon> 
+                                        : null
+                                    }
+                                    
+                                        <ListItemText inset primary={item.name} />
+                                        
+                                    </ListItem> 
                                 </List>
                             </Collapse>
                         ))}
                     </List>
                     <Divider />
-                    <List>
+
+
+                    <List className={classes.list}>
                         <ListItem
                             button
                             onClick={event => {
@@ -282,7 +320,7 @@ class Directory extends React.Component {
                             }}
                         >
                             <ListItemIcon>
-                                <InboxIcon />
+                                <Folder />
                             </ListItemIcon>
                             <ListItemText primary="private" />
                             {this.state.private_navigationOpen ? (
@@ -291,7 +329,7 @@ class Directory extends React.Component {
                                 <ExpandMore />
                             )}
                         </ListItem>
-                        {privateList.map((text, index) => (
+                        {privateList.map((item, index) => (
                             <Collapse
                                 in={this.state.private_navigationOpen}
                                 timeout="auto"
@@ -300,18 +338,82 @@ class Directory extends React.Component {
                                 <List component="div" disablePadding>
                                     <ListItem
                                         button
-                                        className={classes.nested}
-                                        onClick={this.handleSubDrawerOpen}
+                                        onClick={event => {
+                                            this.handleSubDrawerOpen();
+                                            this.handleFolderData(item.folder_id,item.name);
+                                            this.props.getNoteList(item.folder_id);
+                                        }}
+                                        onDoubleClick={(e)=>this.handleSetModal(modalList[2],updateFolder,item.folder_id,item.name)}
                                     >
+                                     {item.permission === 'OWNER' ?
                                         <ListItemIcon>
-                                            <StarBorder />
-                                        </ListItemIcon>
-                                        <ListItemText inset primary={text.name} />
+                                            <Delete onClick={(e)=>this.handleSetModal(modalList[1],deleteFolder,item.folder_id)}/>
+                                        </ListItemIcon> 
+                                        : null}
+                                        <ListItemText inset primary={item.name} />
                                     </ListItem>
                                 </List>
                             </Collapse>
                         ))}
                     </List>
+                </Drawer>
+                <Drawer
+                    variant="permanent"
+                    className={classNames(classes.drawer, {
+                        [classes.SubDrawerClose]: !this.state.SubOpen
+                    })}
+                    classes={{
+                        paper: classNames( {
+                            [classes.SubDrawerOpen]: this.state.SubOpen,
+                            [classes.SubDrawerClose]: !this.state.SubOpen
+                        }),
+                    }}
+                    open={this.state.SubOpen}>
+
+                    <div className={classes.toolbar}>
+                        <div>                                                            
+                            <IconButton>   
+                                <NoteAdd color="primary" onClick={(e)=>this.handleSetModal(modalList[3],createNote, this.state.folder_id, '')} />
+                            </IconButton>
+
+                            <IconButton>   
+                                <Create color="primary" onClick={this.handleModifyFileName} />
+                            </IconButton>
+                            
+                            <IconButton>
+                                <Share color="primary" onClick={this.handleNoteExportPdf} />
+                            </IconButton>
+
+                            <IconButton>   
+                                <Lock color="primary" onClick={this.handleAccessToFile} />
+                            </IconButton>
+
+                            <IconButton
+                                onClick={this.handleSubDrawerClose}
+                                className={classNames(classes.menuButton)}
+                            >
+                                {theme.direction === "rtl" ? (
+                                    <ChevronRight />
+                                ) : (
+                                    <ChevronLeft />
+                                )}
+                            </IconButton>
+                        </div>
+                    </div>
+                    <Divider />
+                    <div className={classes.drawerOverflow}>
+                    <List>
+                        {noteList.map(item => (
+                            <ListItem button>
+                                <ListItemText primary={item.name} 
+                                onClick={(e)=>this.handleNoteData(item.id, item.name)}
+                                onDoubleClick={(e)=>this.handleSetModal(modalList[5],updateNote,{note_id:item.id, folder_id: this.state.folder_id},item.name)}/>
+                                
+                                <Delete onClick={(e)=>this.handleSetModal(modalList[4],deleteNote,{note_id:item.id, folder_id: this.state.folder_id}, '')}/>
+                            </ListItem>
+                        ))}
+                    </List>
+                    </div>
                 </Drawer>
             </div>
         );

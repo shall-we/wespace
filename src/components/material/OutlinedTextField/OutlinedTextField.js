@@ -33,7 +33,9 @@ const styles = theme => ({
 });
 
 class OutlinedTextFields extends Component {
-  
+    state = {
+        name: this.props.value
+    }
 
     render() {
         const { classes,handleText } = this.props;
@@ -44,16 +46,19 @@ class OutlinedTextFields extends Component {
                     id="outlined-bare"
                     className={classes.textField}
                     placeholderStyle={classes.placeholderText}
-                    placeholder="사원명 입력"
+                    placeholder="Untitled"
                     margin="normal"
                     variant="outlined"
+
                     InputProps={{
                         classes: {
                             notchedOutline: classes.notchedOutline
-                        }
+                        },
+                        value: this.state.name
                     }}
                     onChange={(event)=>{
                         handleText(event);
+                        this.setState({name:event.target.value});
                     }}
                 />
             </form>
