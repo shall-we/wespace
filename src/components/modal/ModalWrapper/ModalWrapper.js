@@ -13,7 +13,9 @@ class ModalWrapper extends Component {
             <div className={cx(visible)}>
                 <div className={cx("gray-background")} />
                 <div className={cx("modal-wrapper")}>
-                    <div className={cx("modal")}>{children}</div>
+                    <div className={cx("modal")} >
+                        {children}
+                    </div>
                 </div>
             </div>
         );

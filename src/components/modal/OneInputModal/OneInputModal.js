@@ -24,7 +24,6 @@ class OneInputModal extends React.Component{
         };
     };
 
-
     handleTextChange = (event) => {
         this.setState({ name: event.target.value });
     };

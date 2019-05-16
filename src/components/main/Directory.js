@@ -174,6 +174,7 @@ class Directory extends React.Component {
             modal_text:text
         });
     }
+    
     handleUnSetModal=(type)=>{
         this.setState({
             [type]: false

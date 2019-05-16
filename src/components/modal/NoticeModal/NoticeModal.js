@@ -28,6 +28,8 @@ class NoticeModal extends React.Component {
         );
     }
 
+    
+
     render() {
         const { visible, onConfirm, onCancel, id,
                 modal_icon, modal_title, modal_content, btn_name } = this.props;

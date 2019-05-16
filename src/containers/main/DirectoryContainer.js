@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as directoryActions from "store/modules/directory";
@@ -8,7 +8,7 @@ import {withRouter} from 'react-router-dom';
 import socketio from 'socket.io-client';
 const socket=socketio.connect('http://192.168.0.70:4000');
 
-class DirectoryContainer extends Component {
+class DirectoryContainer extends React.Component {
 
     updateFolderList=()=>{
         const {DirectoryActions,id}=this.props;
