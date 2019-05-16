@@ -3,12 +3,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as directoryActions from 'store/modules/directory';
 import Context from 'components/main/Context';
+import Editor from 'components/directory/Editor';
 
 
 class ContextContainer extends Component {
     render() {
       return (
-          <Context />
+          <Editor />
     );
   }
 }
