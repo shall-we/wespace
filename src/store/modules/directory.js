@@ -18,6 +18,9 @@ const UPDATE_FOLDER="directory/UPDATE_FOLDER";
 const CREATE_NOTE="directroy/CREATE_NOTE";
 const UPDATE_NOTE="directory/UPDATE_NOTE";
 const DELETE_NOTE="directory/DELETE_NOTE";
+const GET_NOTE="directory/GET_NOTE";
+
+
 
 // action creators
 export const getSharedList = createAction(SHARED_LIST, api.getSharedList);
@@ -32,12 +35,15 @@ export const updateFolder = createAction(UPDATE_FOLDER, api.updateFolder);
 export const createNote = createAction(CREATE_NOTE, api.createNote);
 export const updateNote = createAction(UPDATE_NOTE, api.updateNote);
 export const deleteNote = createAction(DELETE_NOTE, api.updateNoteStatusDeleted);
+export const getNote = createAction(GET_NOTE);
+
 
 // initial state
 const initialState = Map({
     sharedList: [],
     privateList: [],
-    noteList: []
+    noteList: [],
+    note:null
 });
 
 // reducer
@@ -66,10 +72,15 @@ export default handleActions(
                 type: [NOTE_LIST],
                 onSuccess: (state, action) => {
                     const { data: noteList } = action.payload.data;
-                    console.log("payload : "+action.payload)
+                    console.log("payload : ",action.payload)
                     return state.set("noteList", noteList);
                 }
-            })
+            }),
+            [GET_NOTE]: (state, action) => {
+                const { payload: uuid } = action;
+                console.log("Note uuid : ",uuid)
+                return state.set('note', uuid);
+            },
     },
     initialState
 );

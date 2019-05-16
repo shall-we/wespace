@@ -183,8 +183,9 @@ class Directory extends React.Component {
     handleFolderData = (folder_id, folder_name) => {
         this.setState({folder_id: folder_id , folder_name: folder_name });
     };
-    handleNoteData = (note_id, note_name) => {
+    handleNoteData = (note_id, note_name,note_content) => {
         this.setState({note_id: note_id , note_name: note_name });
+        this.props.getNote(note_content);
     };
 
     render() {
@@ -406,7 +407,7 @@ class Directory extends React.Component {
                         {noteList.map(item => (
                             <ListItem button>
                                 <ListItemText primary={item.name} 
-                                onClick={(e)=>this.handleNoteData(item.id, item.name)}
+                                onClick={(e)=>this.handleNoteData(item.id, item.name,item.content)}
                                 onDoubleClick={(e)=>this.handleSetModal(modalList[5],updateNote,{note_id:item.id, folder_id: this.state.folder_id},item.name)}/>
                                 
                                 <Delete onClick={(e)=>this.handleSetModal(modalList[4],deleteNote,{note_id:item.id, folder_id: this.state.folder_id}, '')}/>

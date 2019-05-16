@@ -29,15 +29,16 @@ class Editor extends React.Component {
     this.reactQuillRef=null;
 
   }
-   
+
+
+
   componentDidMount(){
-    const doc = shareDBConnection.get('documents', 'foobar');
+
+    const doc = shareDBConnection.get('documents', this.props.note);
     const quillRef=this.reactQuillRef.getEditor();
     const cursorsModule = quillRef.getModule('cursors');
-
     doc.subscribe(function(err) {
       if (err) throw err;
-    
       if (!doc.type)
         doc.create([{
           insert: '\n'
@@ -166,22 +167,16 @@ class Editor extends React.Component {
     });
     
     window.cursors = cursors;
+    cursors.localConnection.name = this.props.name;
+    cursors.update();
+    this.reactQuillRef.getEditor().enable();
   }
-
-  editorHandle=(e)=>{
-        cursors.localConnection.name = "#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);});
-        cursors.update();
-        this.reactQuillRef.getEditor().enable();
-     
-      }
 
   
 
   render() {
     return (
       <div className={cx('editor-main')}>
-
-      <input type='button' value='연결' onClick={this.editorHandle}/>
         <ReactQuill 
         ref={(el) => { this.reactQuillRef = el }}
         theme='snow'

@@ -23,6 +23,8 @@ class DirectoryContainer extends Component {
        
     }
 
+
+
     getNoteList = async(folder_id) => {
       const {DirectoryActions} = this.props;
       await DirectoryActions.getNoteList(folder_id);
@@ -47,6 +49,7 @@ class DirectoryContainer extends Component {
         await DirectoryActions.getNoteList(0);
         DirectoryActions.getPrivateList(id);
         DirectoryActions.getSharedList(id);
+        
 
     }
 
@@ -73,15 +76,21 @@ class DirectoryContainer extends Component {
         const {DirectoryActions} = this.props;
         await DirectoryActions.deleteNote(ids.note_id);
         await DirectoryActions.getNoteList(ids.folder_id);
+        DirectoryActions.getNote(null);
+    }
+
+    getNote=(uuid)=>{
+        const {DirectoryActions} = this.props;
+        DirectoryActions.getNote(uuid);
     }
 
 
     render() {
         const { sharedList,privateList, id, noteList} = this.props;
-        const { createFolder, getNoteList,sharedFolder,deleteFolder, updateFolder, updateNote, createNote, deleteNote} = this;
+        const { createFolder, getNoteList,sharedFolder,deleteFolder, updateFolder, updateNote, createNote, deleteNote,getNote} = this;
         return (
             <div style={{ display: "flex" }}>
-                <Directory sharedList={sharedList} privateList={privateList} getNoteList={getNoteList} deleteNote={deleteNote}
+                <Directory sharedList={sharedList} privateList={privateList} getNoteList={getNoteList} deleteNote={deleteNote} getNote={getNote}
                 noteList={noteList} createFolder={createFolder} sharedFolder={sharedFolder} createNote={createNote}
                 deleteFolder={deleteFolder} updateFolder={updateFolder} updateNote={updateNote} user_id={id}/>
             </div>
