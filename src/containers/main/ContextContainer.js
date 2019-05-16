@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as directoryActions from 'store/modules/directory';
 import Context from 'components/main/Context';
-import Editor from 'components/directory/Editor';
+import Editor from 'components/main/Editor';
 
 
 class ContextContainer extends Component {

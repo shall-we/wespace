@@ -3,7 +3,7 @@ import styles from "./AskShareModal.scss";
 import classNames from "classnames/bind";
 import ModalWrapper from "../ModalWrapper";
 import Button from "../../common/Button";
-import OutlinedTextField from "../../material/OutlinedTextField";
+import OutlinedTextField from "../OutlinedTextField";
 import Selects from '../../common/Selects';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faUserFriends } from '@fortawesome/free-solid-svg-icons';
