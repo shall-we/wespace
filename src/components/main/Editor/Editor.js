@@ -121,7 +121,7 @@ class Editor extends React.Component {
     
       function updateCursors(source) {
         var activeConnections = {},
-          updateAll = Object.keys(cursorsModule.cursors).length == 0;
+          updateAll = Object.keys(cursorsModule.cursors).length === 0;
     
         cursors.connections.forEach(function(connection) {
           if (connection.id !== cursors.localConnection.id) {

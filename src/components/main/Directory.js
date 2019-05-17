@@ -10,7 +10,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
-import { Menu, ExpandMore, ExpandLess, CreateNewFolder, FolderShared, Delete, Folder, Share, Lock, Settings, Create, 
+import { Menu, ExpandMore, ExpandLess, CreateNewFolder, FolderShared, Delete, Folder, Share, Lock, Create, 
     GroupAdd, ChevronLeft, ChevronRight, NoteAdd} from "@material-ui/icons";
 import OneInputModal from "../modal/OneInputModal";
 import AskShareModal from '../modal/AskShareModal';
@@ -182,10 +182,11 @@ class Directory extends React.Component {
 
     handleFolderData = (folder_id, folder_name) => {
         this.setState({folder_id: folder_id , folder_name: folder_name });
+        this.props.setFolder(folder_id);
     };
     handleNoteData = (note_id, note_name,note_content) => {
         this.setState({note_id: note_id , note_name: note_name });
-        this.props.getNote(note_content);
+        this.props.setNote(note_content);
     };
 
     render() {
@@ -291,7 +292,7 @@ class Directory extends React.Component {
                                         onClick={event => {
                                             this.handleSubDrawerOpen();
                                             this.handleFolderData(item.folder_id,item.name);
-                                            this.props.getNoteList(item.folder_id);
+                                            
                                         }}
                                         onDoubleClick={(e)=>this.handleSetModal(modalList[2],updateFolder,item.folder_id,item.name)}
                                     >
@@ -342,7 +343,7 @@ class Directory extends React.Component {
                                         onClick={event => {
                                             this.handleSubDrawerOpen();
                                             this.handleFolderData(item.folder_id,item.name);
-                                            this.props.getNoteList(item.folder_id);
+                                            
                                         }}
                                         onDoubleClick={(e)=>this.handleSetModal(modalList[2],updateFolder,item.folder_id,item.name)}
                                     >
@@ -352,6 +353,7 @@ class Directory extends React.Component {
                                         </ListItemIcon> 
                                         : null}
                                         <ListItemText inset primary={item.name} />
+                                        <div>{item.count}</div>
                                     </ListItem>
                                 </List>
                             </Collapse>

@@ -1,9 +1,8 @@
 import { createAction, handleActions } from "redux-actions";
 
-import { Map, List, fromJS } from "immutable";
+import { Map } from "immutable";
 import { pender } from "redux-pender";
 import * as api from "lib/api";
-import { list } from "postcss";
 
 // action types
 const SHARED_LIST = "directory/SHARED_LIST";
@@ -18,7 +17,8 @@ const UPDATE_FOLDER="directory/UPDATE_FOLDER";
 const CREATE_NOTE="directroy/CREATE_NOTE";
 const UPDATE_NOTE="directory/UPDATE_NOTE";
 const DELETE_NOTE="directory/DELETE_NOTE";
-const GET_NOTE="directory/GET_NOTE";
+const SET_NOTE="directory/SET_NOTE";
+const SET_FOLDER="directory/SET_FOLDER";
 
 
 
@@ -35,7 +35,8 @@ export const updateFolder = createAction(UPDATE_FOLDER, api.updateFolder);
 export const createNote = createAction(CREATE_NOTE, api.createNote);
 export const updateNote = createAction(UPDATE_NOTE, api.updateNote);
 export const deleteNote = createAction(DELETE_NOTE, api.updateNoteStatusDeleted);
-export const getNote = createAction(GET_NOTE);
+export const setNote = createAction(SET_NOTE);
+export const setFolder = createAction(SET_FOLDER);
 
 
 // initial state
@@ -43,18 +44,18 @@ const initialState = Map({
     sharedList: [],
     privateList: [],
     noteList: [],
+    folder:null,
     note:null
 });
 
 // reducer
 export default handleActions(
     {
-        ...pender(
+            ...pender(
             {
                 type: [PRIVATE_LIST],
                 onSuccess: (state, action) => {
                     const { data: privateList } = action.payload.data;
-                    console.log("privateList : ",privateList);
                     return state.set("privateList", privateList);
                 }
             }),
@@ -63,7 +64,6 @@ export default handleActions(
                 type: [SHARED_LIST],
                 onSuccess: (state, action) => {
                     const { data: sharedList } = action.payload.data;
-                    console.log("shared : ",sharedList);
                     return state.set("sharedList", sharedList); 
                 }
             }),
@@ -72,14 +72,17 @@ export default handleActions(
                 type: [NOTE_LIST],
                 onSuccess: (state, action) => {
                     const { data: noteList } = action.payload.data;
-                    console.log("payload : ",action.payload)
                     return state.set("noteList", noteList);
                 }
             }),
-            [GET_NOTE]: (state, action) => {
-                const { payload: uuid } = action;
-                console.log("Note uuid : ",uuid)
-                return state.set('note', uuid);
+            [SET_NOTE]: (state, action) => {
+                const { payload: note } = action;
+                return state.set('note', note);
+            },
+            [SET_FOLDER]: (state, action) => {
+                const { payload: folder } = action;
+                console.log("SET_FOLDER",folder);
+                return state.set('folder', folder);
             },
     },
     initialState

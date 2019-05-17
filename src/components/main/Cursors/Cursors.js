@@ -86,7 +86,7 @@ QuillCursors.prototype.shiftCursors = function(index, length) {
     if ((cursor = this.cursors[userId]) && cursor.range) {
       // If characters we're added or there is no selection
       // advance start/end if it's greater or equal than index
-      if (length > 0 || cursor.range.length == 0)
+      if (length > 0 || cursor.range.length === 0)
         this._shiftCursor(userId, index - 1, length);
       // Else if characters were removed
       // move start/end back if it's only greater than index
@@ -105,9 +105,9 @@ QuillCursors.prototype.update = function() {
 QuillCursors.prototype._initOptions = function(options) {
   this.options = DEFAULTS;
   this.options.template = options.template || this.options.template;
-  this.options.autoRegisterListener = (options.autoRegisterListener == false) ? options.autoRegisterListener : this.options.autoRegisterListener;
-  this.options.hideDelay = (options.hideDelay == undefined) ? this.options.hideDelay : options.hideDelay;
-  this.options.hideSpeed = (options.hideSpeed == undefined) ? this.options.hideSpeed : options.hideSpeed;
+  this.options.autoRegisterListener = (options.autoRegisterListener === false) ? options.autoRegisterListener : this.options.autoRegisterListener;
+  this.options.hideDelay = (options.hideDelay === undefined) ? this.options.hideDelay : options.hideDelay;
+  this.options.hideSpeed = (options.hideSpeed === undefined) ? this.options.hideSpeed : options.hideSpeed;
 };
 
 QuillCursors.prototype._applyDelta = function(delta) {
