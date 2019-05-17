@@ -305,7 +305,6 @@ class Directory extends React.Component {
                                     }
                                     
                                         <ListItemText inset primary={item.name} />
-                                        
                                     </ListItem> 
                                 </List>
                             </Collapse>
@@ -334,6 +333,7 @@ class Directory extends React.Component {
                         </ListItem>
                         {privateList.map((item, index) => (
                             <Collapse
+                                key={null}
                                 in={this.state.private_navigationOpen}
                                 timeout="auto"
                                 unmountOnExit
@@ -378,10 +378,6 @@ class Directory extends React.Component {
                         <div>                                                            
                             <IconButton>   
                                 <NoteAdd color="primary" onClick={(e)=>this.handleSetModal(modalList[3],createNote, this.state.folder_id, '')} />
-                            </IconButton>
-
-                            <IconButton>   
-                                <Create color="primary" onClick={this.handleModifyFileName} />
                             </IconButton>
                             
                             <IconButton>
