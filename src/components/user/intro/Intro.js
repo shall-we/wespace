@@ -44,9 +44,7 @@ class intro extends Component {
                         효율적인 업무 공유 <br />
                         스마트한 노트 공간,
                         <br />
-                       
                     </div>
-                    <h3 className="maintext">WESPACE</h3>
                     <div className="subtext">
                         타 플랫폼의 도움이 필요 없이, <br />
                         WESPACE 에서 모두 확인할 수 있도록 <br />
@@ -54,7 +52,7 @@ class intro extends Component {
                     </div>
                     <br />
                 </div>
-                <div class="right-page">
+                <div className="right-page">
                     <button
                         style={{ background: "none", border: "none" }}
                         className="Buttons"
