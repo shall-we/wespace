@@ -9,6 +9,9 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faUserFriends } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+// react-select
+import AsyncSelectInput from 'components/common/AsyncSelectInput';
+
 library.add(faUserFriends);
 
 const cx = classNames.bind(styles);
@@ -40,10 +43,10 @@ class AskShareModal extends React.Component {
                     </div>
                     <br />
                     <h3>이름</h3>
-                    <OutlinedTextField handleText={(e)=>this.setState({user:e.target.value})}/>
+                    {/* <OutlinedTextField handleText={(e)=>this.setState({user:e.target.value})}/> */}
                     
                     {/* 여기들어가야함 */}
-                    
+                    <AsyncSelectInput />
 
                     <h3>권한</h3>
                     <Selects handleChange={this.handleChange}/>
