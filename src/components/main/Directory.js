@@ -425,7 +425,8 @@ class Directory extends React.Component {
                                 onClick={(e)=>this.handleNoteData(item.id, item.name,item.content)}
                                 onDoubleClick={(e)=>this.handleSetModal(modalList[6],updateNote,{note_id:item.id, folder_id: this.state.folder_id},item.name)}/>
                                 
-                                <Delete onClick={(e)=>this.handleSetModal(modalList[5],deleteNote,{note_id:item.id, folder_id: this.state.folder_id}, '')}/>
+                                {/* (array, action, data, text) */}
+                                <Delete onClick={(e) => this.handleSetModal(modalList[5], deleteNote, { note_id: item.id, folder_id: this.state.folder_id}, '')} />
                             </ListItem>
                         ))}
                     </List>
