@@ -29,7 +29,13 @@ class Login extends Component {
 
   render() {
     return (
-      <div className="page">
+      <div className="page" 
+      tabIndex="0"
+      onKeyDown={(e) => {
+          if(e.key === 'Enter') {
+              this.ClickHandler();
+          }
+      }}>
         <label className="title" htmlFor="login">Login</label>
         <Text text="Email" id='email' onChange={event => this.changeValue(event)}/>
         <PasswordText text="Password" id='password' value={this.state.password} onChange={event => this.changeValue(event)}/>

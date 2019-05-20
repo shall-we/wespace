@@ -34,6 +34,16 @@ class OneInputModal extends React.Component{
 
         const { handleTextChange } = this;
         return (
+            <div tabIndex="0"
+            onKeyDown={(e) => {
+                if(e.key === 'Enter') {
+                    onConfirm(id,this.state.name); 
+                    onCancel();
+                }
+                if(e.keyCode === 27) {
+                    onCancel();
+                }
+            }}>
             <ModalWrapper visible={visible}>
                 <div className={cx("question")}>
                     <div className={cx("title")}>
@@ -56,6 +66,7 @@ class OneInputModal extends React.Component{
                     </Button>
                 </div>
             </ModalWrapper>
+            </div>
         )
     }
 }

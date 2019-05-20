@@ -18,3 +18,11 @@
     background: $oc-gray-1;
     text-align: right;
 }
+
+#focus {
+    background-color: white !important;
+    background-image: none !important;
+    border-color: white;
+    border: none;
+    outline: none;
+}

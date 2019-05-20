@@ -60,6 +60,7 @@ class OutlinedTextFields extends Component {
                         handleText(event);
                         this.setState({name:event.target.value});
                     }}
+                    autoFocus
                 />
             </form>
         );

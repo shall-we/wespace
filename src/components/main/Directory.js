@@ -171,7 +171,7 @@ class Directory extends React.Component {
             btn_name: array[4],
             modalAction:action,
             modal_data:data,
-            modal_text:text
+            modal_text:text,
         });
     }
     
@@ -243,8 +243,8 @@ class Directory extends React.Component {
                                     <CreateNewFolder color="primary"/>
                                 </IconButton>
 
-                                <IconButton>   
-                                    <GroupAdd color="primary" onClick={this.handleOpenAskShareModal} />
+                                <IconButton onClick={this.handleOpenAskShareModal}>   
+                                    <GroupAdd color="primary"  />
                                 </IconButton>
 
                                 <IconButton
@@ -407,8 +407,8 @@ class Directory extends React.Component {
                     <Divider />
                     <div className={classes.drawerOverflow}>
                     <List>
-                        {noteList.map(item => (
-                            <ListItem button>
+                        {noteList.map((item, index) => (
+                            <ListItem button key={index}>
                                 <ListItemText primary={item.name} 
                                 onClick={(e)=>this.handleNoteData(item.id, item.name,item.content)}
                                 onDoubleClick={(e)=>this.handleSetModal(modalList[5],updateNote,{note_id:item.id, folder_id: this.state.folder_id},item.name)}/>

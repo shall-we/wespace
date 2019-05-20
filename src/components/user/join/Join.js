@@ -74,7 +74,13 @@ console.log('sjdksjdks',username,email,password);
     const {errors} =this.state;
     return (
     
-      <div className="page">
+      <div className="page"
+      tabIndex="0"
+      onKeyDown={(e) => {
+          if(e.key === 'Enter') {
+              this.ClickHandler();
+          }
+      }}>
         <label className="title" htmlFor="join">Join Us</label>
         <Profile/>
        <Text text="User Name" name="username" onChange={this.handleChange.bind(this)}/>
