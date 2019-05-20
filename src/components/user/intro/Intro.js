@@ -39,14 +39,15 @@ class intro extends Component {
         return (
             <div className="intro">
                 <div className="left-page">
-                    <p class="maintext">
+                    <p className="maintext">
                         <br />
                         효율적인 업무 공유 <br />
                         스마트한 노트 공간,
                         <br />
-                        <h3>WESPACE</h3>
+                       
                     </p>
-                    <p class="subtext">
+                    <h3 className="maintext">WESPACE</h3>
+                    <p className="subtext">
                         타 플랫폼의 도움이 필요 없이, <br />
                         WESPACE 에서 모두 확인할 수 있도록 <br />
                         편리한 유저 경험을 담았습니다. <br />
@@ -56,7 +57,7 @@ class intro extends Component {
                 <div className="right-page">
                     <button
                         style={{ background: "none", border: "none" }}
-                        class="Buttons"
+                        className="Buttons"
                     >
                         <img
                             style={{ cursor: "pointer", width: 120 }}

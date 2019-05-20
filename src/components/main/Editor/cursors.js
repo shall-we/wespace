@@ -52,7 +52,7 @@ cursors.socket.onmessage = function(message) {
   // Find removed connections
   for (var i = 0; i < cursors.connections.length; i++) {
     var testConnection = data.connections.find(function(connection) {
-      return connection.id == cursors.connections[i].id;
+      return connection.id === cursors.connections[i].id;
     });
 
     if (!testConnection) {
@@ -61,7 +61,7 @@ cursors.socket.onmessage = function(message) {
       console.log('[cursors] User disconnected:', cursors.connections[i]);
 
       // If the source connection was removed set it
-      if (data.sourceId == cursors.connections[i])
+      if (data.sourceId === cursors.connections[i])
         source = cursors.connections[i];
     } else if (testConnection.name && !cursors.connections[i].name) {
       console.log('[cursors] User ' + testConnection.id + ' set username:', testConnection.name);
@@ -69,18 +69,18 @@ cursors.socket.onmessage = function(message) {
     }
   }
 
-  if (cursors.connections.length == 0 && data.connections.length != 0) {
+  if (cursors.connections.length === 0 && data.connections.length !== 0) {
     console.log('[cursors] Initial list of connections received from server:', data.connections);
     reportNewConnections = false;
   }
 
   for (var i = 0; i < data.connections.length; i++) {
     // Set the source if it's still on active connections
-    if (data.sourceId == data.connections[i].id)
+    if (data.sourceId === data.connections[i].id)
       source = data.connections[i];
 
     if (reportNewConnections && !cursors.connections.find(function(connection) {
-        return connection.id == data.connections[i].id
+        return connection.id === data.connections[i].id
       })) {
 
       console.log('[cursors] User connected:', data.connections[i]);
