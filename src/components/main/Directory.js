@@ -15,7 +15,6 @@ import { Menu, ExpandMore, ExpandLess, CreateNewFolder, FolderShared, Delete, Fo
 import OneInputModal from "../modal/OneInputModal";
 import AskShareModal from '../modal/AskShareModal';
 import NoticeModal from '../modal/NoticeModal';
-import { blue } from "@material-ui/core/colors";
 
 const drawerWidth = 250;
 
