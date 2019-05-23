@@ -5,12 +5,13 @@ import ModalWrapper from "../ModalWrapper";
 import Button from "../../common/Button";
 import OutlinedTextField from "../OutlinedTextField";
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faUserFriends, faFileAlt, faFileSignature } from '@fortawesome/free-solid-svg-icons';
+import { faUserFriends, faFileAlt, faFileSignature, faFolderPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 library.add(faUserFriends);
 library.add(faFileAlt);
 library.add(faFileSignature);
+library.add(faFolderPlus);
 
 const cx = classNames.bind(styles);
 

@@ -79,7 +79,9 @@ const styles = theme => ({
     
 });
 
-const createFolderModalData = ["oneInputModal", 'file-alt', '공유 폴더 생성', '생성할 폴더명을 입력해주세요.', '생성'];
+/** @param1 types of modal, @param2 icon, @param3 title of modal, @param4 content of modal, @param5 button */
+const createFolderModalData = ["oneInputModal", 'folder-plus', '공유 폴더 생성', '생성할 폴더명을 입력해주세요.', '생성'];
+const shareFolderModalData = ["askShareModal", 'folder-plus', '공유 폴더 초대', '해당 폴더로 초대할 직원을 선택해주세요.', '초대'];
 const deleteFolderModalData = ["noticeModal", 'trash-alt', '공유 폴더 삭제', '공유 폴더를 정말 삭제하시겠습니까?', '삭제'];
 const updateFolderModalData = ["oneInputModal", 'file-signature', '폴더 이름 수정', '수정할 폴더명을 새로 입력해주세요.', '수정'];
 
@@ -91,17 +93,18 @@ const exportNoteModalData = ["oneInputModal", 'file-pdf', '노트 내보내기',
 const lockedNoteModalData = ["noticeModal", 'file-alt', '노트 생성', '생성할 노트명을 입력해주세요.', '생성'];
 
 
-const modalList=[
-    createFolderModalData,
-    deleteFolderModalData,
-    updateFolderModalData,
+const modalList = [
+    createFolderModalData,  // modalList[0]
+    shareFolderModalData,   // modalList[1]
+    deleteFolderModalData,  // modalList[2]
+    updateFolderModalData,  // modalList[3]
 
-    createNoteModalData,
-    deleteNoteModalData,
-    updateNoteModalData,
+    createNoteModalData,    // modalList[4]
+    deleteNoteModalData,    // modalList[5]
+    updateNoteModalData,    // modalList[6]
 
-    exportNoteModalData,
-    lockedNoteModalData
+    exportNoteModalData,    // modalList[7]
+    lockedNoteModalData     // modalList[8]
 ]
 
 
@@ -122,6 +125,7 @@ class Directory extends React.Component {
             oneInputModal: false,
             noticeModal: false,
             selectModal: false,
+            askShareModal: false,
 
             modal_action:null,
             modal_text:'',
@@ -190,8 +194,8 @@ class Directory extends React.Component {
 
     render() {
         const { classes, theme,
-             sharedList = [], privateList = [], noteList = [], user_id = 0,
-           createFolder, sharedFolder, deleteFolder, updateFolder, createNote, updateNote, deleteNote } = this.props;
+             sharedList = [], privateList = [], noteList = [], user_id = 0, folder_id = 0,
+           createFolder, shareFolder, deleteFolder, updateFolder, createNote, updateNote, deleteNote } = this.props;
         
         return (
             <div className={classes.root}>
@@ -234,14 +238,23 @@ class Directory extends React.Component {
                                             btn_name={this.state.btn_name} 
                                             id={this.state.modal_id}
                                             />
-                              {/* <AskShareModal visible={this.state.share} onConfirm={sharedFolder} onCancel={this.handleCloseAskShareModal} folder_id={'d'} />                          */}
+
+                                <AskShareModal
+                                            visible={this.state.askShareModal}
+                                            onCancel={(e)=>this.handleUnSetModal('askShareModal')}
+                                            onConfirm={this.state.modalAction}
+                                            modal_icon={this.state.modal_icon}
+                                            modal_title={this.state.modal_title}
+                                            modal_content={this.state.modal_content}
+                                            btn_name={this.state.btn_name} 
+                                            folder_id={'d'} />
                             
                                 <IconButton>
                                     <CreateNewFolder color="primary" onClick={(e)=>this.handleSetModal(modalList[0],createFolder,user_id, '')}/>
                                 </IconButton>
 
                                 <IconButton>   
-                                    <GroupAdd color="primary" onClick={this.handleOpenAskShareModal} />
+                                    <GroupAdd color="primary" onClick={(e) => this.handleSetModal(modalList[1], shareFolder, folder_id, '')} />
                                 </IconButton>
 
                                 <IconButton
@@ -293,11 +306,11 @@ class Directory extends React.Component {
                                             this.handleFolderData(item.folder_id,item.name);
                                             
                                         }}
-                                        onDoubleClick={(e)=>this.handleSetModal(modalList[2],updateFolder,item.folder_id,item.name)}
+                                        onDoubleClick={(e)=>this.handleSetModal(modalList[3],updateFolder,item.folder_id,item.name)}
                                     >
                                     {item.permission === 'OWNER' ?
                                         <ListItemIcon>
-                                            <Delete onClick={(e)=>this.handleSetModal(modalList[1],deleteFolder,item.folder_id)}/>
+                                            <Delete onClick={(e)=>this.handleSetModal(modalList[3],deleteFolder,item.folder_id)}/>
                                         </ListItemIcon> 
                                         : null
                                     }
@@ -348,7 +361,7 @@ class Directory extends React.Component {
                                     >
                                      {item.permission === 'OWNER' ?
                                         <ListItemIcon>
-                                            <Delete onClick={(e)=>this.handleSetModal(modalList[1],deleteFolder,item.folder_id)}/>
+                                            <Delete onClick={(e)=>this.handleSetModal(modalList[2],deleteFolder,item.folder_id)}/>
                                         </ListItemIcon> 
                                         : null}
                                         <ListItemText inset primary={item.name} />
@@ -375,7 +388,7 @@ class Directory extends React.Component {
                     <div className={classes.toolbar}>
                         <div>                                                            
                             <IconButton>   
-                                <NoteAdd color="primary" onClick={(e)=>this.handleSetModal(modalList[3],createNote, this.state.folder_id, '')} />
+                                <NoteAdd color="primary" onClick={(e)=>this.handleSetModal(modalList[4],createNote, this.state.folder_id, '')} />
                             </IconButton>
 
                             <IconButton>   
@@ -409,9 +422,10 @@ class Directory extends React.Component {
                             <ListItem button>
                                 <ListItemText primary={item.name} 
                                 onClick={(e)=>this.handleNoteData(item.id, item.name,item.content)}
-                                onDoubleClick={(e)=>this.handleSetModal(modalList[5],updateNote,{note_id:item.id, folder_id: this.state.folder_id},item.name)}/>
+                                onDoubleClick={(e)=>this.handleSetModal(modalList[6],updateNote,{note_id:item.id, folder_id: this.state.folder_id},item.name)}/>
                                 
-                                <Delete onClick={(e)=>this.handleSetModal(modalList[4],deleteNote,{note_id:item.id, folder_id: this.state.folder_id}, '')}/>
+                                {/* (array, action, data, text) */}
+                                <Delete onClick={(e) => this.handleSetModal(modalList[5], deleteNote, { note_id: item.id, folder_id: this.state.folder_id}, '')} />
                             </ListItem>
                         ))}
                     </List>

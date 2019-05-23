@@ -11,11 +11,11 @@ const socket=socketio.connect('http://192.168.0.70:4000');
 
 class DirectoryContainer extends Component {
 
-    updateFolderList=()=>{
-        const {DirectoryActions,id}=this.props;
-        if(id){
-        DirectoryActions.getPrivateList(id);
-        DirectoryActions.getSharedList(id);
+    updateFolderList = () => {
+        const { DirectoryActions, id } = this.props;
+        if (id) {
+            DirectoryActions.getPrivateList(id);
+            DirectoryActions.getSharedList(id);
         }
     }
 
@@ -43,11 +43,11 @@ class DirectoryContainer extends Component {
 
 
 
-    updateNoteList=()=>{
-        const {DirectoryActions,folder}=this.props;
-        console.log('updateNoteList::',folder);
+    updateNoteList = () => {
+        const { DirectoryActions, folder } = this.props;
+        console.log('updateNoteList::', folder);
         if(folder)
-        DirectoryActions.getNoteList(folder);
+            DirectoryActions.getNoteList(folder);
     }
 
     createNote=async(folder_id,note_name)=>{
@@ -65,11 +65,12 @@ class DirectoryContainer extends Component {
 
     }
 
-    deleteNote=async(ids) => {
+    deleteNote = async(ids) => {
         const {DirectoryActions} = this.props;
         await DirectoryActions.deleteNote(ids.note_id);
-        socket.emit('updateFolderList',{ msg:'deleteNote'});
-        socket.emit('updateNoteList',{ msg:'deleteNote'});
+        // socket.emit( event name to the server, data )
+        socket.emit('updateFolderList', { msg: 'deleteNote' });
+        socket.emit('updateNoteList', { msg: 'deleteNote' });
 
         DirectoryActions.setNote(null);
     }
