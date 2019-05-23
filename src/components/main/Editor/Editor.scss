@@ -1,18 +1,40 @@
 @import '../../../styles/utils.scss';
 
-.editor-main{
-
- 
-  flex: 1;
- 
+.editor{
+  flex: 0.75;
   display: flex;
+  flex-direction:column;
+ 
+  overflow-y:hidden; 
+  overflow-x:hidden;
 
-  margin:1rem;
+  .editor-main{ 
+    flex: 0.948;
+    display: flex;
+    background: white;
+    overflow-y:auto; 
+    overflow-x:inherit;
+    height: calc(100vh - 9rem);
 
 
+    .quill{
+    
+      flex: 1;
+      overflow-y:unset;
+        overflow-x:unset; 
+      .ql-editor{
+        overflow-y:unset;
+        overflow-x:unset; 
+      }
+    }
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  
+ 
+  
+ 
 }
-.ql-container{
-  height: 550px;
-  overflow-y:auto; 
-  overflow-x:inherit; 
-}
+

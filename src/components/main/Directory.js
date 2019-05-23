@@ -30,7 +30,7 @@ const styles = theme => ({
         flexShrink: 0,
     },
     drawerOpen: {
-        height: 'calc(100vh - 6rem)', 
+        height: 'calc(100vh - 4rem)', 
         position:'unset',
         width: drawerWidth,
         transition: theme.transitions.create("width", {
@@ -39,7 +39,7 @@ const styles = theme => ({
         }),
     },
     drawerClose: {
-        height: 'calc(100vh - 6rem)', 
+        height: 'calc(100vh - 4rem)', 
         transition: theme.transitions.create("width", {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen
@@ -51,7 +51,7 @@ const styles = theme => ({
         }
     },
     SubDrawerOpen: {
-        height: 'calc(100vh - 6rem)', 
+        height: 'calc(100vh - 4rem)', 
         position:'unset',
         width: drawerWidth,
         transition: theme.transitions.create("width", {
@@ -123,10 +123,9 @@ class Directory extends React.Component {
             noticeModal: false,
             selectModal: false,
 
-            modalAction:null,
-
+            modal_action:null,
             modal_text:'',
-            modal_data:0,
+            modal_id:0,
             modal_icon: '',
             modal_title: '',
             modal_content: '',
@@ -162,15 +161,15 @@ class Directory extends React.Component {
  /** [main navigation] handling folder modal */
 
 
-    handleSetModal=(array,action,data,text)=>{
+    handleSetModal=(array,action,id,text)=>{
         this.setState({
             [array[0]]: true,
             modal_icon: array[1],
             modal_title: array[2],
             modal_content: array[3],
             btn_name: array[4],
-            modalAction:action,
-            modal_data:data,
+            modal_action:action,
+            modal_id:id,
             modal_text:text
         });
     }
@@ -216,24 +215,24 @@ class Directory extends React.Component {
                                 <OneInputModal 
                                              visible={this.state.oneInputModal}
                                              onCancel={(e)=>this.handleUnSetModal('oneInputModal')}
-                                             onConfirm={this.state.modalAction}
+                                             onConfirm={this.state.modal_action}
                                              modal_icon={this.state.modal_icon}
                                              modal_title={this.state.modal_title}
                                              modal_content={this.state.modal_content}
                                              btn_name={this.state.btn_name}
-                                             id={this.state.modal_data}
+                                             id={this.state.modal_id}
                                              text={this.state.modal_text}
                                              />
 
                                 <NoticeModal 
                                             visible={this.state.noticeModal}
                                             onCancel={(e)=>this.handleUnSetModal('noticeModal')}
-                                            onConfirm={this.state.modalAction}
+                                            onConfirm={this.state.modal_action}
                                             modal_icon={this.state.modal_icon}
                                             modal_title={this.state.modal_title}
                                             modal_content={this.state.modal_content}
                                             btn_name={this.state.btn_name} 
-                                            id={this.state.modal_data}
+                                            id={this.state.modal_id}
                                             />
                               {/* <AskShareModal visible={this.state.share} onConfirm={sharedFolder} onCancel={this.handleCloseAskShareModal} folder_id={'d'} />                          */}
                             

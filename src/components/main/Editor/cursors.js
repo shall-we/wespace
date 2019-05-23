@@ -1,9 +1,11 @@
 var ReconnectingWebSocket = require('reconnectingwebsocket');
 
-function CursorConnection(name, color) {
+function CursorConnection(name, color,profile,uuid) {
   this.id = null;
   this.name = name;
   this.color = color;
+  this.profile=profile;
+  this.uuid=uuid;
 }
 
 var cursors = {};
@@ -11,7 +13,9 @@ cursors.socket = new ReconnectingWebSocket(((window.location.protocol === 'https
 
 cursors.localConnection = new CursorConnection(
   null,
-  "#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);})
+  "#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);}),
+  null,
+  null
 );
 
 // Update
