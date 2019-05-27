@@ -4,7 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Chip from "@material-ui/core/Chip";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-
+import Avatar from '@material-ui/core/Avatar';
 
 const styles = theme => ({
     root: {
@@ -12,7 +12,7 @@ const styles = theme => ({
         justifyContent: "center",
         flexWrap: "wrap",
         padding: theme.spacing.unit / 2,
-        margin: theme.spacing.unit / 4,
+        margin: theme.spacing.unit / 5,
     },
     chip: {
         margin: theme.spacing.unit / 2,
@@ -25,7 +25,7 @@ const styles = theme => ({
     },
     grid: {
         alignContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     }
 });
 
@@ -49,12 +49,12 @@ class ChipsArray extends React.Component {
         return (
             <Paper className={classes.root}>
                 {this.state.members.map((data, i) => {
-                    return (<Grid item xs={10} sm={4} className={classes.grid}>
+                    return (<Grid item xs={10} sm={5} className={classes.grid}>
                                 {(data.permission!=='OWNER')?(
                                 <Chip label={data.label} onDelete={()=>onDelete[1](folder_id,data.value)} className={classes.chip}
                                 color={(data.permission==='MANAGER')?'primary':'secondary'} />
-                                ):''
-                               }
+                                ):
+                                <Chip avatar={<Avatar>M</Avatar>} label={data.label} className={classes.chip} />}
                             </Grid>
                     );
                 })}

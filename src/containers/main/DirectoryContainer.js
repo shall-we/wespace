@@ -7,7 +7,7 @@ import Directory from "components/main/Directory";
 import {withRouter} from 'react-router-dom';
 
 import socketio from 'socket.io-client';
-const socket=socketio.connect('http://192.168.0.70:4000');
+const socket=socketio.connect('http://192.168.0.68:4000');
 
 
 class DirectoryContainer extends Component {
