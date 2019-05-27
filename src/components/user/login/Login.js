@@ -3,10 +3,10 @@ import SubmitButton from '../common/submitButton';
 import Text from '../common/text';
 import PasswordText from '../common/passwordText';
 import {withRouter} from 'react-router-dom';
-import GoogleLogin from 'react-google-login';
+//import GoogleLogin from 'react-google-login';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import {getCookie, setCookie} from './cookie';
+//import {setCookie} from '../intro/cookie';
 
 class Login extends Component {
   constructor(props){
@@ -15,16 +15,6 @@ class Login extends Component {
       email:'',
       password:'',
       autoLogin:false,
-      cookie: '',
-    }
-  }
-
-
-  componentDidMount() {
-    const cookie = getCookie('email')
-
-    if (cookie) {
-      this.props.history.push('/note');
     }
   }
 
@@ -39,16 +29,9 @@ class Login extends Component {
   }
 
  ClickHandler = (event) => {
-  this.props.action(this.state.email,this.state.password, this.state.autoLogin);
+  this.props.action(this.state.email,this.state.password);
   this.props.history.push('/note');
-
-    if(this.state.autoLogin) {
-      setCookie({
-        email : event.target.value,
-      })
-    }
-  }
-
+ }
   handleChecked = () => {
     this.setState = ({
       autoLogin : !this.state.autoLogin
@@ -57,9 +40,9 @@ class Login extends Component {
 
   render() {
 
-    const responseGoogle = (response) => {
-      console.log(response);
-    }
+    // const responseGoogle = (response) => {
+    //   console.log(response);
+    // }
 
     return (
       <div className="page" 
@@ -80,7 +63,7 @@ class Login extends Component {
         />
         <SubmitButton text = "Sign In" onClick={this.ClickHandler} />
 
-        <GoogleLogin
+        {/* <GoogleLogin
           clientId="500112564024-f0o36gqgeejsauthuk0mijoa5vsqea5e.apps.googleusercontent.com"
           scope="https://www.googleapis.com/auth/analytics"
           onSuccess={responseGoogle}
@@ -91,7 +74,7 @@ class Login extends Component {
           responseType="id_token"
           isSignedIn
           theme="dark"
-        />
+        /> */}
       </div>
     );
   }

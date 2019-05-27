@@ -1,7 +1,9 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { NotFoundPage, LoginPage, JoinPage, IntroPage, MainPage } from '../pages';
+
 const App = () => {
+
   return (
     <div>
     <Switch>

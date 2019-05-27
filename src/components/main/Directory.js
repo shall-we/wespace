@@ -17,7 +17,7 @@ import OneInputModal from "../modal/OneInputModal";
 import AskShareModal from '../modal/AskShareModal';
 import NoticeModal from '../modal/NoticeModal';
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
-import './react-contextmenu.css';
+import './Contextmenu.css';
 
 const drawerWidth = 260;
 
@@ -243,8 +243,9 @@ class Directory extends React.Component {
                     onClick={(e)=>this.handleNoteData(item.id, item.name,item.content)}
                     onDoubleClick={(e)=>this.handleSetModal(modalList[5],this.props.updateNote,{note_id:item.id, folder_id: this.state.folder_id},item.name)}
                     onAuxClick={(e)=>this.handleNoteData(item.id, item.name,item.content)}/>
-                    {item.reg_date}
                     <br/>
+                    {item.reg_date}
+                    
                 </ListItem>
                 <Divider />
             </ContextMenuTrigger>

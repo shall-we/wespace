@@ -5,9 +5,9 @@ import * as userActions from "../../store/modules/user";
 import Login from "../../components/user/login/Login";
 
 class LoginContainer extends Component {
-    login = (email, password, autoLogin) => {
+    login = (email, password) => {
         const { UserActions} = this.props;
-         UserActions.login(email, password, autoLogin);
+        UserActions.login(email, password);
     };
 
     render() {
