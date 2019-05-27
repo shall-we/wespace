@@ -33,7 +33,7 @@ class NoticeModal extends React.Component {
                 modal_icon, modal_title, modal_content, btn_name } = this.props;
 
         return (
-            <div tabIndex="0"
+            <div tabIndex="-1"
             onKeyDown={(e) => {
                 if(e.key === 'Enter') {
                     onConfirm(id); 

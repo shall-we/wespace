@@ -1,8 +1,9 @@
 import axios from 'axios';
 import queryString from 'query-string';
 
-export const login = (email,password) => axios.post('/login',{email, password});
+export const login = (email,password,autoLogin) => axios.post('/login',{email, password, autoLogin});
 export const join = (name,email,password,profile) => axios.post('/join',{name,email,password,profile});
+export const autologin = () => axios.get("/login");
 
 export const getSharedList = (user_id) => axios.get(`/folder/shared?${queryString.stringify({user_id})}`);
 export const getPrivateList = (user_id) => axios.get(`/folder/private?${queryString.stringify({user_id})}`);

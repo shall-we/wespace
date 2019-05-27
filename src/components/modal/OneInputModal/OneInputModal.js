@@ -34,7 +34,7 @@ class OneInputModal extends React.Component{
 
         const { handleTextChange } = this;
         return (
-            <div tabIndex="0"
+            <div tabIndex="-1"
             onKeyDown={(e) => {
                 if(e.key === 'Enter') {
                     onConfirm(id,this.state.name); 

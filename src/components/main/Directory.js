@@ -7,6 +7,7 @@ import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import ListItem from "@material-ui/core/ListItem";
+import Switch from '@material-ui/core/Switch';
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
@@ -15,8 +16,10 @@ import { Menu, ExpandMore, ExpandLess, CreateNewFolder, FolderShared, Delete, Fo
 import OneInputModal from "../modal/OneInputModal";
 import AskShareModal from '../modal/AskShareModal';
 import NoticeModal from '../modal/NoticeModal';
+import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
+import './react-contextmenu.css';
 
-const drawerWidth = 250;
+const drawerWidth = 260;
 
 const styles = theme => ({
     root: {
@@ -114,6 +117,8 @@ class Directory extends React.Component {
             public_navigationOpen: false,
             private_navigationOpen: false,
 
+            toggle: false,
+
             folder_id : 0,
             folder_name : '',
             note_id : 0,
@@ -191,6 +196,76 @@ class Directory extends React.Component {
         this.props.setNote(note_content);
     };
 
+    FolderContextmenu = (item) => (
+        <div className='context-menu' key={item.folder_id}>
+            <ContextMenuTrigger id={item.folder_id}>
+                <ListItem
+                    button
+                    onClick={event => {
+                        this.handleSubDrawerOpen();
+                        this.handleFolderData(item.folder_id,item.name);
+                    }}
+                        onDoubleClick={(e)=>this.handleSetModal(modalList[2],this.props.updateFolder,item.folder_id,item.name)}
+                        onAuxClick={(e)=>this.handleFolderData(item.folder_id,item.name)}>
+                        {item.permission === 'OWNER' ?
+                            <ListItemIcon>
+                                <Delete onClick={(e)=>this.handleSetModal(modalList[1],this.props.deleteFolder,item.folder_id, null)}/>
+                            </ListItemIcon> 
+                            : null
+                            }
+                                    
+                        <ListItemText inset primary={item.name} />
+                        <div>{item.count}</div>
+                 </ListItem> 
+            </ContextMenuTrigger>
+            <ContextMenu id={item.folder_id}>
+                <MenuItem onClick={(e)=>this.handleSetModal(modalList[2],this.props.updateFolder,item.folder_id,item.name)}>
+                    이름 변경
+                </MenuItem>
+                <MenuItem onClick={null}>
+                    공유 폴더
+                </MenuItem>
+                <MenuItem onClick={(e)=>this.handleSetModal(modalList[3],this.props.createNote, this.state.folder_id, '')}>
+                    파일 생성
+                </MenuItem>
+                <MenuItem onClick={(e)=>this.handleSetModal(modalList[1],this.props.deleteFolder,item.folder_id, null)}>
+                    삭제
+                </MenuItem>
+            </ContextMenu>
+      </div>
+    )
+
+    FileContextmenu = (item) => (
+        <div className='context-menu' key={item.id}>
+            <ContextMenuTrigger id={item.id}>
+                <ListItem button key={item.id}>
+                    <ListItemText primary={item.name} 
+                    onClick={(e)=>this.handleNoteData(item.id, item.name,item.content)}
+                    onDoubleClick={(e)=>this.handleSetModal(modalList[5],this.props.updateNote,{note_id:item.id, folder_id: this.state.folder_id},item.name)}
+                    onAuxClick={(e)=>this.handleNoteData(item.id, item.name,item.content)}/>
+                    {item.reg_date}
+                    <br/>
+                </ListItem>
+                <Divider />
+            </ContextMenuTrigger>
+            <ContextMenu id={item.id}>
+                <MenuItem onClick={(e)=>this.handleSetModal(modalList[5],this.props.updateNote,{note_id:item.id, folder_id: this.state.folder_id},item.name)}>
+                    이름 변경
+                </MenuItem>
+                <MenuItem onClick={null}>
+                    공유하기
+                </MenuItem>
+                <MenuItem onClick={null} >
+                    잠금
+                    <Switch checked={this.state.toggle} onChange={null} value="checkedA" />
+                </MenuItem>
+                <MenuItem onClick={(e)=>this.handleSetModal(modalList[4],this.props.deleteNote,{note_id:item.id, folder_id: this.state.folder_id}, '')}>
+                    삭제
+                </MenuItem>
+            </ContextMenu>
+      </div>
+    )
+
     render() {
         const { classes, theme,
              sharedList = [], privateList = [], noteList = [], user_id = 0,
@@ -236,6 +311,7 @@ class Directory extends React.Component {
                                             modal_content={this.state.modal_content}
                                             btn_name={this.state.btn_name} 
                                             id={this.state.modal_data}
+
                                             />
                               {/* <AskShareModal visible={this.state.share} onConfirm={sharedFolder} onCancel={this.handleCloseAskShareModal} folder_id={'d'} />                          */}
                             
@@ -290,25 +366,7 @@ class Directory extends React.Component {
                                 key={item.folder_id}
                             >
                                 <List component="div" disablePadding>
-                                    <ListItem
-                                        button
-                                        onClick={event => {
-                                            this.handleSubDrawerOpen();
-                                            this.handleFolderData(item.folder_id,item.name);
-                                            
-                                        }}
-                                        onDoubleClick={(e)=>this.handleSetModal(modalList[2],updateFolder,item.folder_id,item.name)}
-                                    >
-                                    {item.permission === 'OWNER' ?
-                                        <ListItemIcon>
-                                            <Delete onClick={(e)=>this.handleSetModal(modalList[1],deleteFolder,item.folder_id)}/>
-                                        </ListItemIcon> 
-                                        : null
-                                    }
-                                    
-                                        <ListItemText inset primary={item.name} />
-
-                                    </ListItem> 
+                                    {this.FolderContextmenu(item)}
                                 </List>
                             </Collapse>
                         ))}
@@ -342,24 +400,7 @@ class Directory extends React.Component {
                                 unmountOnExit
                             >
                                 <List component="div" disablePadding>
-                                    <ListItem
-                                        button
-                                        onClick={event => {
-                                            this.handleSubDrawerOpen();
-                                            this.handleFolderData(item.folder_id,item.name);
-                                            
-                                        }}
-                                        onDoubleClick={(e)=>this.handleSetModal(modalList[2],updateFolder,item.folder_id,item.name)}
-                                    >
-                                        {item.permission === 'OWNER' ?
-                                        <ListItemIcon>
-                                            <Delete onClick={(e)=>this.handleSetModal(modalList[1],deleteFolder,item.folder_id)}/>
-                                        </ListItemIcon> 
-                                        : null}
-                                        <ListItemText inset primary={item.name}/> 
-
-                                        <div>{item.count}</div>
-                                    </ListItem>
+                                    {this.FolderContextmenu(item)}
                                 </List>
                             </Collapse>
                         ))}
@@ -407,15 +448,7 @@ class Directory extends React.Component {
                     <Divider />
                     <div className={classes.drawerOverflow}>
                     <List>
-                        {noteList.map((item, index) => (
-                            <ListItem button key={index}>
-                                <ListItemText primary={item.name} 
-                                onClick={(e)=>this.handleNoteData(item.id, item.name,item.content)}
-                                onDoubleClick={(e)=>this.handleSetModal(modalList[5],updateNote,{note_id:item.id, folder_id: this.state.folder_id},item.name)}/>
-                                
-                                <Delete onClick={(e)=>this.handleSetModal(modalList[4],deleteNote,{note_id:item.id, folder_id: this.state.folder_id}, '')}/>
-                            </ListItem>
-                        ))}
+                        {noteList.map((item) => (this.FileContextmenu(item)))}
                     </List>
                     </div>
                 </Drawer>
