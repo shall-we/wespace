@@ -2,7 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as directoryActions from "store/modules/directory";
+<<<<<<< HEAD
 import * as UserActions from "store/modules/user";
+=======
+>>>>>>> bc7e2643f08d79c719a8a89ce15fae13d5429b46
 import Directory from "components/main/Directory";
 import {withRouter} from 'react-router-dom';
 
@@ -26,6 +29,7 @@ class DirectoryContainer extends Component {
 
     }
     sharedFolder=async(user_id,folder_id,permission)=>{
+<<<<<<< HEAD
         const {UserActions,DirectoryActions,folder}=this.props;
         await DirectoryActions.sharedFolder(user_id,folder_id,permission);
         await UserActions.getUserList(folder);
@@ -35,6 +39,9 @@ class DirectoryContainer extends Component {
         const {UserActions,DirectoryActions,folder}=this.props;
         await DirectoryActions.unsharedFolder(folder_id,user_id);
         await UserActions.getUserList(folder);
+=======
+        await this.props.DirectoryActions.sharedFolder(user_id,folder_id,permission);
+>>>>>>> bc7e2643f08d79c719a8a89ce15fae13d5429b46
         socket.emit('updateFolderList',{ msg:'sharedFolder'});
     }
 
@@ -120,12 +127,20 @@ class DirectoryContainer extends Component {
 
     render() {
         const { sharedList,privateList, noteList, id} = this.props;
+<<<<<<< HEAD
         const { createFolder,sharedFolder,unsharedFolder, deleteFolder, updateFolder, updateNote, createNote, deleteNote, setNote,setFolder} = this;
+=======
+        const { createFolder,sharedFolder, deleteFolder, updateFolder, updateNote, createNote, deleteNote, setNote,setFolder} = this;
+>>>>>>> bc7e2643f08d79c719a8a89ce15fae13d5429b46
         return (
             <div style={{ display: "flex" }}>
                 <Directory 
                 sharedList={sharedList} privateList={privateList}  noteList={noteList} user_id={id}
+<<<<<<< HEAD
                 createFolder={createFolder} updateFolder={updateFolder} deleteFolder={deleteFolder} sharedFolder={sharedFolder} unsharedFolder={unsharedFolder}
+=======
+                createFolder={createFolder} updateFolder={updateFolder} deleteFolder={deleteFolder} sharedFolder={sharedFolder} 
+>>>>>>> bc7e2643f08d79c719a8a89ce15fae13d5429b46
                 createNote={createNote} updateNote={updateNote}  deleteNote={deleteNote} 
                 setNote={setNote} setFolder={setFolder}
                 />
@@ -143,7 +158,13 @@ export default connect(
         id: state.user.get("id"),
     }),
     (dispatch) => ({
+<<<<<<< HEAD
         DirectoryActions: bindActionCreators(directoryActions, dispatch),
         UserActions: bindActionCreators(UserActions, dispatch),
     })
 )(withRouter(DirectoryContainer));
+=======
+        DirectoryActions: bindActionCreators(directoryActions, dispatch)
+    })
+)(withRouter(DirectoryContainer));
+>>>>>>> bc7e2643f08d79c719a8a89ce15fae13d5429b46

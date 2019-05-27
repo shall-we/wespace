@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @import "utils";
 
 
@@ -110,4 +111,25 @@
     }
   }
   
+=======
+@import 'utils';
+
+.question {
+    width: 350px;
+    background: white;
+    padding: 2rem;
+    .title {
+        font-size: 1.25rem;
+        font-weight: 500;
+    }
+    .description {
+        margin-top: 0.25rem;
+    }
+}
+
+.options {
+    padding: 1rem;
+    background: $oc-gray-1;
+    text-align: right;
+>>>>>>> bc7e2643f08d79c719a8a89ce15fae13d5429b46
 }

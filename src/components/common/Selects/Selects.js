@@ -2,6 +2,7 @@ import React from "react";
 import Select from "react-select";
 
 const options = [
+<<<<<<< HEAD
     { role: "MEMBER", label: "평사원" },
     { role: "MANAGER", label: "관리자" }
 ];
@@ -36,6 +37,26 @@ class SimpleSelect extends React.Component {
         return (
             <Select
                 className={styles}
+=======
+    { value: "MEMBER", label: "평사원 (Member)" },
+    { value: "MANAGER", label: "관리자 (Manager)" }
+];
+
+class SimpleSelect extends React.Component {
+    state = {
+        selectedOption: null
+    };
+    handleChange = selectedOption => {
+        this.setState({ selectedOption });
+        console.log(`Option selected:`, selectedOption);
+        this.props.handleChange(selectedOption);
+    };
+    render() {
+        const { selectedOption } = this.state;
+
+        return (
+            <Select
+>>>>>>> bc7e2643f08d79c719a8a89ce15fae13d5429b46
                 value={selectedOption}
                 onChange={this.handleChange}
                 options={options}
@@ -44,10 +65,15 @@ class SimpleSelect extends React.Component {
                   control: (base, state) => ({
                     ...base,
                     borderColor: '#1C90FB',
+<<<<<<< HEAD
                     width: '115%'
                   }),
                 }}
                 autoWidth
+=======
+                  }),
+                }}
+>>>>>>> bc7e2643f08d79c719a8a89ce15fae13d5429b46
             />
         );
     }

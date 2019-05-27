@@ -81,7 +81,11 @@ const styles = theme => ({
 
 /** @param1 types of modal, @param2 icon, @param3 title of modal, @param4 content of modal, @param5 button */
 const createFolderModalData = ["oneInputModal", 'folder-plus', '공유 폴더 생성', '생성할 폴더명을 입력해주세요.', '생성'];
+<<<<<<< HEAD
 const shareFolderModalData = ["selectModal", 'folder-plus', '공유 폴더 초대', '해당 폴더로 초대할 직원을 선택해주세요.', '완료'];
+=======
+const shareFolderModalData = ["askShareModal", 'folder-plus', '공유 폴더 초대', '해당 폴더로 초대할 직원을 선택해주세요.', '초대'];
+>>>>>>> bc7e2643f08d79c719a8a89ce15fae13d5429b46
 const deleteFolderModalData = ["noticeModal", 'trash-alt', '공유 폴더 삭제', '공유 폴더를 정말 삭제하시겠습니까?', '삭제'];
 const updateFolderModalData = ["oneInputModal", 'file-signature', '폴더 이름 수정', '수정할 폴더명을 새로 입력해주세요.', '수정'];
 
@@ -121,10 +125,18 @@ class Directory extends React.Component {
             folder_name : '',
             note_id : 0,
             note_name: '',
+<<<<<<< HEAD
             permission:'',
             oneInputModal: false,
             noticeModal: false,
             selectModal: false,
+=======
+
+            oneInputModal: false,
+            noticeModal: false,
+            selectModal: false,
+            askShareModal: false,
+>>>>>>> bc7e2643f08d79c719a8a89ce15fae13d5429b46
 
             modal_action:null,
             modal_text:'',
@@ -132,7 +144,11 @@ class Directory extends React.Component {
             modal_icon: '',
             modal_title: '',
             modal_content: '',
+<<<<<<< HEAD
             btn_name: '',
+=======
+            btn_name:'',
+>>>>>>> bc7e2643f08d79c719a8a89ce15fae13d5429b46
         };
     }
     
@@ -182,11 +198,18 @@ class Directory extends React.Component {
         });
     }
 
+<<<<<<< HEAD
     handleFolderData = (folder_id, folder_name,permission) => {
         this.setState({ folder_name: folder_name, folder_id:folder_id, permission:permission });
         this.props.setFolder(folder_id);
     };
 
+=======
+    handleFolderData = (folder_id, folder_name) => {
+        this.setState({folder_id: folder_id , folder_name: folder_name });
+        this.props.setFolder(folder_id);
+    };
+>>>>>>> bc7e2643f08d79c719a8a89ce15fae13d5429b46
     handleNoteData = (note_id, note_name,note_content) => {
         this.setState({note_id: note_id , note_name: note_name });
         this.props.setNote(note_content);
@@ -194,10 +217,15 @@ class Directory extends React.Component {
 
     render() {
         const { classes, theme,
+<<<<<<< HEAD
              sharedList = [], privateList = [], noteList = [],
              user_id = 0,
              createFolder, sharedFolder,unsharedFolder, deleteFolder, updateFolder,
              createNote, updateNote, deleteNote } = this.props;
+=======
+             sharedList = [], privateList = [], noteList = [], user_id = 0, folder_id = 0,
+           createFolder, shareFolder, deleteFolder, updateFolder, createNote, updateNote, deleteNote } = this.props;
+>>>>>>> bc7e2643f08d79c719a8a89ce15fae13d5429b46
         
         return (
             <div className={classes.root}>
@@ -213,7 +241,12 @@ class Directory extends React.Component {
                             [classes.drawerClose]: !this.state.open,
                         })
                     }}
+<<<<<<< HEAD
                     open={this.state.open}>
+=======
+                    open={this.state.open}
+                >
+>>>>>>> bc7e2643f08d79c719a8a89ce15fae13d5429b46
                     <div className={classes.toolbar}>
                         {this.state.open ? (
                             <div>
@@ -239,27 +272,44 @@ class Directory extends React.Component {
                                             btn_name={this.state.btn_name} 
                                             id={this.state.modal_id}
                                             />
+<<<<<<< HEAD
                                 
                                 <AskShareModal
                                             key={this.state.modal_id}
                                             visible={this.state.selectModal}
                                             onCancel={(e)=>this.handleUnSetModal('selectModal')}
                                             onConfirm={this.state.modal_action}
+=======
+
+                                <AskShareModal
+                                            visible={this.state.askShareModal}
+                                            onCancel={(e)=>this.handleUnSetModal('askShareModal')}
+                                            onConfirm={this.state.modalAction}
+>>>>>>> bc7e2643f08d79c719a8a89ce15fae13d5429b46
                                             modal_icon={this.state.modal_icon}
                                             modal_title={this.state.modal_title}
                                             modal_content={this.state.modal_content}
                                             btn_name={this.state.btn_name} 
+<<<<<<< HEAD
                                             id={this.state.modal_id}
                                             text={this.state.modal_text}
                                            />
+=======
+                                            folder_id={'d'} />
+>>>>>>> bc7e2643f08d79c719a8a89ce15fae13d5429b46
                             
                                 <IconButton>
                                     <CreateNewFolder color="primary" onClick={(e)=>this.handleSetModal(modalList[0],createFolder,user_id, '')}/>
                                 </IconButton>
 
+<<<<<<< HEAD
                          
                                 <IconButton>
                                     <GroupAdd color="primary" onClick={(e) => this.handleSetModal(modalList[1], [sharedFolder,unsharedFolder], this.state.folder_id, this.state.permission)} />
+=======
+                                <IconButton>   
+                                    <GroupAdd color="primary" onClick={(e) => this.handleSetModal(modalList[1], shareFolder, folder_id, '')} />
+>>>>>>> bc7e2643f08d79c719a8a89ce15fae13d5429b46
                                 </IconButton>
 
                                 <IconButton
@@ -297,6 +347,7 @@ class Directory extends React.Component {
                                 <ExpandMore />
                             )}
                         </ListItem>
+<<<<<<< HEAD
                         {/* Open public of main nav */}
                         {sharedList.map((item,id) => (
                             <Collapse in={this.state.public_navigationOpen} timeout="auto" unmountOnExit>
@@ -309,13 +360,35 @@ class Directory extends React.Component {
                                               onDoubleClick={(e) =>
                                                   this.handleSetModal(modalList[3],updateFolder,item.folder_id,item.name)
                                               }
+=======
+                        {sharedList.map((item,id) => (
+                            <Collapse
+                                in={this.state.public_navigationOpen}
+                                timeout="auto"
+                                unmountOnExit
+                            >
+                                <List component="div" disablePadding>
+                                    <ListItem
+                                        button
+                                        onClick={event => {
+                                            this.handleSubDrawerOpen();
+                                            this.handleFolderData(item.folder_id,item.name);
+                                            
+                                        }}
+                                        onDoubleClick={(e)=>this.handleSetModal(modalList[3],updateFolder,item.folder_id,item.name)}
+>>>>>>> bc7e2643f08d79c719a8a89ce15fae13d5429b46
                                     >
                                     {item.permission === 'OWNER' ?
                                         <ListItemIcon>
                                             <Delete onClick={(e)=>this.handleSetModal(modalList[3],deleteFolder,item.folder_id)}/>
                                         </ListItemIcon> 
                                         : null
+<<<<<<< HEAD
                                     }                                    
+=======
+                                    }
+                                    
+>>>>>>> bc7e2643f08d79c719a8a89ce15fae13d5429b46
                                         <ListItemText inset primary={item.name} />
                                         
                                     </ListItem> 
@@ -344,7 +417,10 @@ class Directory extends React.Component {
                                 <ExpandMore />
                             )}
                         </ListItem>
+<<<<<<< HEAD
                         {/* Open private of nav */}
+=======
+>>>>>>> bc7e2643f08d79c719a8a89ce15fae13d5429b46
                         {privateList.map((item, index) => (
                             <Collapse
                                 in={this.state.private_navigationOpen}
@@ -356,7 +432,11 @@ class Directory extends React.Component {
                                         button
                                         onClick={event => {
                                             this.handleSubDrawerOpen();
+<<<<<<< HEAD
                                             this.handleFolderData(item.folder_id,item.name,item.permission);
+=======
+                                            this.handleFolderData(item.folder_id,item.name);
+>>>>>>> bc7e2643f08d79c719a8a89ce15fae13d5429b46
                                             
                                         }}
                                         onDoubleClick={(e)=>this.handleSetModal(modalList[2],updateFolder,item.folder_id,item.name)}

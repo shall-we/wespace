@@ -1,6 +1,10 @@
 import { createAction, handleActions } from 'redux-actions';
  
+<<<<<<< HEAD
 import { Map,List,fromJS } from 'immutable';
+=======
+import { Map } from 'immutable';
+>>>>>>> bc7e2643f08d79c719a8a89ce15fae13d5429b46
 import { pender } from 'redux-pender';
 import * as api from '../../lib/api';
 
@@ -9,21 +13,32 @@ import * as api from '../../lib/api';
 const LOGIN = 'user/LOGIN';
 const JOIN  = 'user/JOIN';
 const LOGOUT  = 'user/LOGOUT';
+<<<<<<< HEAD
 const GET_USER_LIST = "user/GET_USER_LIST";
+=======
+>>>>>>> bc7e2643f08d79c719a8a89ce15fae13d5429b46
 
 // action creators
 export const login = createAction(LOGIN,api.login);
 export const join = createAction(JOIN,api.join);
 export const logout = createAction(LOGOUT);
+<<<<<<< HEAD
 export const getUserList = createAction(GET_USER_LIST, api.getUserList);
+=======
+>>>>>>> bc7e2643f08d79c719a8a89ce15fae13d5429b46
 
 // initial state
 const initialState = Map({
     id: '',
     name: '',
+<<<<<<< HEAD
     profile: '',
     user_list: []
 });
+=======
+    profile: ''
+  });
+>>>>>>> bc7e2643f08d79c719a8a89ce15fae13d5429b46
 
 // reducer
 export default handleActions({
@@ -34,6 +49,7 @@ export default handleActions({
       const { name,profile,id } = action.payload.data.data;
       return state.set('name', name).set('profile',profile).set('id', id);
     }
+<<<<<<< HEAD
   }),
   ...pender({
     type: [GET_USER_LIST],
@@ -44,3 +60,7 @@ export default handleActions({
     }
   }),
 }, initialState);
+=======
+  })
+}, initialState)
+>>>>>>> bc7e2643f08d79c719a8a89ce15fae13d5429b46
