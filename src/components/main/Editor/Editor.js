@@ -3,8 +3,9 @@ import classNames from 'classnames/bind';
 
 import ReactQuill,{Quill}from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; 
+import 'react-quill/dist/quill.bubble.css'; 
 import styles from './Editor.scss';
-
+import UserList from 'components/main/UserList';
 
 import QuillCursors from '../Cursors';
 import ReconnectingWebSocket from 'reconnectingwebsocket';
@@ -15,6 +16,7 @@ const ShareDB = require('sharedb/lib/client');
 ShareDB.types.register(require('rich-text').type);
 Quill.register('modules/cursors', QuillCursors);
 const shareDBSocket = new ReconnectingWebSocket(((window.location.protocol === 'https:') ? 'wss' : 'ws') + '://' + window.location.hostname + ':4000/sharedb');
+
 const shareDBConnection = new ShareDB.Connection(shareDBSocket);
 
 
@@ -27,16 +29,29 @@ class Editor extends React.Component {
   constructor(props) {
     super(props);
     this.reactQuillRef=null;
-
+    this.state={
+      users:[]
+    }
   }
 
 
-
   componentDidMount(){
-
+    
     const doc = shareDBConnection.get('documents', this.props.note);
     const quillRef=this.reactQuillRef.getEditor();
     const cursorsModule = quillRef.getModule('cursors');
+
+
+    const uuid=this.props.note;
+    const updateUserList=()=>{
+      let user=[];
+      cursors.connections.forEach(function(connection) {
+        if(connection.uuid===uuid)
+       user.push({id: 2, title:connection.name, content: connection.color, imgUrl: connection.profile})
+      });
+      this.setState({users:user});
+    }
+
     doc.subscribe(function(err) {
       if (err) throw err;
       if (!doc.type)
@@ -73,15 +88,19 @@ class Editor extends React.Component {
             if (err)
               console.error('Submit OP returned an error:', err);
           });
+          updateUserList();
+
         }
+
+
       });
     
       cursorsModule.registerTextChangeListener();
-    
       // server -> local
       doc.on('op', function(op, source) {
         if (source !== quillRef) {
           quillRef.updateContents(op);
+          updateUserList();
         }
       });
     
@@ -126,6 +145,8 @@ class Editor extends React.Component {
         cursors.connections.forEach(function(connection) {
           if (connection.id !== cursors.localConnection.id) {
     
+            if(connection.uuid ===cursors.localConnection.uuid){
+
             // Update cursor that sent the update, source (or update all if we're initting)
             if ((connection.id === source.id || updateAll) && connection.range) {
               cursorsModule.setCursor(
@@ -138,6 +159,7 @@ class Editor extends React.Component {
     
             // Add to active connections hashtable
             activeConnections[connection.id] = connection;
+            }
           }
         });
     
@@ -161,30 +183,53 @@ class Editor extends React.Component {
         });
     
         updateCursors(e.detail.source);
+        updateUserList();
       });
     
       updateCursors(cursors.localConnection);
     });
     
+    
     window.cursors = cursors;
+
+    if(this.props.name)
+    {
+    
     cursors.localConnection.name = this.props.name;
+    cursors.localConnection.profile=this.props.profile;
+    cursors.localConnection.uuid=this.props.note;
     cursors.update();
-    this.reactQuillRef.getEditor().enable();
-  }
+    quillRef.enable();
+    }else
+    {
+      cursors.localConnection.name = 'Guest';
+      cursors.localConnection.uuid=this.props.note;
+      cursors.localConnection.profile= 'https://cdn.onlinewebfonts.com/svg/img_83486.png';
+    };
+
+    updateUserList();
+
+
+
+}
 
   
 
   render() {
+
     return (
-      <div className={cx('editor-main')}>
-        <ReactQuill 
-        ref={(el) => { this.reactQuillRef = el }}
-        theme='snow'
-        readOnly
-        modules= {Editor.modules}
-        formats= {Editor.formats}
-        bounds= '.editor-main'
-        />
+      <div className={cx('editor')}>
+      <UserList  users={this.state.users}/>
+        <div className={cx('editor-main')}>
+          <ReactQuill 
+          ref={(el) => { this.reactQuillRef = el }}
+          theme={(this.props.name)?'snow':'bubble'}
+          readOnly
+          modules= {Editor.modules}
+          formats= {Editor.formats}
+          bounds= '.editor-main'
+          />
+        </div>
       </div>
     );
   }
@@ -202,12 +247,13 @@ Editor.modules = {
   { 'indent': '-1' }, { 'indent': '+1' }],
   ['link', 'image', 'video'],
   ['clean']
-],
-history: {
-  userOnly: true
-},
- clipboard: {matchVisual: false }
- };
+  ],
+  history: {
+    userOnly: true
+  },
+  clipboard: {matchVisual: false }
+};
+
 Editor.formats = [
 'header', 'font', 'size',
 'bold', 'italic', 'underline', 'strike', 'blockquote',

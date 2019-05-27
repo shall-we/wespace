@@ -1,0 +1,41 @@
+@import '../../../styles/utils.scss';
+
+.NoteToolBox{
+   
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+        
+       .bar{
+            
+        flex: 0.053;
+        display: flex;
+        border-bottom:$oc-gray-4 solid 0.1rem;
+            .btn{
+                flex: 0.333;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor:pointer;
+                background-color:#eee;
+                color:#7B8585;
+                transition:0.3s;
+            }
+
+            .btn:hover{
+                background-color:#c1d0f1;
+            }
+            .btn.focused{
+                color:#fff;
+                background-color:#0372f0;
+            }
+        }
+
+        .tool-page{
+            flex: 0.947;
+            display: flex;
+        }
+        
+
+       
+}

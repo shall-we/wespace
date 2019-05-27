@@ -11,10 +11,10 @@ class ContextContainer extends Component {
 
 
     render() {
-      const { note,name} = this.props;
+      const { note,name,profile} = this.props;
       if(note){
       return (
-          <Editor  key={note} note={note} name={name} />
+          <Editor  key={note} note={note} name={name} profile={profile} />
     );
       }else{
         return(
@@ -27,7 +27,8 @@ class ContextContainer extends Component {
 export default connect(
   (state) => ({
     note: state.directory.get("note"),
-    name: state.user.get("name")
+    name: state.user.get("name"),
+    profile:state.user.get("profile"),
   }),
   (dispatch) => ({
     DirectoryActions: bindActionCreators(directoryActions, dispatch)

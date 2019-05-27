@@ -2,11 +2,12 @@ import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as directoryActions from "store/modules/directory";
+import * as UserActions from "store/modules/user";
 import Directory from "components/main/Directory";
 import {withRouter} from 'react-router-dom';
 
 import socketio from 'socket.io-client';
-const socket=socketio.connect('http://localhost:4000');
+const socket=socketio.connect('http://192.168.0.68:4000');
 
 class DirectoryContainer extends React.Component {
 
@@ -24,7 +25,15 @@ class DirectoryContainer extends React.Component {
 
     }
     sharedFolder=async(user_id,folder_id,permission)=>{
-        await this.props.DirectoryActions.sharedFolder(user_id,folder_id,permission);
+        const {UserActions,DirectoryActions,folder}=this.props;
+        await DirectoryActions.sharedFolder(user_id,folder_id,permission);
+        await UserActions.getUserList(folder);
+        socket.emit('updateFolderList',{ msg:'sharedFolder'});
+    }
+    unsharedFolder=async(folder_id,user_id)=>{
+        const {UserActions,DirectoryActions,folder}=this.props;
+        await DirectoryActions.unsharedFolder(folder_id,user_id);
+        await UserActions.getUserList(folder);
         socket.emit('updateFolderList',{ msg:'sharedFolder'});
     }
 
@@ -109,12 +118,12 @@ class DirectoryContainer extends React.Component {
 
     render() {
         const { sharedList,privateList, noteList, id} = this.props;
-        const { createFolder,sharedFolder, deleteFolder, updateFolder, updateNote, createNote, deleteNote, setNote,setFolder} = this;
+        const { createFolder,sharedFolder,unsharedFolder, deleteFolder, updateFolder, updateNote, createNote, deleteNote, setNote,setFolder} = this;
         return (
             <div style={{ display: "flex" }}>
                 <Directory 
                 sharedList={sharedList} privateList={privateList}  noteList={noteList} user_id={id}
-                createFolder={createFolder} updateFolder={updateFolder} deleteFolder={deleteFolder} sharedFolder={sharedFolder} 
+                createFolder={createFolder} updateFolder={updateFolder} deleteFolder={deleteFolder} sharedFolder={sharedFolder} unsharedFolder={unsharedFolder}
                 createNote={createNote} updateNote={updateNote}  deleteNote={deleteNote} 
                 setNote={setNote} setFolder={setFolder}
                 />
@@ -132,6 +141,7 @@ export default connect(
         id: state.user.get("id"),
     }),
     (dispatch) => ({
-        DirectoryActions: bindActionCreators(directoryActions, dispatch)
+        DirectoryActions: bindActionCreators(directoryActions, dispatch),
+        UserActions: bindActionCreators(UserActions, dispatch),
     })
 )(withRouter(DirectoryContainer));

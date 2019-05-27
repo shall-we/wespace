@@ -206,6 +206,9 @@ QuillCursors.prototype._updateCursor = function(cursor) {
     return;
   }
 
+  
+  if(startLeaf[0].domNode.tagName==='IMG'||endLeaf[0].domNode.tagName==='IMG')return
+
   range.setStart(startLeaf[0].domNode, startLeaf[1]);
   range.setEnd(endLeaf[0].domNode, endLeaf[1]);
   rects = rangeFix.getClientRects(range);

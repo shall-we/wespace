@@ -2,7 +2,7 @@
 .left-page {
     // 브라우저 크기에 따라 작업
     width: 50%;
-    height: calc(100% - 12rem);
+    height: calc(100% - 10rem);
     position: absolute;
     background: #12b2eb;
 
@@ -17,7 +17,7 @@
 // 회색바탕
 .right-page {
     width: 50%;
-    height: calc(100% - 12rem);
+    height: calc(100% - 10rem);
     position: absolute;
     background: url("../../../image/intro-right.png") no-repeat center center;
     background-size: cover;

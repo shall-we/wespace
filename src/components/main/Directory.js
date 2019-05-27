@@ -33,7 +33,7 @@ const styles = theme => ({
         flexShrink: 0,
     },
     drawerOpen: {
-        height: 'calc(100vh - 6rem)', 
+        height: 'calc(100vh - 4rem)', 
         position:'unset',
         width: drawerWidth,
         transition: theme.transitions.create("width", {
@@ -42,7 +42,7 @@ const styles = theme => ({
         }),
     },
     drawerClose: {
-        height: 'calc(100vh - 6rem)', 
+        height: 'calc(100vh - 4rem)', 
         transition: theme.transitions.create("width", {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen
@@ -54,7 +54,7 @@ const styles = theme => ({
         }
     },
     SubDrawerOpen: {
-        height: 'calc(100vh - 6rem)', 
+        height: 'calc(100vh - 4rem)', 
         position:'unset',
         width: drawerWidth,
         transition: theme.transitions.create("width", {
@@ -82,7 +82,9 @@ const styles = theme => ({
     
 });
 
-const createFolderModalData = ["oneInputModal", 'file-alt', '개인 폴더 생성', '생성할 폴더명을 입력해주세요.', '생성'];
+/** @param1 types of modal, @param2 icon, @param3 title of modal, @param4 content of modal, @param5 button */
+const createFolderModalData = ["oneInputModal", 'folder-plus', '공유 폴더 생성', '생성할 폴더명을 입력해주세요.', '생성'];
+const shareFolderModalData = ["selectModal", 'folder-plus', '공유 폴더 초대', '해당 폴더로 초대할 직원을 선택해주세요.', '완료'];
 const deleteFolderModalData = ["noticeModal", 'trash-alt', '공유 폴더 삭제', '공유 폴더를 정말 삭제하시겠습니까?', '삭제'];
 const updateFolderModalData = ["oneInputModal", 'file-signature', '폴더 이름 수정', '수정할 폴더명을 새로 입력해주세요.', '수정'];
 
@@ -104,7 +106,8 @@ const modalList=[
     updateNoteModalData,
 
     exportNoteModalData,
-    lockedNoteModalData
+    lockedNoteModalData,
+    shareFolderModalData
 ]
 
 
@@ -123,19 +126,18 @@ class Directory extends React.Component {
             folder_name : '',
             note_id : 0,
             note_name: '',
-
+            permission:'',
             oneInputModal: false,
             noticeModal: false,
             selectModal: false,
 
-            modalAction:null,
-
+            modal_action:null,
             modal_text:'',
-            modal_data:0,
+            modal_id:0,
             modal_icon: '',
             modal_title: '',
             modal_content: '',
-            btn_name:'',
+            btn_name: '',
         };
     }
     
@@ -167,16 +169,16 @@ class Directory extends React.Component {
  /** [main navigation] handling folder modal */
 
 
-    handleSetModal=(array,action,data,text)=>{
+    handleSetModal=(array,action,id,text)=>{
         this.setState({
             [array[0]]: true,
             modal_icon: array[1],
             modal_title: array[2],
             modal_content: array[3],
             btn_name: array[4],
-            modalAction:action,
-            modal_data:data,
-            modal_text:text,
+            modal_action:action,
+            modal_id:id,
+            modal_text:text
         });
     }
     
@@ -186,10 +188,11 @@ class Directory extends React.Component {
         });
     }
 
-    handleFolderData = (folder_id, folder_name) => {
-        this.setState({folder_id: folder_id , folder_name: folder_name });
+    handleFolderData = (folder_id, folder_name,permission) => {
+        this.setState({ folder_name: folder_name, folder_id:folder_id, permission:permission });
         this.props.setFolder(folder_id);
     };
+
     handleNoteData = (note_id, note_name,note_content) => {
         console.log("note_id : ", note_id);
         this.setState({note_id: note_id , note_name: note_name });
@@ -203,7 +206,7 @@ class Directory extends React.Component {
                     button
                     onClick={event => {
                         this.handleSubDrawerOpen();
-                        this.handleFolderData(item.folder_id,item.name);
+                        this.handleFolderData(item.folder_id,item.name, item.permission);
                     }}
                         onDoubleClick={(e)=>this.handleSetModal(modalList[2],this.props.updateFolder,item.folder_id,item.name)}
                         onAuxClick={(e)=>this.handleFolderData(item.folder_id,item.name)}>
@@ -269,8 +272,10 @@ class Directory extends React.Component {
 
     render() {
         const { classes, theme,
-             sharedList = [], privateList = [], noteList = [], user_id = 0,
-           createFolder, sharedFolder, deleteFolder, updateFolder, createNote, updateNote, deleteNote } = this.props;
+             sharedList = [], privateList = [], noteList = [],
+             user_id = 0,
+             createFolder, sharedFolder,unsharedFolder, deleteFolder, updateFolder,
+             createNote, updateNote, deleteNote } = this.props;
         
         return (
             <div className={classes.root}>
@@ -286,42 +291,53 @@ class Directory extends React.Component {
                             [classes.drawerClose]: !this.state.open,
                         })
                     }}
-                    open={this.state.open}
-                >
+                    open={this.state.open}>
                     <div className={classes.toolbar}>
                         {this.state.open ? (
                             <div>
                                 <OneInputModal 
                                              visible={this.state.oneInputModal}
                                              onCancel={(e)=>this.handleUnSetModal('oneInputModal')}
-                                             onConfirm={this.state.modalAction}
+                                             onConfirm={this.state.modal_action}
                                              modal_icon={this.state.modal_icon}
                                              modal_title={this.state.modal_title}
                                              modal_content={this.state.modal_content}
                                              btn_name={this.state.btn_name}
-                                             id={this.state.modal_data}
+                                             id={this.state.modal_id}
                                              text={this.state.modal_text}
                                              />
 
                                 <NoticeModal 
                                             visible={this.state.noticeModal}
                                             onCancel={(e)=>this.handleUnSetModal('noticeModal')}
-                                            onConfirm={this.state.modalAction}
+                                            onConfirm={this.state.modal_action}
                                             modal_icon={this.state.modal_icon}
                                             modal_title={this.state.modal_title}
                                             modal_content={this.state.modal_content}
                                             btn_name={this.state.btn_name} 
-                                            id={this.state.modal_data}
-
+                                            id={this.state.modal_id}
                                             />
-                              {/* <AskShareModal visible={this.state.share} onConfirm={sharedFolder} onCancel={this.handleCloseAskShareModal} folder_id={'d'} />                          */}
+                                
+                                <AskShareModal
+                                            key={this.state.modal_id}
+                                            visible={this.state.selectModal}
+                                            onCancel={(e)=>this.handleUnSetModal('selectModal')}
+                                            onConfirm={this.state.modal_action}
+                                            modal_icon={this.state.modal_icon}
+                                            modal_title={this.state.modal_title}
+                                            modal_content={this.state.modal_content}
+                                            btn_name={this.state.btn_name} 
+                                            id={this.state.modal_id}
+                                            text={this.state.modal_text}
+                                           />
                             
                                 <IconButton onClick={(e)=>this.handleSetModal(modalList[0],createFolder,user_id, '')}>
                                     <CreateNewFolder color="primary"/>
                                 </IconButton>
 
-                                <IconButton onClick={this.handleOpenAskShareModal}>   
-                                    <GroupAdd color="primary"  />
+                         
+                                <IconButton onClick={(e) => this.handleSetModal(modalList[8], [sharedFolder,unsharedFolder], this.state.folder_id, this.state.permission)}>
+                                    <GroupAdd color="primary" />
                                 </IconButton>
 
                                 <IconButton
@@ -359,6 +375,7 @@ class Directory extends React.Component {
                                 <ExpandMore />
                             )}
                         </ListItem>
+                        {/* Open public of main nav */}
                         {sharedList.map((item,id) => (
                             <Collapse
                                 in={this.state.public_navigationOpen}
@@ -393,6 +410,7 @@ class Directory extends React.Component {
                                 <ExpandMore />
                             )}
                         </ListItem>
+                        {/* Open private of nav */}
                         {privateList.map((item, index) => (
                             <Collapse
                                 key={item.folder_id}

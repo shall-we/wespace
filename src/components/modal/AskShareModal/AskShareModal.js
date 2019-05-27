@@ -3,63 +3,123 @@ import styles from "./AskShareModal.scss";
 import classNames from "classnames/bind";
 import ModalWrapper from "../ModalWrapper";
 import Button from "../../common/Button";
-import OutlinedTextField from "../OutlinedTextField";
-import Selects from '../../common/Selects';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faUserFriends } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import IconButton from "@material-ui/core/IconButton";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faUserFriends } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Members from 'components/common/ChipsArray';
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+// modules
+import * as UserActions from "store/modules/user";
+// react-select
+
+import { Add} from "@material-ui/icons";
+
+import Select from 'react-select';
 
 library.add(faUserFriends);
-
 const cx = classNames.bind(styles);
 
+const Switch = (props) => {
+    return (
+      <div  className={cx('switch')}>
+        <label className='label' >
+        <input role="switch" type="checkbox" className="input"  onClick={props.handlePermmision} />    
+          <span className="text" data-on="관리자" data-off="사용자"></span>
+        </label>
+      </div>
+    );
+  };
+
 class AskShareModal extends React.Component {
-
-    state={
-        user:'',
-        permission:'MEMBER',
+    constructor(props) {
+        super(props);
+        this.state = {
+              shared: [],
+              unshared:[],
+              selectedOption: null,
+              permission:true
+        };
     }
 
-    handleChange=(text)=>{
-
-        this.setState({permission:text.value});
+    componentDidMount(){
+        const {UserActions}=this.props;
+        UserActions.getUserList(this.props.id);
+        
     }
- 
-   render(){
-   const {visible,onCancel,onConfirm,folder_id}=this.props;
-   
-   return <ModalWrapper visible={visible}>
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (prevState.user_list !== nextProps.user_list) {
+            let shared=[];
+            let unshared=[];
+            for(var i=0 ; i < nextProps.user_list.length ; i++){
+                if(nextProps.user_list[i].isShared)
+                shared = shared.concat({value:nextProps.user_list[i].id,label:nextProps.user_list[i].name,permission:nextProps.user_list[i].isShared});
+                else
+                unshared = unshared.concat({value:nextProps.user_list[i].id,label:nextProps.user_list[i].name});   
+            }
+            return { shared:shared,unshared:unshared };
+        } 
+        return null;
+    }
+  
+    handleChange=(selectedOption) => {
+        this.setState({ selectedOption });
+        console.log(`Option selected:`, selectedOption);
+      }
+      handlePermmision=()=>{
+        this.setState({permission:!this.state.permission});
+        console.log('권한 체크:::',this.state.permission);
+      }
+
+    render() {
+        const { visible, onCancel, onConfirm,   
+                modal_icon, modal_title, modal_content, btn_name,id,text } = this.props;
+        
+        const { selectedOption,permission}=this.state;
+
+        return (
+            <ModalWrapper visible={visible}>
                 <div className={cx("question")}>
                     <div className={cx("title")}>
-                        <FontAwesomeIcon icon="user-friends" size="2x" color="#1C90FB" />
-                        &nbsp;&nbsp;&nbsp;&nbsp;<strong>OOO&nbsp; 공유 폴더</strong>
+                        <FontAwesomeIcon icon={modal_icon} size="2x" color="#1C90FB" />
+                        &nbsp;&nbsp;&nbsp;&nbsp;<strong>{modal_title}</strong>
                     </div>
+                    <br />                    
+                    <div className={cx("description")}>{modal_content}</div>
                     <br />
-                    <div className={cx("description")}>
-                        해당 폴더로 초대할 인원을 선택해주세요.
-                    </div>
                     <br />
-                    <h3>이름</h3>
-                    <OutlinedTextField handleText={(e)=>this.setState({user:e.target.value})}/>
                     
-                    {/* 여기들어가야함 */}
-                    
-
-                    <h3>권한</h3>
-                    <Selects handleChange={this.handleChange}/>
-                    <br />
+                    <div className={cx("selectform")}>
+                    <Select className={cx("select")} value={this.state.selectedOption} onChange={this.handleChange} options={this.state.unshared}/>
+                    <Switch  handlePermmision={this.handlePermmision}/>  
+                    <IconButton>
+                    <Add onClick={()=>onConfirm[0](selectedOption.value,id,(permission)?'MEMBER':'MANAGER')}/>
+                    </IconButton>
+                    </div>          
+                    <br /><br />
+                    <Members 
+                    folder_id={id}
+                    onDelete={onConfirm} 
+                    members={this.state.shared} />
                     <br />
                 </div>
 
                 <div className={cx("options")}>
-                    <Button theme='outline' onClick={onCancel}>
-                        취소
+                    <Button theme="outline" onClick={onCancel}>
+                        {btn_name}
                     </Button>
-                    <Button theme='outline' onClick={()=>{
-                        console.log('user::',this.state.user,'----permission::',this.state.permission,'---folder_id::',folder_id);
-                    }}>초대</Button>
                 </div>
             </ModalWrapper>
-        };
+        );
+    }
 }
-export default AskShareModal;
+export default connect(
+    (state) => ({
+        user_list: state.user.get("user_list"),
+    }),
+    (dispatch) => ({
+        UserActions: bindActionCreators(UserActions, dispatch),
+    })
+)(AskShareModal);

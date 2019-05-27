@@ -4,7 +4,6 @@ import ReactPlayer from "react-player";
 import Modal from "react-modal";
 import PlayButton from "../../../image/btn-play.png";
 import {withRouter} from 'react-router-dom';
-//import {getCookie} from './cookie';
 
 const modalcustom = {
     content: {
@@ -35,17 +34,6 @@ class intro extends Component {
     closeModal() {
         this.setState({ modalIsOpen: false });
     }
-
-    // componentDidMount() {
-    //     const email = getCookie('email');
-    //     const password = getCookie('password');
-
-    //     console.log("email : ", email, " password : ", password);
-    //     if (email !== 'undifined') {
-    //         this.props.action(email,password, true);
-    //         this.props.history.push('/note');
-    //     }
-    // }
 
     render() {
         return (
