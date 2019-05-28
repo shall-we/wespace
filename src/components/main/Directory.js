@@ -18,15 +18,13 @@ import AskShareModal from '../modal/AskShareModal';
 import NoticeModal from '../modal/NoticeModal';
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import './Contextmenu.css';
+import ChatBox from './chat/chat';
 
-const drawerWidth = 260;
+const drawerWidth = 250;
 
 const styles = theme => ({
     root: {
         display:'flex',
-    },
-    menuButton: {
-        marginRight: 3.5
     },
     drawer: {
         width: drawerWidth,
@@ -65,6 +63,18 @@ const styles = theme => ({
     SubDrawerClose: {
         display: 'none'
     },
+    ChatDrawerOpen: {
+        height: 'calc(100vh - 4rem)', 
+        position:'unset',
+        width: drawerWidth,
+        transition: theme.transitions.create("width", {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen
+        }),
+    },
+    ChatDrawerClose: {
+        display: 'none'
+    },
     toolbar: {
         display: "flex",
         justifyContent: "flex-end",
@@ -79,7 +89,6 @@ const styles = theme => ({
         overflowX: "hidden",
         overflowY: "auto",
     },
-    
 });
 
 /** @param1 types of modal, @param2 icon, @param3 title of modal, @param4 content of modal, @param5 button */
@@ -117,8 +126,10 @@ class Directory extends React.Component {
         this.state = {
             open: false,
             SubOpen: false,
+            ChatOpen: false,
             public_navigationOpen: false,
             private_navigationOpen: false,
+            friend_navigationOpen: false,
 
             toggle: false,
 
@@ -151,6 +162,11 @@ class Directory extends React.Component {
             private_navigationOpen: !state.private_navigationOpen
         }));
     };
+    handleFreindClick = () => {
+        this.setState(state => ({
+            friend_navigationOpen: !state.friend_navigationOpen
+        }));
+    };
     handleDrawerOpen = () => {
         this.setState({ open: true });
     };
@@ -159,15 +175,25 @@ class Directory extends React.Component {
         this.setState({ SubOpen: false });
         this.setState({ private_navigationOpen: false });
         this.setState({ public_navigationOpen: false });
+        this.setState({ friend_navigationOpen: false });
+        this.setState({ ChatOpen: false});
     };
     handleSubDrawerOpen = () => {
         this.setState({ SubOpen: true });
+        this.setState({ ChatOpen: false });
     };
     handleSubDrawerClose = () => {
         this.setState({ SubOpen: false });
     };
  /** [main navigation] handling folder modal */
+    handleChatDrawerOpen = () => {
+        this.setState({ SubOpen: false });
+        this.setState({ ChatOpen: true });
+    };
 
+    handleChatDrawerClose = () => {
+        this.setState({ ChatOpen: false });
+    }
 
     handleSetModal=(array,action,id,text)=>{
         this.setState({
@@ -272,7 +298,7 @@ class Directory extends React.Component {
 
     render() {
         const { classes, theme,
-             sharedList = [], privateList = [], noteList = [],
+             sharedList = [], privateList = [], noteList = [], friendList = ["임채형", "김기덕", "정지연"],
              user_id = 0,
              createFolder, sharedFolder,unsharedFolder, deleteFolder, updateFolder,
              createNote, updateNote, deleteNote } = this.props;
@@ -391,7 +417,6 @@ class Directory extends React.Component {
                     </List>
                     <Divider />
 
-
                     <List className={classes.list}>
                         <ListItem
                             button
@@ -420,6 +445,44 @@ class Directory extends React.Component {
                             >
                                 <List component="div" disablePadding>
                                     {this.FolderContextmenu(item)}
+                                </List>
+                            </Collapse>
+                        ))}
+                    </List>
+                    <List className={classes.list}>
+                        <ListItem
+                            button
+                            onClick={event => {
+                                this.handleDrawerOpen();
+                                this.handleFreindClick();
+                            }}
+                        >
+                            <ListItemIcon>
+                                <Folder />
+                            </ListItemIcon>
+                            <ListItemText primary="friend" />
+                            {this.state.friend_navigationOpen ? (
+                                <ExpandLess />
+                            ) : (
+                                <ExpandMore />
+                            )}
+                        </ListItem>
+                        {/* Open friend of nav */}
+                        {friendList.map((item, index) => (
+                            <Collapse
+                                key={item.folder_id}
+                                in={this.state.friend_navigationOpen}
+                                timeout="auto"
+                                unmountOnExit
+                            >
+                                <List component="div" disablePadding>
+                                    <ListItem
+                                        button
+                                        onClick={event => {
+                                            this.handleChatDrawerOpen();
+                                        }}>
+                                        <ListItemText inset primary={item} />
+                                    </ListItem>
                                 </List>
                             </Collapse>
                         ))}
@@ -454,7 +517,6 @@ class Directory extends React.Component {
 
                             <IconButton
                                 onClick={this.handleSubDrawerClose}
-                                className={classNames(classes.menuButton)}
                             >
                                 {theme.direction === "rtl" ? (
                                     <ChevronRight />
@@ -470,6 +532,49 @@ class Directory extends React.Component {
                         {noteList.map((item) => (this.FileContextmenu(item)))}
                     </List>
                     </div>
+                </Drawer>
+                <Drawer
+                    variant="permanent"
+                    className={classNames(classes.drawer, {
+                        [classes.ChatDrawerClose]: !this.state.ChatOpen
+                    })}
+                    classes={{
+                        paper: classNames( {
+                            [classes.ChatDrawerOpen]: this.state.ChatOpen,
+                            [classes.ChatDrawerClose]: !this.state.ChatOpen
+                        }),
+                    }}
+                    open={this.state.ChatOpen}>
+                    <div className={classes.toolbar} style={{marginRight: 6}}>
+                        <div>
+                            {/* 친구 추가 모달생성 */}
+                            <IconButton onClick={null}>   
+                                <NoteAdd color="primary" />
+                            </IconButton>
+
+                            <IconButton disabled/>
+                            <IconButton disabled/>
+                            <IconButton disabled/>
+                            <IconButton disabled/>
+                            <IconButton disabled/>
+                            <IconButton disabled/>
+                            
+                            <IconButton
+                                onClick={this.handleChatDrawerClose}
+                            >
+                                {theme.direction === "rtl" ? (
+                                    <ChevronRight />
+                                ) : (
+                                    <ChevronLeft />
+                                )}
+                            </IconButton>
+                        </div>
+                    </div>
+                    <Divider />
+                    <div className={classes.drawerOverflow}>
+                        <ChatBox/>
+                    </div>                        
+
                 </Drawer>
             </div>
         );
