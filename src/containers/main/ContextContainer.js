@@ -1,36 +1,28 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as directoryActions from 'store/modules/directory';
-import Context from 'components/main/Context';
-import Editor from 'components/main/Editor';
-
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as directoryActions from "store/modules/directory";
+import Context from "components/main/Context/Context.js";
+import Editor from "components/main/Editor";
 
 class ContextContainer extends Component {
-
-
-
-    render() {
-      const { note,name,profile} = this.props;
-      if(note){
-      return (
-          <Editor  key={note} note={note} name={name} profile={profile} />
-    );
-      }else{
-        return(
-             <Context/>
-        )
-      }
+  render() {
+    const { note, name, profile } = this.props;
+    if (note) {
+      return <Editor key={note} note={note} name={name} profile={profile} />;
+    } else {
+      return <Context />;
+    }
   }
 }
-   
+
 export default connect(
-  (state) => ({
+  state => ({
     note: state.directory.get("note"),
     name: state.user.get("name"),
-    profile:state.user.get("profile"),
+    profile: state.user.get("profile")
   }),
-  (dispatch) => ({
+  dispatch => ({
     DirectoryActions: bindActionCreators(directoryActions, dispatch)
   })
 )(ContextContainer);
