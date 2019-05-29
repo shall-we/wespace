@@ -12,7 +12,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
 import { Menu, ExpandMore, ExpandLess, CreateNewFolder, FolderShared, Delete, Folder, Share, Lock, 
-    GroupAdd, ChevronLeft, ChevronRight, NoteAdd} from "@material-ui/icons";
+    GroupAdd, ChevronLeft, ChevronRight, NoteAdd, NotificationImportant, Assignment } from "@material-ui/icons";
 import OneInputModal from "../modal/OneInputModal";
 import AskShareModal from '../modal/AskShareModal';
 import NoticeModal from '../modal/NoticeModal';
@@ -127,6 +127,7 @@ class Directory extends React.Component {
             open: false,
             SubOpen: false,
             ChatOpen: false,
+            notice_navigationOpen: false,
             public_navigationOpen: false,
             private_navigationOpen: false,
             friend_navigationOpen: false,
@@ -151,7 +152,12 @@ class Directory extends React.Component {
             btn_name: '',
         };
     }
-    
+
+    handleNoticeClick = () => {
+        this.setState(state => ({
+            notice_navigationOpen: !state.notice_navigationOpen
+        }));
+    };
     handlePublicClick = () => {
         this.setState(state => ({
             public_navigationOpen: !state.public_navigationOpen
@@ -173,6 +179,7 @@ class Directory extends React.Component {
     handleDrawerClose = () => {
         this.setState({ open: false });
         this.setState({ SubOpen: false });
+        this.setState({ notice_navigationOpen: false });
         this.setState({ private_navigationOpen: false });
         this.setState({ public_navigationOpen: false });
         this.setState({ friend_navigationOpen: false });
@@ -268,7 +275,7 @@ class Directory extends React.Component {
         <div className='context-menu' key={item.id}>
             <ContextMenuTrigger id={item.id}>
                 <ListItem button key={item.id}>
-                    <ListItemText primary={item.name} 
+                    <ListItemText primary={item.name}
                     onClick={(e)=>this.handleNoteData(item.id, item.name,item.content)}
                     onDoubleClick={(e)=>this.handleSetModal(modalList[5],this.props.updateNote,{note_id:item.id, folder_id: this.state.folder_id},item.name)}
                     onAuxClick={(e)=>this.handleNoteData(item.id, item.name,item.content)}/>
@@ -298,7 +305,7 @@ class Directory extends React.Component {
 
     render() {
         const { classes, theme,
-             sharedList = [], privateList = [], noteList = [], friendList = ["임채형", "김기덕", "정지연"],
+             noticeList = ["전체 공지", "부서별 공지", "팀별 공지"], sharedList = [], privateList = [], noteList = [], friendList = ["임채형", "김기덕", "정지연"],
              user_id = 0,
              createFolder, sharedFolder,unsharedFolder, deleteFolder, updateFolder,
              createNote, updateNote, deleteNote } = this.props;
@@ -383,6 +390,30 @@ class Directory extends React.Component {
                         )}
                     </div>
                     <Divider />
+                    {/* notice tab clicked */}
+                    <List className={classes.list}>
+                      <ListItem button
+                                onClick={event => { this.handleDrawerOpen(); this.handleNoticeClick(); }}>
+                        <ListItemIcon>
+                          <NotificationImportant />
+                        </ListItemIcon>
+                        <ListItemText primary="notice" />
+                          {this.state.notice_navigationOpen ? ( <ExpandLess /> ) : ( <ExpandMore /> )}
+                      </ListItem>
+                        {/* Open notice of main navigation */}
+                        {noticeList.map((item, index) => (
+                          <Collapse in={this.state.notice_navigationOpen}
+                                    timeout="auto" unmountOnExit key={item.folder_id}>
+                            <List component="div" disablePadding>
+                              <ListItem button onClick={ console.log('hi') }>
+                                <Assignment color="primary" />
+                                <ListItemText inset primary={item} />
+                              </ListItem>
+                            </List>
+                          </Collapse>
+                        ))}
+                    </List>
+                    <Divider />
                     <List className={classes.list}>
                         <ListItem 
                             button
@@ -401,7 +432,7 @@ class Directory extends React.Component {
                                 <ExpandMore />
                             )}
                         </ListItem>
-                        {/* Open public of main nav */}
+                        {/* Open public of main navigation */}
                         {sharedList.map((item,id) => (
                             <Collapse
                                 in={this.state.public_navigationOpen}
@@ -435,6 +466,7 @@ class Directory extends React.Component {
                                 <ExpandMore />
                             )}
                         </ListItem>
+                        
                         {/* Open private of nav */}
                         {privateList.map((item, index) => (
                             <Collapse
@@ -449,6 +481,7 @@ class Directory extends React.Component {
                             </Collapse>
                         ))}
                     </List>
+                    <Divider />
                     <List className={classes.list}>
                         <ListItem
                             button
@@ -467,6 +500,7 @@ class Directory extends React.Component {
                                 <ExpandMore />
                             )}
                         </ListItem>
+                        
                         {/* Open friend of nav */}
                         {friendList.map((item, index) => (
                             <Collapse
