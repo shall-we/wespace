@@ -1,12 +1,20 @@
 import React from "react";
+import styles from './Context.scss';
+import classNames from 'classnames/bind';
+import logo from 'image/logo.png';
 import Collapsible from './component/Collapsible';
-import './Context.scss';
+
+const cx = classNames.bind(styles);
 
 class Context extends React.Component {
   render() {
     return (
-      <div className="cx-wrapper">
+      <div className={cx('cx-wrapper')}>
       {/* 노트 내용을 map으로 가져오면 됨 */}
+        <div className={cx('cx-title')}>
+          <img className={cx('logo')} src={logo} alt='logo'/><br />
+          <p>최신 공지사항을 확인하셨나요? 아래 탭을 클릭해보세요!</p>
+        </div>
         <Collapsible trigger="Start Here">
           <p>This is the collapsible content. It can be any element or React component you like.</p>
           <p>It can even be another Collapsible component. Check out the next section!</p>

@@ -13,6 +13,7 @@ $breakpointMega: 1600px;
 $breakpointLarge: 990px;
 $breakpointMed: 767px;
 
+// context-wrapper(cx-wrapper)
 .cx-wrapper {
   flex: 1;
   display: flex;
@@ -24,6 +25,21 @@ $breakpointMed: 767px;
   // -webkit-scrollbar {
   //   display: none;
   // }
+
+  .cx-title {
+    font-size: 1.3rem;
+    margin-top: 1.5rem;
+    margin-bottom: 4rem;
+    text-align: center;
+    line-height: 2.5rem;
+
+    .logo {
+      justify-content: center;
+      align-items: center;
+      width: 25rem;
+      // margin-bottom: 1rem;
+    }
+  }
 }
 
 @import "component/Collapsible";

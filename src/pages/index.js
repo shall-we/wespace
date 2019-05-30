@@ -4,4 +4,5 @@ export { default as JoinPage } from './JoinPage';
 export { default as LoginPage } from './LoginPage';
 export { default as IntroPage } from './IntroPage';
 export { default as PublicPage } from './PublicPage';
+export { default as NoticePage } from './NoticePage';
 export { default as NotFoundPage } from './NotFoundPage';

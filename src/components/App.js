@@ -1,8 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { NotFoundPage, LoginPage, JoinPage, IntroPage, MainPage,PublicPage } from '../pages';
+import { NotFoundPage, LoginPage, JoinPage, IntroPage, MainPage, PublicPage, NoticePage } from '../pages';
 const App = () => {
-
   return (
     <div>
     <Switch>
@@ -11,6 +10,7 @@ const App = () => {
       <Route path='/join' component={JoinPage}/>
       <Route exact path='/note' component={MainPage} />
       <Route path='/note/public/:uuid' component={PublicPage} />
+      <Route path='/note/notice' component={NoticePage} />
       <Route component={NotFoundPage}/>
     </Switch>
   </div>

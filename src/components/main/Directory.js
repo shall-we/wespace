@@ -155,21 +155,33 @@ class Directory extends React.Component {
 
     handleNoticeClick = () => {
         this.setState(state => ({
-            notice_navigationOpen: !state.notice_navigationOpen
+            notice_navigationOpen: !state.notice_navigationOpen,
+            public_navigationOpen: false,
+            private_navigationOpen: false,
+            friend_navigationOpen: false,
         }));
     };
     handlePublicClick = () => {
         this.setState(state => ({
-            public_navigationOpen: !state.public_navigationOpen
+            notice_navigationOpen: false,
+            public_navigationOpen: !state.public_navigationOpen,
+            private_navigationOpen: false,
+            friend_navigationOpen: false,
         }));
     };
     handlePrivateClick = () => {
         this.setState(state => ({
-            private_navigationOpen: !state.private_navigationOpen
+            notice_navigationOpen: false,
+            public_navigationOpen: false,
+            private_navigationOpen: !state.private_navigationOpen,
+            friend_navigationOpen: false,
         }));
     };
     handleFreindClick = () => {
         this.setState(state => ({
+            notice_navigationOpen: false,
+            public_navigationOpen: false,
+            private_navigationOpen: false,
             friend_navigationOpen: !state.friend_navigationOpen
         }));
     };
@@ -219,6 +231,13 @@ class Directory extends React.Component {
         this.setState({
             [type]: false
         });
+    }
+
+    handleNoticeOpen = () => {
+        // console.log('[handleNoticeOpen]: ', index);
+        this.setState({ SubOpen: false });
+        this.props.setFolder(null);
+        this.props.setNote(null);
     }
 
     handleFolderData = (folder_id, folder_name,permission) => {
@@ -304,15 +323,14 @@ class Directory extends React.Component {
     )
 
     render() {
-        const { classes, theme,
-             noticeList = ["전체 공지", "부서별 공지", "팀별 공지"], sharedList = [], privateList = [], noteList = [], friendList = ["임채형", "김기덕", "정지연"],
-             user_id = 0,
-             createFolder, sharedFolder,unsharedFolder, deleteFolder, updateFolder,
-             createNote, updateNote, deleteNote } = this.props;
+      const { classes, theme, noticeList = ['1','12','123132'], sharedList = [], privateList = [],
+              noteList = [], friendList = ["임채형", "김기덕", "정지연"], user_id = 0,
+              createFolder, sharedFolder,unsharedFolder, deleteFolder, updateFolder,
+              createNote, updateNote, deleteNote } = this.props;
         
-        return (
-            <div className={classes.root}>
-                <Drawer 
+      return (
+        <div className={classes.root}>
+          <Drawer 
                     variant="permanent"
                     className={classNames(classes.drawer, {
                         [classes.drawerOpen]: this.state.open,
@@ -397,21 +415,21 @@ class Directory extends React.Component {
                         <ListItemIcon>
                           <NotificationImportant />
                         </ListItemIcon>
-                        <ListItemText primary="notice" />
-                          {this.state.notice_navigationOpen ? ( <ExpandLess /> ) : ( <ExpandMore /> )}
+                        <ListItemText primary="notice" onClick={(e) => this.handleNoticeOpen()} />
                       </ListItem>
                         {/* Open notice of main navigation */}
-                        {noticeList.map((item, index) => (
+                        {/* {noticeList.map((item, index) => (
                           <Collapse in={this.state.notice_navigationOpen}
                                     timeout="auto" unmountOnExit key={item.folder_id}>
                             <List component="div" disablePadding>
-                              <ListItem button onClick={ console.log('hi') }>
+                              <ListItem button onClick={ console.log('notice') }>
                                 <Assignment color="primary" />
-                                <ListItemText inset primary={item} />
+                                  <ListItemText inset primary={item}
+                                                onClick={(e) => this.handleNoticeOpen(index)} />
                               </ListItem>
                             </List>
                           </Collapse>
-                        ))}
+                        ))} */}
                     </List>
                     <Divider />
                     <List className={classes.list}>
