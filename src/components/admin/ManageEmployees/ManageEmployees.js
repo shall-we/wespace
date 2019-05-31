@@ -1,0 +1,49 @@
+import React from "react";
+import styles from './ManageEmployees.scss';
+import classNames from 'classnames/bind';
+import logo from 'image/employees.png';
+import CustomizedTables from 'components/admin/CustomizedTables';
+import Button from 'components/common/Button';
+
+
+const cx = classNames.bind(styles);
+
+class ManageEmployees extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isNewClicked: true,
+    }
+  }
+
+  handleCreate = (data) => {
+    const { notification } = this.state;
+    this.setState({
+      notification: notification.concat({ id: this.id++, ...data })
+    });
+  }
+
+  handleClick = () => {
+    console.log('accordionPosition: ');
+  }
+
+  render() {
+    return (
+      <div className={cx('cx-wrapper')}>
+        <div className={cx('cx-title')}>
+          <img className={cx('logo')} src={logo} alt='logo'/><br />
+          <p>현재 WESPACE에 가입되어 있는 직원 목록입니다.&nbsp;&nbsp;&nbsp;
+            {/* <Button key='admin' theme='outline' onClick={this.props.openWriteNotice}>
+              공지사항 추가하기
+            </Button> */}
+          </p>
+        </div>
+        <div>
+          <CustomizedTables />
+        </div>
+      </div>
+    );
+  }
+}
+
+export default ManageEmployees;

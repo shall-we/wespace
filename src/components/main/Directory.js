@@ -23,11 +23,10 @@ import ChatBox from './chat/chat';
 const drawerWidth = 250;
 
 const styles = theme => ({
-    root: {
-        display:'flex',
-    },
+    root: { display: 'flex' },
     drawer: {
         width: drawerWidth,
+        height: 'calc(100vh - 4rem)', 
         flexShrink: 0,
     },
     drawerOpen: {

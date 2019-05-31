@@ -1,0 +1,39 @@
+.nf-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  margin: 2rem;
+  padding: 2rem;
+  margin-right: auto;
+  
+  .title {
+    text-align: center;
+    font-size: 3rem;
+    font-weight: 500;
+    padding-bottom: 1rem;
+
+    p {
+      font-size: 1.3rem;
+      font-weight: normal;
+      padding-top: 1rem;
+    }
+  }
+
+  .btn {
+    flex: 0.3;
+    text-align: center;
+  }
+
+  .left {
+    // 오른쪽 내용
+    display: flex;
+    // align-items: center;
+      label {
+        font-weight: 600;
+        font-size: 1.2rem;
+      }
+    }
+
+    // margin-bottom: 1rem;
+}
