@@ -10,6 +10,12 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as adminActions from "store/modules/admin";
+import { withRouter } from "react-router-dom";
+
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faEnvelopeOpenText, faUserEdit } from "@fortawesome/free-solid-svg-icons";
@@ -92,6 +98,7 @@ class Administration extends React.Component {
 
     handleNoticeClick = () => {
       this.setState({ visible: true });
+      this.props.AdminActions.getNoticeList();
       this.props.noticeOpen(this.state.visible);
     };
 
@@ -144,4 +151,14 @@ Administration.propTypes = {
     theme: PropTypes.object.isRequired
 };
 
-export default withStyles(styles, { withTheme: true })(Administration);
+export default withStyles(styles, { withTheme: true })(
+  connect(
+  (state) => ({
+    noticeList: state.admin.get("notice_list")
+  }),
+  (dispatch) => ({
+    AdminActions: bindActionCreators(adminActions, dispatch)
+  })
+)(withRouter(Administration)));
+  
+  // Administration);

@@ -25,15 +25,12 @@
     text-align: center;
   }
 
-  .left {
-    // 오른쪽 내용
+  .form {
     display: flex;
-    // align-items: center;
-      label {
-        font-weight: 600;
-        font-size: 1.2rem;
-      }
-    }
-
-    // margin-bottom: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
 }

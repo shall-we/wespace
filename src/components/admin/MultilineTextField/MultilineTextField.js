@@ -4,72 +4,79 @@ import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 
 const styles = theme => ({
-    container: {
-        display: "flex",
-        flexWrap: "wrap",
-        marginTop: "1rem",
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    textField: {
-        width: '40rem',
-        fontWeight: 'bold',
-        // margin: '1rem'
-        // marginLeft: theme.spacing.unit,
-        // marginRight: theme.spacing.unit
-        // '&$cssFocused': {
-        //     color: "#1C90FB"
-        // },
-    },
-    dense: {
-        marginTop: 16
-    },
-    menu: {
-        width: 200
-    },
-    notchedOutline: {
-        borderColor: "#1C90FB !important"
-    },
-    placeholderText: {
-        fontWeight: "bold"
-    },
-    size: {
-        width: '38rem',
-    }
+  container: {
+    display: "flex",
+    flexWrap: "wrap",
+    marginTop: "1rem",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  textField: {
+    width: "40rem",
+    fontWeight: "bold"
+  },
+  dense: {
+    marginTop: 16
+  },
+  menu: {
+    width: 200
+  },
+  notchedOutline: {
+    borderColor: "#1C90FB !important"
+  },
+  placeholderText: {
+    fontWeight: "bold"
+  },
+  size: {
+    width: "38rem"
+  }
 });
 
 class MultilineTextField extends Component {
-    state = {
-        name: this.props.value
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      title: this.props.title,
+      content: this.props.content,
+    };
+  }
 
-    render() {
-        const { classes,handleText } = this.props;
+  render() {
+    const { classes } = this.props;
 
-        return (
-          <form className={classes.container} noValidate autoComplete="off">
-            {/* <label>제목</label> */}
-            <TextField multiline id="outlined-multiline-static" rows="1"
-                       placeholder="제목을 입력하세요."
-                       margin="normal" variant="outlined"
-                       className={classes.textField}
-                    //    InputProps={{ classes: { input: classes.size } }}
-                       />
-            
-            {/* <label>내용</label> */}
-            <TextField multiline id="outlined-multiline-static" rows="10"
-                       placeholder="내용을 입력하세요."
-                       margin="normal" variant="outlined"
-                    //    className={classes.textField}
-                       InputProps={{ classes: { input: classes.size } }}
-                       />
-          </form>
-        );
-    }
+    return (
+      <TextField />
+      // <div>
+      //   <TextField className={classes.textField} id="outlined-multiline-static"
+      //              multiline rows={this.props.rows} margin="normal" variant="outlined"
+      //              placeholder="제목을 입력하세요." name="title"
+      //              value={this.state.title} onChange={(e) => {
+      //                  this.setState({ title: e.target.value })
+      //                  console.log('title ', this.state.title);
+      //                  }} />
+
+      //   <TextField InputProps={{ classes: { input: classes.size } }} id="outlined-multiline-static"
+      //              multiline rows="10" margin="normal" variant="outlined"
+      //              placeholder="내용을 입력하세요." name="content"
+      //              value={this.state.content} onChange={(e) => {
+      //                  this.setState({ content: e.target.value })
+      //                  console.log('1 ', this.state.content);
+      //               } } />
+      // </div>
+    );
+  }
+
+//   handleChange = (e) => {
+//       this.setState({
+//           title: e.target.title,
+//           content: e.target.content
+//       });
+//       console.log(this.state.title, this.state.content);
+//   }
 }
 
 MultilineTextField.propTypes = {
-    classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(MultilineTextField);

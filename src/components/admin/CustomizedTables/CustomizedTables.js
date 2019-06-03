@@ -32,28 +32,6 @@ const StyledTableRow = withStyles(theme => ({
   },
 }))(TableRow);
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("frozenyoghurt@hanmail.net", 159, 6.0, 24, 4.0),
-  createData("Ice-cream-sandwich@hanmail.net", 237, 9.0, 37, 4.3),
-  createData("Eclair@hanmail.net", 262, 16.0, 24, 6.0),
-  createData("Cupcake@hanmail.net", 305, 3.7, 67, 4.3),
-  createData("Gingerbread@hanmail.net", 356, 16.0, 49, 3.9),
-  createData("Frozen yoghurt@hanmail.net", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich@hanmail.net", 237, 9.0, 37, 4.3),
-  createData("Eclair@hanmail.net", 262, 16.0, 24, 6.0),
-  createData("Cupcake@hanmail.net", 305, 3.7, 67, 4.3),
-  createData("Gingerbread@hanmail.net", 356, 16.0, 49, 3.9),
-  createData("Frozen yoghurt@hanmail.net", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich@hanmail.net", 237, 9.0, 37, 4.3),
-  createData("Eclair@hanmail.net", 262, 16.0, 24, 6.0),
-  createData("Cupcake@hanmail.net", 305, 3.7, 67, 4.3),
-  createData("Gingerbread@hanmail.net", 356, 16.0, 49, 3.9),
-];
-
 const styles = theme => ({
   root: {
     flex: 1,
@@ -62,18 +40,24 @@ const styles = theme => ({
     // margin: '2rem',
     // padding: '2rem',
     // marginTop: theme.spacing(3),
-    height: 'calc(100vh - 8rem)',
+    height: 'auto',
     overflowX: "hidden",
     overflowY: "auto",
   },
   table: {
     minWidth: 700
   },
+  profile: {
+    width: '2rem'
+  }
 });
 
 class CustomizedTables extends React.Component {
   render() {
-    const { classes } = this.props;
+    const { classes, userList, getNoteFromEachUser } = this.props;
+
+    console.log('[CustomizedTables ', userList );
+    console.log('[CustomizedTables ', getNoteFromEachUser );
 
     return (
       <Paper className={classes.root}>
@@ -90,15 +74,17 @@ class CustomizedTables extends React.Component {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map(row => (
-              <StyledTableRow key={row.name}>
-                <StyledTableCell align="center">{row.calories}</StyledTableCell>
+            {userList.map((user) => (
+              <StyledTableRow key={user.id}>
+                <StyledTableCell align="center"><img className={classes.profile} src={user.profile} alt="profile" /></StyledTableCell>
                 <StyledTableCell component="th" scope="row">
-                  {row.name}
+                  {user.email}
                 </StyledTableCell>
-                <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                <StyledTableCell align="right">{row.carbs}</StyledTableCell>
+                <StyledTableCell align="right">{user.name}</StyledTableCell>
+                <StyledTableCell align="right">{user.folder_count}</StyledTableCell>
+                {getNoteFromEachUser.map((user) => (
+                  <StyledTableCell align="right">{user.note_count}</StyledTableCell>
+                ))}
               </StyledTableRow>
             ))}
           </TableBody>
