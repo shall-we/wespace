@@ -1,12 +1,10 @@
 import React from "react";
 import formStyles from "./NoticeForm.scss";
+import classNames from "classnames/bind";
 
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-
-import classNames from "classnames/bind";
 import Button from "../../common/Button";
-import MultilineTextField from "../MultilineTextField";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -55,7 +53,6 @@ class NoticeForm extends React.Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps !== prevState) {
-      console.log('[NoticeForm] ', nextProps.id, nextProps.title, nextProps.content);
       return { id: nextProps.id, title: nextProps.title, content: nextProps.content };
     }
     return null;
@@ -66,11 +63,7 @@ class NoticeForm extends React.Component {
   }
 
   handleModifyNotice = () => {
-    console.log('====handleModifyNotice====');
-    console.log(this.props.id, this.state.title, this.state.content);
     this.props.onUpdate(this.props.id, this.state.title, this.state.content);
-    console.log('====handleModifyNotice====');
-
   }
 
   render() {
@@ -96,7 +89,6 @@ class NoticeForm extends React.Component {
           ]
         }
 
-
         <div className={cx("form")}>
           <form noValidate autoComplete="off">
             <TextField className={classes.textField} rows="1" id="outlined-multiline-static" multiline
@@ -112,23 +104,7 @@ class NoticeForm extends React.Component {
           <Button key="notice-cancel" theme="outline" to="/admin" onClick={onCancel}>
             취소
           </Button>
-          {
-            onModify ? [<Button key="notice-confirm" theme="outline" onClick={this.handleModifyNotice}>
-            수정
-          </Button>] : [<Button key="notice-confirm" theme="outline" onClick={this.handleWriteNotice}>
-            작성
-          </Button>]
-          }
-          
-          {/* { this.props.isModified === true ?
-            <Button key="notice-confirm" theme="outline" onClick={this.handleWriteNotice}>
-            작성
-          </Button> :
-            <Button key="notice-confirm" theme="outline" onClick={this.handleModifyNotice}>
-            수정
-          </Button>
-          } */}
-          
+          { onModify ? [<Button key="notice-confirm" theme="outline" onClick={this.handleModifyNotice}>수정</Button>] : [<Button key="notice-confirm" theme="outline" onClick={this.handleWriteNotice}>작성</Button>] }
         </div>
       </div>
       </div>

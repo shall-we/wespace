@@ -6,6 +6,7 @@ export const login = (email,password,autoLogin) => axios.post('/login',{email, p
 export const join = (name,email,password,profile) => axios.post('/join',{name,email,password,profile});
 export const getUserList = (folder_id) => axios.get(`/user?${queryString.stringify({folder_id})}`);
 export const getAllUserList = () => axios.get('/admin/user');
+export const deleteUser = (id) => axios.delete(`/admin/user/${id}`);
 
 // Folder API
 export const getSharedList = (user_id) => axios.get(`/folder/shared?${queryString.stringify({user_id})}`);

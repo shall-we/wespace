@@ -1,11 +1,13 @@
 import React from "react";
-import { withStyles, makeStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+
+import Button from "components/common/Button";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -54,10 +56,8 @@ const styles = theme => ({
 
 class CustomizedTables extends React.Component {
   render() {
-    const { classes, userList, noteCount } = this.props;
-
-    console.log('[CustomizedTables ', userList );
-    console.log('[CustomizedTables getNoteCount ', noteCount );
+    const { classes, userList, onDelete } = this.props;
+    // const { noteCount } = this.props;
 
     return (
       <Paper className={classes.root}>
@@ -69,8 +69,8 @@ class CustomizedTables extends React.Component {
               </StyledTableCell>
               <StyledTableCell className={classes.test} align="center">이메일</StyledTableCell>
               <StyledTableCell align="center">직원 이름</StyledTableCell>
-              <StyledTableCell align="center">공유 폴더 수</StyledTableCell>
-              {/* <StyledTableCell align="center">노트 보유 수</StyledTableCell> */}
+              <StyledTableCell align="center">폴더 수</StyledTableCell>
+              <StyledTableCell align="center">직원 관리</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -82,10 +82,9 @@ class CustomizedTables extends React.Component {
                 </StyledTableCell>
                 <StyledTableCell align="center">{user.name}</StyledTableCell>
                 <StyledTableCell align="center">{user.folder_count}</StyledTableCell>
-                {/* <StyledTableCell align="center">0</StyledTableCell>
-                  {noteCount.find((user, index) => (
-                    <StyledTableCell align="center">{user.note_count}</StyledTableCell>
-                  ))} */}
+                <StyledTableCell align="center">
+                  <Button key='btn-delete' theme='outline' onClick={() => onDelete(user.id)}>계정 삭제</Button>
+                </StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>

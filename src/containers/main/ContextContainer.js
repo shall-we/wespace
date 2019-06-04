@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as directoryActions from "store/modules/directory";
-import Context from "components/main/Context/Context.js";
+import Context from "components/admin/Context/Context.js";
 import Editor from "components/main/Editor";
 
 class ContextContainer extends Component {

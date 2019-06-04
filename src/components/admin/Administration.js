@@ -4,7 +4,6 @@ import classNames from "classnames";
 
 import { createMuiTheme, withStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
-import CssBaseline from '@material-ui/core/CssBaseline';
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -19,7 +18,6 @@ import { withRouter } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faEnvelopeOpenText, faUserEdit } from "@fortawesome/free-solid-svg-icons";
-
 library.add(faEnvelopeOpenText);
 library.add(faUserEdit);
 
@@ -64,86 +62,68 @@ const styles = theme => createMuiTheme({
 });
 
 class Administration extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            visible: true,
-            manageEmployeesOpen: true,
+  constructor(props) {
+    super(props);
+    this.state = {
+        visible: true,
+        manageEmployeesOpen: true,
+    };
+  }
 
+  handleNoticeClick = () => {
+    this.setState({ visible: true });
+    this.props.AdminActions.getNoticeList();
+    this.props.noticeOpen(this.state.visible);
+  };
 
-            open: false,
-            SubOpen: false,
-            ChatOpen: false,
-
-            toggle: false,
-
-            folder_id : 0,
-            folder_name : '',
-            note_id : 0,
-            note_name: '',
-            permission:'',
-            oneInputModal: false,
-            noticeModal: false,
-            selectModal: false,
-
-            modal_action:null,
-            modal_text:'',
-            modal_id:0,
-            modal_icon: '',
-            modal_title: '',
-            modal_content: '',
-            btn_name: '',
-        };
-    }
-
-    handleNoticeClick = () => {
+  handleManagingEmployees = () => {
       this.setState({ visible: true });
-      this.props.AdminActions.getNoticeList();
-      this.props.noticeOpen(this.state.visible);
-    };
+      console.log('[Administration] ', this.state.visible);
+      this.props.visible(this.state.visible);
+  };
 
-    handleManageEmployeesClick = () => {
-        this.setState({ visible: true });
-        console.log('[Administration] ', this.state.visible);
-        this.props.visible(this.state.visible);
-    };
-
-    render() {
-      const { classes } = this.props;
-        
-      return (
-        <div className={classes.root}>
-          <CssBaseline />
-          <Drawer open={this.state.open} variant="permanent"
-                  className={classNames(classes.drawer)}
-                  classes={{paper: classNames(classes.paper)}}>
-            <List className={classes.nav}>
-              <div>
-                <h2><center>관리자 카테고리</center></h2>
-              </div>
-            </List>
-            {/* notice tab clicked */}
-            <List className={classes.list}>
-              <ListItem button onClick={(e) => this.handleNoticeClick()}>
-                <ListItemIcon>
-                  <FontAwesomeIcon icon="envelope-open-text" size="2x" color="#fff" />
-                </ListItemIcon>
-                <ListItemText className={classes.lit} disableTypography primary="공지사항 관리" onClick={(e) => console.log('hi')} />
-              </ListItem>
-            </List>
-            
-            <List className={classes.list}>
-              <ListItem className={classes.item} button onClick={(e) => this.handleManageEmployeesClick()}>
-                <ListItemIcon>
-                  <FontAwesomeIcon icon="user-edit" size="2x" color="#fff" />
-                </ListItemIcon>
-                <ListItemText className={classes.lit} disableTypography primary="직원 현황 관리" onClick={(e) => console.log('hi')} />
-              </ListItem>
-            </List>
-          </Drawer>
-            </div>
-        );
-    }
+  render() {
+    const { classes } = this.props;
+      
+    return (
+      <div className={classes.root}>
+        <Drawer variant="permanent"
+                className={classNames(classes.drawer)}
+                classes={{paper: classNames(classes.paper)}}>
+          <List className={classes.nav}>
+            <div><h2><center>관리자 카테고리</center></h2></div>
+          </List>
+          {/* 공지사항 관리 */}
+          <List className={classes.list}>
+            <ListItem button onClick={(e) => this.handleNoticeClick()}>
+              <ListItemIcon>
+                <FontAwesomeIcon icon="envelope-open-text" size="2x" color="#fff" />
+              </ListItemIcon>
+              <ListItemText className={classes.lit} disableTypography primary="공지사항 관리" />
+            </ListItem>
+          </List>
+          {/* 직원 현황 관리 */}
+          <List className={classes.list}>
+            <ListItem className={classes.item} button onClick={(e) => this.handleManagingEmployees()}>
+              <ListItemIcon>
+                <FontAwesomeIcon icon="user-edit" size="2x" color="#fff" />
+              </ListItemIcon>
+              <ListItemText className={classes.lit} disableTypography primary="직원 현황 관리" />
+            </ListItem>
+          </List>
+          {/* 폴더 현황 관리 */}
+          {/* <List className={classes.list}>
+            <ListItem className={classes.item} button onClick={(e) => this.handleManageFolderClick()}>
+              <ListItemIcon>
+                <FontAwesomeIcon icon="user-edit" size="2x" color="#fff" />
+              </ListItemIcon>
+              <ListItemText className={classes.lit} disableTypography primary="폴더 현황 관리" />
+            </ListItem>
+          </List> */}
+        </Drawer>
+      </div>
+    );
+  }
 }
 
 Administration.propTypes = {
@@ -160,5 +140,3 @@ export default withStyles(styles, { withTheme: true })(
     AdminActions: bindActionCreators(adminActions, dispatch)
   })
 )(withRouter(Administration)));
-  
-  // Administration);

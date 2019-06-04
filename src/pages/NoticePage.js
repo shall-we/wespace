@@ -1,8 +1,8 @@
-import React from 'react';
-import PageTemplate from 'components/common/PageTemplate'
-import Context from 'components/main/Context';
+import React from "react";
+import PageTemplate from "components/common/PageTemplate";
+import Context from "components/admin/Context";
 
-const NoticePage = ({match}) => {
+const NoticePage = ({ match }) => {
   return (
     <PageTemplate>
       <Context />

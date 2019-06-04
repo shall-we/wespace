@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { withRouter } from "react-router-dom";
 import Administration from "components/admin/Administration";
-import Context from "components/main/Context";
+import Context from "components/admin/Context";
 import NoticeForm from "components/admin/NoticeForm";
 import ManageEmployees from "components/admin/ManageEmployees";
 import * as adminActions from "store/modules/admin";
@@ -55,7 +55,6 @@ class AdminContainer extends React.Component {
   }
 
   handleModifyNotice = (id, title, content) => {
-    console.log('[AdminContainer] handleModifyNotice: ', id, ':', title, ':', content);
     this.props.AdminActions.getNotice(id);
     this.setState({
       onModify: true,
@@ -66,14 +65,9 @@ class AdminContainer extends React.Component {
       title: title,
       content: content,
     });
-  //   if (id) {
-  //       console.log('[handleUpdate] ', id);
-  // this.handleUpdate();
-  //   }
   }
 
   handleUpdate = (id, title, content) => {
-    console.log('[handleUpdate] ', id, ':', title, ':', content);
     this.props.AdminActions.updateNotice(id, title, content);
     this.props.AdminActions.getNoticeList();
     this.handleContextOpen(true);
@@ -86,9 +80,8 @@ class AdminContainer extends React.Component {
   }
 
   handleManageEmployees = (isManageEmployees) => {
-    console.log('[AdminContainer] ', isManageEmployees);
-    console.log(this.props.UserActions.getAllUserList());
-    console.log('noteCount ', this.props.AdminActions.getNoteCount());
+    this.props.UserActions.getAllUserList();
+    this.props.AdminActions.getNoteCount();
     this.setState({
       isNoticeOpened: false,
       isNoticeWritable: false,
@@ -96,26 +89,22 @@ class AdminContainer extends React.Component {
     });
   }
 
+  handleDeleteUser = (id) => {
+    this.props.UserActions.deleteUser(id);
+    this.props.UserActions.getAllUserList();
+  }
+
   handleCreateNotice = (title, content) => {
-    console.log(title, ':', content);
     this.props.AdminActions.createNotice(title, content);
     this.props.AdminActions.getNoticeList();
     this.handleContextOpen(true);
   }
 
-  handleChangeTitle = (e) => { 
-    this.setState({ title: e.target.value })
-  }
-
-  handleChangeContent = (e) => { 
-    this.setState({ content: e.target.value })
-  }
+  handleChangeTitle = (e) => { this.setState({ title: e.target.value }) }
+  handleChangeContent = (e) => { this.setState({ content: e.target.value }) }
 
   render() {
     const { title, content } = this.state;
-
-    console.log('[container] ', this.state.userList);
-    console.log('[container] ', this.state.noteCount);
 
     return (
       <div style={{ display: "flex" }}>
@@ -129,7 +118,7 @@ class AdminContainer extends React.Component {
         }
         
         {this.state.isManageEmployees ?
-         (<ManageEmployees userList={this.state.userList} noteCount={this.state.noteCount} />) : null}
+         (<ManageEmployees userList={this.state.userList} noteCount={this.state.noteCount} onDelete={this.handleDeleteUser} />) : null}
       </div>
     );
   }

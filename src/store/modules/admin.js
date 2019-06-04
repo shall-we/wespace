@@ -31,7 +31,7 @@ export default handleActions({
     type: [GET_NOTICE_LIST],
     onSuccess: (state, action) => {
       const { data: notice_list } = action.payload.data;
-      console.log("[admin.js] ", notice_list);
+      // console.log("[GET_NOTICE_LIST] ", notice_list);
       return state.set("notice_list", notice_list);
     }
   }),
@@ -39,7 +39,7 @@ export default handleActions({
     type: [GET_NOTE_COUNT],
     onSuccess: (state, action) => {
       const { data: note_count } = action.payload.data;
-      console.log("[GET_NOTE_COUNT] ", note_count);
+      // console.log("[GET_NOTE_COUNT] ", note_count);
       return state.set("note_count", note_count);
     }
   }),

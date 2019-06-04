@@ -1,9 +1,9 @@
 import React from "react";
-import styles from './Context.scss';
-import classNames from 'classnames/bind';
-import logo from 'image/welcome.png';
-import Collapsible from './component/Collapsible';
-import Button from 'components/common/Button';
+import styles from "./Context.scss";
+import classNames from "classnames/bind";
+import logo from "image/welcome.png";
+import Collapsible from "./component/Collapsible";
+import Button from "components/common/Button";
 
 const cx = classNames.bind(styles);
 
@@ -22,19 +22,12 @@ class Context extends React.Component {
     });
   }
 
-  handleModify = (title, content, index) => {
-    // const { title, content } = this.props;
-    console.log(title, content, index);
-    // this.props.onModify(notice, notice);
-  }
-
   handleClick = (index) => {
-    console.log('accordionPosition: ', index);
+    console.log('[Context.js] handleClick: ', index);
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.noticeList !== prevState.noticeList) {
-      console.log('[Context.js] getDerivedStateFromProps');
       return { noticeList: nextProps.noticeList };
     }
     return null;
