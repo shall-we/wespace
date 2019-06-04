@@ -19,6 +19,7 @@ class AdminContainer extends React.Component {
 
       noticeList: [],
       userList: [],
+      noteCount: [],
       onModify: false
     };
   }
@@ -27,7 +28,8 @@ class AdminContainer extends React.Component {
     if (nextProps !== prevState) {
       return {
         noticeList: nextProps.noticeList,
-        userList: nextProps.userList
+        userList: nextProps.userList,
+        noteCount: nextProps.noteCount
       };
     }
     return null;
@@ -86,6 +88,7 @@ class AdminContainer extends React.Component {
   handleManageEmployees = (isManageEmployees) => {
     console.log('[AdminContainer] ', isManageEmployees);
     console.log(this.props.UserActions.getAllUserList());
+    console.log('noteCount ', this.props.AdminActions.getNoteCount());
     this.setState({
       isNoticeOpened: false,
       isNoticeWritable: false,
@@ -112,6 +115,7 @@ class AdminContainer extends React.Component {
     const { title, content } = this.state;
 
     console.log('[container] ', this.state.userList);
+    console.log('[container] ', this.state.noteCount);
 
     return (
       <div style={{ display: "flex" }}>
@@ -125,7 +129,7 @@ class AdminContainer extends React.Component {
         }
         
         {this.state.isManageEmployees ?
-         (<ManageEmployees userList={this.state.userList} />) : null}
+         (<ManageEmployees userList={this.state.userList} noteCount={this.state.noteCount} />) : null}
       </div>
     );
   }
@@ -135,10 +139,10 @@ export default connect(
   (state) => ({
     noticeList: state.admin.get("notice_list"),
     userList: state.user.get("all_user_list"),
-    // getNoteFromEachUser: state.note.get("get_note_count")
+    noteCount: state.admin.get("note_count")
   }),
   (dispatch) => ({
     AdminActions: bindActionCreators(adminActions, dispatch),
-    UserActions: bindActionCreators(userActions, dispatch)
+    UserActions: bindActionCreators(userActions, dispatch),
   })
 )(withRouter(AdminContainer));

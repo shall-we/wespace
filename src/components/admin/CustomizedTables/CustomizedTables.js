@@ -54,10 +54,10 @@ const styles = theme => ({
 
 class CustomizedTables extends React.Component {
   render() {
-    const { classes, userList, getNoteFromEachUser } = this.props;
+    const { classes, userList, noteCount } = this.props;
 
     console.log('[CustomizedTables ', userList );
-    console.log('[CustomizedTables ', getNoteFromEachUser );
+    console.log('[CustomizedTables getNoteCount ', noteCount );
 
     return (
       <Paper className={classes.root}>
@@ -67,24 +67,25 @@ class CustomizedTables extends React.Component {
               <StyledTableCell align="center">
                 <FontAwesomeIcon icon="user-circle" size="2x" color="#fff" />
               </StyledTableCell>
-              <StyledTableCell className={classes.test} align="left">이메일</StyledTableCell>
-              <StyledTableCell align="right">직원 이름</StyledTableCell>
-              <StyledTableCell align="right">공유 폴더 수</StyledTableCell>
-              <StyledTableCell align="right">노트 보유 수</StyledTableCell>
+              <StyledTableCell className={classes.test} align="center">이메일</StyledTableCell>
+              <StyledTableCell align="center">직원 이름</StyledTableCell>
+              <StyledTableCell align="center">공유 폴더 수</StyledTableCell>
+              {/* <StyledTableCell align="center">노트 보유 수</StyledTableCell> */}
             </TableRow>
           </TableHead>
           <TableBody>
             {userList.map((user) => (
               <StyledTableRow key={user.id}>
                 <StyledTableCell align="center"><img className={classes.profile} src={user.profile} alt="profile" /></StyledTableCell>
-                <StyledTableCell component="th" scope="row">
+                <StyledTableCell align="center" component="th" scope="row">
                   {user.email}
                 </StyledTableCell>
-                <StyledTableCell align="right">{user.name}</StyledTableCell>
-                <StyledTableCell align="right">{user.folder_count}</StyledTableCell>
-                {getNoteFromEachUser.map((user) => (
-                  <StyledTableCell align="right">{user.note_count}</StyledTableCell>
-                ))}
+                <StyledTableCell align="center">{user.name}</StyledTableCell>
+                <StyledTableCell align="center">{user.folder_count}</StyledTableCell>
+                {/* <StyledTableCell align="center">0</StyledTableCell>
+                  {noteCount.find((user, index) => (
+                    <StyledTableCell align="center">{user.note_count}</StyledTableCell>
+                  ))} */}
               </StyledTableRow>
             ))}
           </TableBody>

@@ -28,7 +28,7 @@ class ManageEmployees extends React.Component {
   }
 
   render() {
-    const { userList = [] } = this.props;
+    const { userList = [], noteCount = [] } = this.props;
     // console.log('userlist=-==', userList);
     return (
       <div className={cx('cx-wrapper')}>
@@ -38,7 +38,7 @@ class ManageEmployees extends React.Component {
           </p>
         </div>
         <div>
-          <CustomizedTables userList={userList} />
+          <CustomizedTables userList={userList} noteCount={noteCount} />
         </div>
       </div>
     );

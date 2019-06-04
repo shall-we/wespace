@@ -30,3 +30,5 @@ export const createNotice = (title, content) => axios.post('/admin/notice', { ti
 export const getNotice = (id) => axios.get(`/admin/notice/${queryString.stringify({id})}`);
 export const updateNotice = (id, title, content) => axios.patch(`/admin/notice/${id}`, { title, content });
 export const deleteNotice = (id) => axios.delete(`/admin/notice/${id}`);
+
+export const getNoteCount = () => axios.get('/admin/note');
